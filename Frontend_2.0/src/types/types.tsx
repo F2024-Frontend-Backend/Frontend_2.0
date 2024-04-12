@@ -21,6 +21,7 @@ export interface PurchaseTotal {
     total: number;
     shipping: number;
     rebate?: number;
+    discount?: number;
 }
 
 export interface BillingInfo {

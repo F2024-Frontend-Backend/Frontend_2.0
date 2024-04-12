@@ -10,21 +10,37 @@ interface BasketItemProps {
 const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
     const { updateBasket, removeItemFromBasket } = useCheckout();
 
+    const calculatePricing = (quantity: number) => {
+        let discountPerItem = 0;
+        if (item.product.rebateQuantity && quantity >= item.product.rebateQuantity) {
+            discountPerItem = item.product.price * (item.product.rebatePercent / 100);
+        }
+        const subtotal = quantity * (item.product.price - discountPerItem); 
+        const rebate = discountPerItem * quantity; 
+        return { rebate, subtotal };
+    };
+
     const handleIncreaseQuantity = () => {
+        const newQuantity = item.quantity + 1;
+        const { rebate, subtotal } = calculatePricing(newQuantity);
         const updatedItem = {
             ...item,
-            quantity: item.quantity + 1,
-            subtotal: (item.quantity + 1) * item.product.price
+            quantity: newQuantity,
+            subtotal: subtotal,
+            rebate: rebate
         };
         updateBasket(updatedItem);
     };
 
     const handleDecreaseQuantity = () => {
+        const newQuantity = item.quantity - 1;
+        const { rebate, subtotal } = calculatePricing(newQuantity);
         if (item.quantity > 1) {
             const updatedItem = {
                 ...item,
-                quantity: item.quantity - 1,
-                subtotal: (item.quantity - 1) * item.product.price
+                quantity: newQuantity,
+                subtotal: subtotal,
+                rebate: rebate
             };
             updateBasket(updatedItem);
         }

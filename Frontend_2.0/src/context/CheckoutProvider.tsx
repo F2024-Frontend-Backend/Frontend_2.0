@@ -7,8 +7,9 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     const [basket, setBasket] = useState<BasketItem[]>([]);
     const [purchaseTotal, setPurchaseTotal] = useState<PurchaseTotal>({ 
         total: 0,
-        shipping: 0,
+        shipping: 50,
     });
+
     const [billingInfo, setBillingInfo] = useState<BillingInfo>({
         firstName: "",
         lastName: "",
@@ -49,6 +50,22 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     
         initializeBasket();
     }, [setBasket]);
+
+    useEffect(() => {
+        const subtotal = basket.reduce((total, item) => total + item.subtotal, 0);
+        const rebate = basket.reduce((total, item) => total + (item.rebate || 0), 0);
+        const shipping = 50;
+        let discount = 0;
+
+        if (subtotal > 300) {
+            discount = subtotal * 0.1;
+          }
+        
+        const total = subtotal + shipping - discount - rebate;
+
+        setPurchaseTotal({ total, shipping, rebate, discount });
+      }, [basket]);
+    
 
 
     return (

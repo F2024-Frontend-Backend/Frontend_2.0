@@ -2,7 +2,7 @@ import React from "react";
 import { useCheckout } from "../../../hooks/useCheckout";
 
 const OrderSummary: React.FC = () => {
-    const { basket } = useCheckout();
+    const { basket, purchaseTotal } = useCheckout();
 
     return (
         <div>
@@ -15,7 +15,7 @@ const OrderSummary: React.FC = () => {
                     </li>
                 ))}
             </ul>
-            <p>Total: THE TOTALT WITH REBATE AND ALL THAT JAZZ</p>
+            <p>Total: {purchaseTotal.total} DKK</p>
         </div>
     );
 };
