@@ -1,0 +1,17 @@
+/* checkout-page.css */
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.checkout-forms {
+    flex: 3;
+    padding: 20px;
+}
+
+.checkout-summary {
+    flex: 1;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+}
