@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 
 const PaymentForm: React.FC = () => {
-    const { paymentInfo, setPaymentInfo } = useCheckout();
+    const { paymentInfo, handleSetPaymentInfo } = useCheckout();
     const navigate = useNavigate();
 
     const handleContinue = () => {
@@ -12,7 +12,7 @@ const PaymentForm: React.FC = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = event.target;
-        setPaymentInfo({ ...paymentInfo, [name]: value });
+        handleSetPaymentInfo({ ...paymentInfo, [name]: value });
     };
 
     return (

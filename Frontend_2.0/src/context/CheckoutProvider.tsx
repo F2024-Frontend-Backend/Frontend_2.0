@@ -53,11 +53,12 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
             updateBasket,
             removeItemFromBasket, 
             billingInfo, 
-            setBillingInfo: handleSetBillingInfo,  // Correct this line
+            handleSetBillingInfo,
             paymentInfo, 
-            setPaymentInfo: handleSetPaymentInfo  // Correct this line
+            handleSetPaymentInfo
         }}>
             {children}
         </CheckoutContext.Provider>
     );
+    
 };

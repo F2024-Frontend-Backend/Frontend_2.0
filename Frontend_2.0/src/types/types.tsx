@@ -50,7 +50,7 @@ export interface CheckoutContextType {
     updateBasket: (updatedItem: BasketItem) => void;
     removeItemFromBasket: (itemToRemove: BasketItem) => void;
     billingInfo: BillingInfo;
-    setBillingInfo: (info: BillingInfo) => void;
+    handleSetBillingInfo: (info: BillingInfo) => void;
     paymentInfo: PaymentInfo;
-    setPaymentInfo: (details: PaymentInfo) => void;
+    handleSetPaymentInfo: (details: PaymentInfo) => void;
 }

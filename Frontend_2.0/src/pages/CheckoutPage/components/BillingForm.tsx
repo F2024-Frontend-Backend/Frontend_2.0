@@ -1,10 +1,16 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useCheckout } from "../../../hooks/useCheckout";
 
 const BillingForm: React.FC = () => {
-    const { billingInfo, setBillingInfo } = useCheckout();
+    const { billingInfo, handleSetBillingInfo } = useCheckout();
     const navigate = useNavigate();
+
+    const [errors, setErrors] = useState({
+        postalError: "",
+        vatErrors: "",
+        deliveryPostalError: "",
+    });
 
     const handleContinue = () => {
         navigate('/checkout/payment');
@@ -12,7 +18,24 @@ const BillingForm: React.FC = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setBillingInfo({ ...billingInfo, [name]: value });
+        handleSetBillingInfo({ ...billingInfo, [name]: value });
+    };
+
+    const validatePostalCode = async (postalCode: string, isDelivery = false) => {
+        try {
+            const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${postalCode}`);
+            if (!response.ok) throw new Error("Response not ok");
+            const data = await response.json();
+            if (data && data.navn) {
+                handleSetBillingInfo({ ...billingInfo, city: data.navn });
+                setErrors({ ...errors, postalError: "" });
+            } else {
+                setErrors({ ...errors, postalError: "Invalid postal code entered" });
+            }
+        } catch (error) {
+            console.error("Invalid postal code entered", error);
+            setErrors({ ...errors, postalError: "Invalid postal code entered" });
+        }
     };
 
     return (
