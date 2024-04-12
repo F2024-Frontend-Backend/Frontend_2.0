@@ -6,7 +6,6 @@ export const fetchProducts = async (): Promise<BasketItem[]> => {
         const response = await axios.get("https://raw.githubusercontent.com/larsthorup/checkout-data/main/product-v2.json");
         const products: Product[] = response.data;
 
-        // Convert products to basket items
         const basketItems: BasketItem[] = products.map(product => ({
             product: product,
             quantity: 1,

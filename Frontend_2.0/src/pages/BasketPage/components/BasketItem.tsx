@@ -39,7 +39,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
             <img src={item.product.imageUrl || '/placeholder.png'} alt={item.product.name} />
             <div className="product-details">
                 <h3>{item.product.name}</h3>
-                <p>${item.product.price}</p>
+                <p>{item.product.price} {item.product.currency}</p>
                 <div>
                     <button onClick={handleDecreaseQuantity}>-</button>
                     <span>{item.quantity}</span>
@@ -48,7 +48,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
                 <button onClick={handleRemoveItem}>Remove</button>
             </div>
             <div className="subtotal">
-                <p>Subtotal: ${item.subtotal.toFixed(2)}</p>
+                <p>Subtotal: {item.subtotal.toFixed(2)} {item.product.currency}</p>
             </div>
         </div>
     );

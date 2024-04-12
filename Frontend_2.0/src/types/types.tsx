@@ -13,7 +13,14 @@ export interface Product {
 export interface BasketItem {
     product: Product;
     quantity: number;
+    rebate?: number;
     subtotal: number;
+}
+
+export interface PurchaseTotal {
+    total: number;
+    shipping: number;
+    rebate?: number;
 }
 
 export interface BillingInfo {
@@ -47,6 +54,7 @@ export interface PaymentInfo {
 export interface CheckoutContextType {
     basket: BasketItem[];
     setBasket: (basket: BasketItem[]) => void;
+    purchaseTotal: PurchaseTotal;
     updateBasket: (updatedItem: BasketItem) => void;
     removeItemFromBasket: (itemToRemove: BasketItem) => void;
     billingInfo: BillingInfo;

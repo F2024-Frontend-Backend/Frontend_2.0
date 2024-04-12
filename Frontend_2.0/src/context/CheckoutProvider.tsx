@@ -1,10 +1,14 @@
 import React, { useEffect, useState, ReactNode } from "react";
 import { fetchProducts } from "../api/fetchProducts";
-import { BasketItem, BillingInfo, PaymentInfo, } from '../types/types';
+import { BasketItem, BillingInfo, PaymentInfo, PurchaseTotal, } from '../types/types';
 import CheckoutContext from './CheckoutContext';
 
 export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [basket, setBasket] = useState<BasketItem[]>([]);
+    const [purchaseTotal, setPurchaseTotal] = useState<PurchaseTotal>({ 
+        total: 0,
+        shipping: 0,
+    });
     const [billingInfo, setBillingInfo] = useState<BillingInfo>({
         firstName: "",
         lastName: "",
@@ -46,11 +50,13 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
         initializeBasket();
     }, [setBasket]);
 
+
     return (
         <CheckoutContext.Provider value={{ 
             basket, 
             setBasket,
             updateBasket,
+            purchaseTotal,
             removeItemFromBasket, 
             billingInfo, 
             handleSetBillingInfo,
