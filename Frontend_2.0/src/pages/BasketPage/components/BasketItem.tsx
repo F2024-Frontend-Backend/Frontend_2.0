@@ -1,4 +1,6 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import Alert from "@mui/material/Alert";
 
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useCheckout } from "../../../hooks/useCheckout";
@@ -53,6 +55,15 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
     removeItemFromBasket(item);
   };
 
+  const [showAlert, setShowAlert] = useState(true);
+
+  useEffect(() => {
+    if (item.quantity === 3) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [item.quantity]);
   return (
     <>
       <div className="basket-item">
@@ -71,6 +82,14 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
             <button onClick={handleIncreaseQuantity}>+</button>
           </div>
           <button onClick={handleRemoveItem}>Remove</button>
+        </div>
+        <div>
+          {" "}
+          {item.quantity === 3 && showAlert && (
+            <Alert severity="info" onClose={() => setShowAlert(false)}>
+              Buy 3 and get one for free!
+            </Alert>
+          )}
         </div>
         <div className="subtotal">
           <p>
