@@ -1,5 +1,4 @@
 import React from "react";
-import Alert from "@mui/material/Alert";
 
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useCheckout } from "../../../hooks/useCheckout";
@@ -9,7 +8,7 @@ interface BasketItemProps {
 }
 
 const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
-  const { updateBasket, removeItemFromBasket, basket, isEmpty } = useCheckout();
+  const { updateBasket, removeItemFromBasket } = useCheckout();
 
   const calculatePricing = (quantity: number) => {
     let discountPerItem = 0;

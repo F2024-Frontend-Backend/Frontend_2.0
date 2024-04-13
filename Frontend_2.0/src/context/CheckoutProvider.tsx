@@ -69,7 +69,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
       (total, item) => total + (item.rebate || 0),
       0
     );
-    const shipping = 50;
+    const shipping = subtotal > 499 ? 0 : 50;
     let discount = 0;
 
     if (subtotal > 300) {
