@@ -25,7 +25,12 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const updateBasket = (updatedItem: BasketItem) => {
         setBasket(currentBasket => {
-            return currentBasket.map(item => item.product.id === updatedItem.product.id ? updatedItem : item);
+            const existingItemIndex = currentBasket.findIndex(item => item.product.id === updatedItem.product.id);
+            if(existingItemIndex !== -1) {
+                return currentBasket.map(item => item.product.id === updatedItem.product.id ? updatedItem : item);
+            } else {
+                return [...currentBasket, updatedItem];
+            }
         });
     };
 

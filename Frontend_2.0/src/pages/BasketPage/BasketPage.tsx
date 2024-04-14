@@ -3,6 +3,7 @@ import Basket from './components/Basket';
 import { useNavigate } from 'react-router-dom';
 import { useCheckout } from '../../hooks/useCheckout';
 import PurchaseTotal from '../TotalPurchase/PurchaseTotal';
+import Carousel from './components/Carousel';
 
 const BasketPage: React.FC = () => {
     const { basket } = useCheckout();
@@ -18,6 +19,7 @@ const BasketPage: React.FC = () => {
             <Basket items={basket} />
             <PurchaseTotal />
             <button onClick={handleCheckout}>Go to Checkout</button>
+            <Carousel />
         </div>
     );
 };
