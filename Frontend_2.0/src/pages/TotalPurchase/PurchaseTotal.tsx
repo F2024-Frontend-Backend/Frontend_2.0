@@ -1,9 +1,10 @@
-import { useCheckout } from '../../hooks/useCheckout';
+import { useCheckout } from "../../hooks/useCheckout";
 
 const PurchaseTotal = () => {
-    const { purchaseTotal } = useCheckout();
-  
-    return (
+  const { purchaseTotal } = useCheckout();
+
+  return (
+    <>
       <div className="purchase-total">
         <h4>Total Before Shipping:</h4>
         <p>{purchaseTotal.total.toFixed(2)} DKK</p>
@@ -12,9 +13,17 @@ const PurchaseTotal = () => {
         )}
         <p>Shipping: {purchaseTotal.shipping.toFixed(2)} DKK</p>
         <h4>Total:</h4>
-        <p>{(purchaseTotal.total + purchaseTotal.shipping - (purchaseTotal.rebate || 0)).toFixed(2)} DKK</p>
+        <p>
+          {(
+            purchaseTotal.total +
+            purchaseTotal.shipping -
+            (purchaseTotal.rebate || 0)
+          ).toFixed(2)}{" "}
+          DKK
+        </p>
       </div>
-    );
-  };
+    </>
+  );
+};
 
 export default PurchaseTotal;
