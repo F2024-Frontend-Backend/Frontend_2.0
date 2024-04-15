@@ -18,21 +18,30 @@ const BillingForm: React.FC = () => {
     navigate("/checkout/payment");
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("Input name:", name);
     console.log("Input value before setting billingInfo:", value);
 
-    handleSetBillingInfo({ ...billingInfo, [name]: value });
+    handleSetBillingInfo({ 
+      ...billingInfo, 
+      [name]: value 
+    });
 
     console.log("Input value after setting billingInfo:", billingInfo[name]);
     console.log("billingInfo state:", billingInfo);
 
-    if (
-      (name === "postalCode" || name === "deliveryPostalCode") &&
-      value.length === 4
-    ) {
-      validatePostalCode(value, name === "deliveryPostalCode");
+    if (name === 'postalCode' && value.length === 4) {
+      try {
+        const city = await validatePostalCode(value, false);
+        handleSetBillingInfo({
+           ...billingInfo, 
+           [name]: value,
+           city: city
+          });
+      } catch(error) {
+        console.log("Error validating postal code:", error);
+      }
     }
   };
 
@@ -54,6 +63,7 @@ const BillingForm: React.FC = () => {
           ...(isDelivery ? { deliveryPostalError: "" } : { postalError: "" }),
         }));
         console.log("Validation successful:", data.navn);
+        return data.navn;
       } else {
         throw new Error("Postal code not found");
       }
