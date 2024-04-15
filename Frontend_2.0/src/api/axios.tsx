@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://127.0.0.1:8000/api/";
+const BASE_URL = `http://localhost:8000/api/`;
 
 export default axios.create({
     baseURL: BASE_URL,
@@ -7,7 +7,9 @@ export default axios.create({
 
 export const fetchProducts = async () => {
     try {
-        const response = await axios.get("products/");
+        console.log(`Complete URL: ${BASE_URL}products/`);
+        const response = await axios.get(`${BASE_URL}products/`);
+        console.log("Full API Response:", response);
         return response.data;
     } catch (error) {
         console.error("Failed to fetch products", error);
@@ -16,11 +18,13 @@ export const fetchProducts = async () => {
 }
 
 export const fetchUpsellProducts = async (upsellIds: string[]) => {
+    const idsParam = upsellIds.join(',');
+    console.log(`Fetching upsell products with IDs: ${idsParam}`);
     try {
-        const idsParam = upsellIds.join(',');
-        const response = await axios.get(`products/?ids=${idsParam}`);
-        const products = response.data;
-        return products;
+        console.log(`Complete URL: ${BASE_URL}products/?ids=${idsParam}`);
+        const response = await axios.get(`${BASE_URL}products/?ids=${idsParam}`);
+        console.log("Response data:", response.data);
+        return response.data;
     } catch (error) {
         console.error("Failed to fetch upsell products", error);
         throw error;
@@ -28,12 +32,12 @@ export const fetchUpsellProducts = async (upsellIds: string[]) => {
 }
 
 export const fetchRandomProducts = async (amount: number) => {
+    console.log(`Fetching ${amount} random products`);
     try {
-        const countParam = amount.toString();
-        const response = await axios.get(`products/?random_count=${countParam}`);
-        const products = response.data;
-        const randomProducts = products.sort(() => Math.random() - 0.5).slice(0, amount);
-        return randomProducts;
+        console.log(`Complete URL: ${BASE_URL}products/?ids=${amount}`);
+        const response = await axios.get(`${BASE_URL}products/?random_count=${amount}`);
+        console.log("Random products data:", response.data);
+        return response.data;
     } catch (error) {
         console.error("Failed to fetch random products", error);
         throw error;

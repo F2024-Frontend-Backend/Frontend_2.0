@@ -1,13 +1,13 @@
 export interface Product {
-    id: string;
+    string_id: string;
     name: string;
     price: number;
     currency: string;
     rebateQuantity: number;
     rebatePercent: number;
-    imageUrl?: string;
+    image?: string;
     count: number;
-    upsellProductId: string;
+    upsellProductID: string;
 }
 
 export interface BasketItem {

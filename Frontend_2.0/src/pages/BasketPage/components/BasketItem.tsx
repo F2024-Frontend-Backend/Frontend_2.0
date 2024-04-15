@@ -52,7 +52,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
 
     return (
         <div className="basket-item">
-            <img src={item.product.imageUrl || '/placeholder.png'} alt={item.product.name} />
+            <img src={item.product.image || '/placeholder.png'} alt={item.product.name} />
             <div className="product-details">
                 <h3>{item.product.name}</h3>
                 <p>{item.product.price} {item.product.currency}</p>

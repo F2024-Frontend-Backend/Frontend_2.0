@@ -1,6 +1,6 @@
 import React, { useEffect, useState, ReactNode } from "react";
-import { fetchProducts } from "../api/fetchProducts";
-import { BasketItem, BillingInfo, PaymentInfo, PurchaseTotal, } from '../types/types';
+import { fetchProducts } from "../api/axios";
+import { BasketItem, BillingInfo, PaymentInfo, PurchaseTotal} from '../types/types';
 import CheckoutContext from './CheckoutContext';
 
 export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -25,9 +25,9 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const updateBasket = (updatedItem: BasketItem) => {
         setBasket(currentBasket => {
-            const existingItemIndex = currentBasket.findIndex(item => item.product.id === updatedItem.product.id);
+            const existingItemIndex = currentBasket.findIndex(item => item.product.string_id === updatedItem.product.string_id);
             if(existingItemIndex !== -1) {
-                return currentBasket.map(item => item.product.id === updatedItem.product.id ? updatedItem : item);
+                return currentBasket.map(item => item.product.string_id === updatedItem.product.string_id ? updatedItem : item);
             } else {
                 return [...currentBasket, updatedItem];
             }
@@ -35,7 +35,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     };
 
     const removeItemFromBasket = (itemToRemove: BasketItem) => {
-        setBasket(currentBasket => currentBasket.filter(item => item.product.id !== itemToRemove.product.id));
+        setBasket(currentBasket => currentBasket.filter(item => item.product.string_id !== itemToRemove.product.string_id));
     };
     
     
@@ -49,8 +49,22 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     useEffect(() => {
         const initializeBasket = async () => {
-            const basketItems = await fetchProducts();
-            setBasket(basketItems.slice(0, 3));
+            try {
+                const products = await fetchProducts();
+                console.log("Products received:", products);
+                if (Array.isArray(products)) {
+                    const basketItems = products.map(product => ({
+                        product: product,
+                        quantity: 1,
+                        subtotal: parseFloat(product.price)
+                    }));
+                    setBasket(basketItems.slice(0, 3));
+                } else {
+                    console.error('Products is not an array:', products);
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
         };
     
         initializeBasket();

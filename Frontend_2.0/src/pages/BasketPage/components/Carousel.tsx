@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCheckout } from '../../../hooks/useCheckout';
-import { fetchUpsellProducts, fetchRandomProducts } from '../../../api/fetchProducts';
+import { fetchUpsellProducts, fetchRandomProducts } from '../../../api/axios';
 import { Product } from '../../../types/types';
 import './carousel.css';
 
@@ -10,7 +10,8 @@ const Carousel = () => {
 
     useEffect(() => {
         const fecthAndSetCarouselProducts = async () => {
-            const upsellIds = [...new Set(basket.filter(item => item.product.upsellProductId).map(item => item.product.upsellProductId))];
+            const upsellIds = [...new Set(basket.filter(item => item.product.upsellProductID).map(item => item.product.upsellProductID))];
+            console.log("Upsell IDs:", upsellIds);
             if (upsellIds.length > 0) {
                 try {
                     const fetchedUpsellProducts = await fetchUpsellProducts(upsellIds);
@@ -23,6 +24,7 @@ const Carousel = () => {
                         fetchedUpsellProducts.push(...randomProducts);
                     }
                     setCarouselProducts(fetchedUpsellProducts);
+                    console.log("Carousel products", fetchedUpsellProducts);
                 } catch (error) {
                     console.error("Failed to fetch upsell products", error);
                 }
@@ -32,7 +34,7 @@ const Carousel = () => {
     }, [basket]);
 
     const handleAddToBasket = (product: Product) => {
-        const existingItem = basket.find(item => item.product.id === product.id);
+        const existingItem = basket.find(item => item.product.string_id === product.string_id);
         if (existingItem) {
             updateBasket({
                 ...existingItem,
@@ -51,10 +53,10 @@ const Carousel = () => {
 
     return (
         <div className="carousel">
-            {carouselProducts.map(product => (
-                <div key={product.id} className="carousel-item">
+            {carouselProducts.map((product, index) => (
+                <div key={product.string_id || index} className="carousel-item">
                     <div className="product-image-wrapper">
-                        <img src={product.imageUrl} alt={product.name} className="product-image" />
+                        <img src={product.image || 'path_to_default_image.jpg'} alt={product.name} className="product-image" />
                         <button
                             className="add-to-basket-button"
                             onClick={() => handleAddToBasket(product)}
