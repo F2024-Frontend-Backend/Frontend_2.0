@@ -81,9 +81,13 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
     setPurchaseTotal({ total, shipping, rebate, discount });
   }, [basket]);
 
-  // Debugging
-  console.log("Total", purchaseTotal);
+  // If basket is empty
   const isEmpty = basket.length === 0;
+  if (isEmpty) {
+    purchaseTotal.total = 0;
+    purchaseTotal.shipping = 0;
+  }
+
   return (
     <CheckoutContext.Provider
       value={{
