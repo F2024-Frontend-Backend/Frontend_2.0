@@ -58,7 +58,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
   const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
-    if (item.quantity === 3) {
+    if (item.quantity === item.product.rebateQuantity - 1) {
       setShowAlert(true);
     } else {
       setShowAlert(false);
@@ -85,9 +85,9 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
         </div>
         <div>
           {" "}
-          {item.quantity === 3 && showAlert && (
+          {item.quantity === item.product.rebateQuantity - 1 && showAlert && (
             <Alert severity="info" onClose={() => setShowAlert(false)}>
-              Buy 3 and get one for free!
+              Buy one more and get {item.product.rebatePercent} %
             </Alert>
           )}
         </div>

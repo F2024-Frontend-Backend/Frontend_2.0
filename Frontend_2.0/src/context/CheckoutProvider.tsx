@@ -69,7 +69,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
       (total, item) => total + (item.rebate || 0),
       0
     );
-    const shipping = subtotal > 499 ? 0 : 50;
+    const shipping = subtotal > 999 ? 0 : 50;
     let discount = 0;
 
     if (subtotal > 300) {
@@ -81,6 +81,8 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
     setPurchaseTotal({ total, shipping, rebate, discount });
   }, [basket]);
 
+  // Debugging
+  console.log("Total", purchaseTotal);
   const isEmpty = basket.length === 0;
   return (
     <CheckoutContext.Provider
