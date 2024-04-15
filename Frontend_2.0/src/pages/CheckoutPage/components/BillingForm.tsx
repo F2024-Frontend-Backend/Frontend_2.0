@@ -20,69 +20,75 @@ const BillingForm: React.FC = () => {
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Input name:", name);
-    console.log("Input value before setting billingInfo:", value);
-
-    handleSetBillingInfo({ 
-      ...billingInfo, 
-      [name]: value 
-    });
-
-    console.log("Input value after setting billingInfo:", billingInfo[name]);
-    console.log("billingInfo state:", billingInfo);
-
-    if (name === 'postalCode' && value.length === 4) {
-      try {
-        const city = await validatePostalCode(value, false);
-        handleSetBillingInfo({
-           ...billingInfo, 
-           [name]: value,
-           city: city
-          });
-      } catch(error) {
-        console.log("Error validating postal code:", error);
-      }
-    }
+    handleSetBillingInfo({ ...billingInfo, [name]: value });
+  };
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    handleSetBillingInfo({ ...billingInfo, [name]: value });
   };
 
-  const validatePostalCode = async (
-    postalCode: string,
-    isDelivery: boolean
-  ) => {
-    const apiUrl = `https://api.dataforsyningen.dk/postnumre/${postalCode}`;
+  const handlePostalCodeChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    handleSetBillingInfo({ ...billingInfo, [name]: value });
+
+    if (value.length !== 4) {
+      setErrors((prev) => ({
+        ...prev,
+        [name === "deliveryPostalCode" ? "deliveryPostalError" : "postalError"]:
+          "Postal code must be exactly 4 digits",
+      }));
+      return;
+    }
+    setErrors((prev) => ({
+      ...prev,
+      [name === "deliveryPostalCode" ? "deliveryPostalError" : "postalError"]:
+        "",
+    }));
+
+    let isDelivery = name === "deliveryPostalCode";
+    if (isDelivery && !isDeliveryDifferent) {
+      return;
+    }
+
     try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      if (response.ok && data && data.navn) {
-        handleSetBillingInfo({
-          ...billingInfo,
-          ...(isDelivery ? { deliveryCity: data.navn } : { city: data.navn }),
-        });
-        setErrors((prev) => ({
-          ...prev,
-          ...(isDelivery ? { deliveryPostalError: "" } : { postalError: "" }),
-        }));
-        console.log("Validation successful:", data.navn);
-        return data.navn;
-      } else {
-        throw new Error("Postal code not found");
-      }
+      const city = await validatePostalCode(value);
+      handleSetBillingInfo({
+        ...billingInfo,
+        [name]: value,
+        ...(isDelivery ? { deliveryCity: city } : { city: city }),
+      });
+      setErrors((prev) => ({
+        ...prev,
+        ...(isDelivery ? { deliveryPostalError: "" } : { postalError: "" }),
+      }));
     } catch (error) {
-      console.error("Error validating postal code:", error);
       setErrors((prev) => ({
         ...prev,
         ...(isDelivery
           ? { deliveryPostalError: (error as Error).message }
           : { postalError: (error as Error).message }),
       }));
-      console.log("Validation failed:", (error as Error).message);
+      console.log(`Error validating ${name}:`, (error as Error).message);
+    }
+  };
+
+  const validatePostalCode = async (postalCode: string) => {
+    const apiUrl = `https://api.dataforsyningen.dk/postnumre/${postalCode}`;
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      if (!response.ok || !data || !data.navn) {
+        throw new Error("Postal code invalid");
+      }
+      return data.navn;
+    } catch (error) {
+      throw error;
     }
   };
 
   const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
     setIsDeliveryDifferent(e.target.checked);
     if (!e.target.checked) {
-      // Reset delivery information if unchecked
       handleSetBillingInfo({
         ...billingInfo,
         deliveryFirstName: null,
@@ -146,9 +152,13 @@ const BillingForm: React.FC = () => {
         <input
           type="text"
           name="postalCode"
+          maxLength={4}
           value={billingInfo.postalCode}
-          onChange={handleChange}
+          onChange={handlePostalCodeChange}
         />
+        {errors.postalError && (
+          <div style={{ color: "red" }}>{errors.postalError}</div>
+        )}
       </div>
       <div>
         <label>City</label>
@@ -167,6 +177,16 @@ const BillingForm: React.FC = () => {
           value={billingInfo.phone}
           onChange={handleChange}
         />
+      </div>
+      <div>
+        <label>Country</label>
+        <select
+          name="country"
+          value={billingInfo.country}
+          onChange={handleSelectChange}
+        >
+          <option value="Denmark">Denmark</option>
+        </select>
       </div>
       <div>
         <label>
@@ -212,9 +232,13 @@ const BillingForm: React.FC = () => {
             <input
               type="text"
               name="deliveryPostalCode"
+              maxLength={4}
               value={billingInfo.deliveryPostalCode || ""}
-              onChange={handleChange}
+              onChange={handlePostalCodeChange}
             />
+            {errors.deliveryPostalError && (
+              <div style={{ color: "red" }}>{errors.deliveryPostalError}</div>
+            )}
           </div>
           <div>
             <label>City</label>

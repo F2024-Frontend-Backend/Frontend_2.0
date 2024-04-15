@@ -33,6 +33,7 @@ export interface BillingInfo {
   city: string;
   phone: string;
   email: string;
+  country: string;
   deliveryFirstName?: string | null;
   deliveryLastName?: string | null;
   deliveryAddress?: string | null;

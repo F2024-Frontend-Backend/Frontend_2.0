@@ -26,6 +26,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
     city: "",
     phone: "",
     email: "",
+    country: "Denmark",
     deliveryFirstName: null,
     deliveryLastName: null,
     deliveryAddress: null,
