@@ -3,6 +3,7 @@ const BASE_URL = `http://localhost:8000/api/`;
 
 export default axios.create({
     baseURL: BASE_URL,
+    withCredentials: true,
 });
 
 export const fetchProducts = async () => {
@@ -40,6 +41,24 @@ export const fetchRandomProducts = async (amount: number) => {
         return response.data;
     } catch (error) {
         console.error("Failed to fetch random products", error);
+        throw error;
+    }
+}
+
+export const fetchBasket = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}session/`);
+        if (response.data.session === "existing"){
+            console.log("Existing session:", response.data.details);
+            return response.data.details;
+        } else {
+            console.log("New session created, filling basket with random products");
+            const randomProducts = await fetchRandomProducts(3);
+            await axios.post(`${BASE_URL}basket/`, randomProducts);
+            return randomProducts;
+        }
+    } catch (error) {
+        console.error("Failed to fetch basket", error);
         throw error;
     }
 }

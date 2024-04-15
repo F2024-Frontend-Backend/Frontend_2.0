@@ -63,3 +63,10 @@ export interface CheckoutContextType {
     paymentInfo: PaymentInfo;
     handleSetPaymentInfo: (details: PaymentInfo) => void;
 }
+
+export interface BasketContextType {
+    basket: BasketItem[];
+    setBasket: (basket: BasketItem[]) => void;
+    updateBasket: (updatedItem: BasketItem) => void;
+    removeItemFromBasket: (itemToRemove: BasketItem) => void;
+}
