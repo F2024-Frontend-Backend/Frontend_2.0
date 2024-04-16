@@ -1,10 +1,11 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 
 const BillingForm: React.FC = () => {
   const { billingInfo, handleSetBillingInfo } = useCheckout();
   const navigate = useNavigate();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [errors, setErrors] = useState({
     postalError: "",
@@ -14,15 +15,18 @@ const BillingForm: React.FC = () => {
 
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
 
-  const handleContinue = () => {
-    navigate("/checkout/payment");
+  const handleContinue = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (formRef.current && formRef.current.checkValidity()) {
+      navigate("/checkout/payment");
+    } else {
+      console.log("Form is not valid");
+      formRef.current?.reportValidity(); // This will show native HTML validation messages
+    }
   };
 
-  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    handleSetBillingInfo({ ...billingInfo, [name]: value });
-  };
-  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = async (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     handleSetBillingInfo({ ...billingInfo, [name]: value });
   };
@@ -88,20 +92,20 @@ const BillingForm: React.FC = () => {
 
   const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
     setIsDeliveryDifferent(e.target.checked);
-    if (!e.target.checked) {
-      handleSetBillingInfo({
-        ...billingInfo,
-        deliveryFirstName: null,
-        deliveryLastName: null,
-        deliveryAddress: null,
-        deliveryPostalCode: null,
-        deliveryCity: null,
-      });
-    }
+    // if (!e.target.checked) {
+    //   handleSetBillingInfo({
+    //     ...billingInfo,
+    //     deliveryFirstName: null,
+    //     deliveryLastName: null,
+    //     deliveryAddress: null,
+    //     deliveryPostalCode: null,
+    //     deliveryCity: null,
+    //   });
+    // }
   };
 
   return (
-    <form>
+    <form ref={formRef}>
       <div>
         <label>First Name</label>
         <input
@@ -190,7 +194,7 @@ const BillingForm: React.FC = () => {
           name="country"
           required
           value={billingInfo.country}
-          onChange={handleSelectChange}
+          onChange={handleChange}
         >
           <option value="Denmark">Denmark</option>
         </select>
