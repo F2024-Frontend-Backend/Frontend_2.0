@@ -107,6 +107,7 @@ const BillingForm: React.FC = () => {
         <input
           type="text"
           name="firstName"
+          required
           value={billingInfo.firstName}
           onChange={handleChange}
         />
@@ -116,6 +117,7 @@ const BillingForm: React.FC = () => {
         <input
           type="text"
           name="lastName"
+          required
           value={billingInfo.lastName}
           onChange={handleChange}
         />
@@ -125,6 +127,7 @@ const BillingForm: React.FC = () => {
         <input
           type="email"
           name="email"
+          required
           value={billingInfo.email}
           onChange={handleChange}
         />
@@ -134,6 +137,7 @@ const BillingForm: React.FC = () => {
         <input
           type="text"
           name="address1"
+          required
           value={billingInfo.address1}
           onChange={handleChange}
         />
@@ -152,6 +156,7 @@ const BillingForm: React.FC = () => {
         <input
           type="text"
           name="postalCode"
+          required
           maxLength={4}
           value={billingInfo.postalCode}
           onChange={handlePostalCodeChange}
@@ -174,6 +179,7 @@ const BillingForm: React.FC = () => {
         <input
           type="text"
           name="phone"
+          required
           value={billingInfo.phone}
           onChange={handleChange}
         />
@@ -182,6 +188,7 @@ const BillingForm: React.FC = () => {
         <label>Country</label>
         <select
           name="country"
+          required
           value={billingInfo.country}
           onChange={handleSelectChange}
         >
@@ -205,6 +212,7 @@ const BillingForm: React.FC = () => {
             <input
               type="text"
               name="deliveryFirstName"
+              required
               value={billingInfo.deliveryFirstName || ""}
               onChange={handleChange}
             />
@@ -214,6 +222,7 @@ const BillingForm: React.FC = () => {
             <input
               type="text"
               name="deliveryLastName"
+              required
               value={billingInfo.deliveryLastName || ""}
               onChange={handleChange}
             />
@@ -223,6 +232,7 @@ const BillingForm: React.FC = () => {
             <input
               type="text"
               name="deliveryAddress"
+              required
               value={billingInfo.deliveryAddress || ""}
               onChange={handleChange}
             />
@@ -232,6 +242,7 @@ const BillingForm: React.FC = () => {
             <input
               type="text"
               name="deliveryPostalCode"
+              required
               maxLength={4}
               value={billingInfo.deliveryPostalCode || ""}
               onChange={handlePostalCodeChange}
