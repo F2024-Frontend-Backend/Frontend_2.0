@@ -55,18 +55,35 @@ const PaymentForm: React.FC = () => {
           <option value="invoice">Invoice</option>
         </select>
       </div>
+
       {paymentInfo.paymentMethod === "gift-card" && (
-        <div>
-          <label>Gift Card Number</label>
-          <input
-            type="text"
-            name="giftCardNumber"
-            value={paymentInfo.giftCardNumber || ""}
-            onChange={handleGiftCardChange}
-            required
-          />
-          {giftCardError && <div style={{ color: "red" }}>{giftCardError}</div>}
-        </div>
+        <>
+          <div>
+            <label>Gift Card Number</label>
+            <input
+              type="text"
+              name="giftCardNumber"
+              value={paymentInfo.giftCardNumber || ""}
+              onChange={handleGiftCardChange}
+              required
+            />
+            {giftCardError && (
+              <div style={{ color: "red" }}>{giftCardError}</div>
+            )}
+          </div>
+          <div>
+            <label>Gift Card Amount</label>
+            <input
+              type="number"
+              name="giftCardAmount"
+              value={paymentInfo.giftCardAmount || ""}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                handleChange(event)
+              }
+              required
+            />
+          </div>
+        </>
       )}
       <button onClick={handleContinue}>Continue</button>
     </form>

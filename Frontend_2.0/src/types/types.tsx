@@ -41,7 +41,6 @@ export interface BillingInfo {
   deliveryCity?: string | null;
   companyName?: string | null;
   companyVat?: string | null;
-  [key: string]: string | null | undefined; // Index signature
 }
 
 export interface PaymentInfo {

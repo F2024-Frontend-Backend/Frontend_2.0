@@ -37,6 +37,13 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
     paymentMethod: "",
+    cardType: "",
+    cardNo: "",
+    cvv: "",
+    cardExpDate: "",
+    giftCardNumber: "",
+    giftCardAmount: "",
+    invoiceDetails: "",
   });
 
   const updateBasket = (updatedItem: BasketItem) => {

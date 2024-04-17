@@ -16,11 +16,12 @@ const BillingForm: React.FC = () => {
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
 
   const handleContinue = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (formRef.current && formRef.current.checkValidity()) {
       navigate("/checkout/payment");
     } else {
       console.log("Form is not valid");
-      formRef.current?.reportValidity(); // This will show native HTML validation messages
+      formRef.current?.reportValidity();
     }
   };
 
