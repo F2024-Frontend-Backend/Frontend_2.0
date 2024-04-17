@@ -34,6 +34,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
         updateItemInBasket({ 
             ...item, 
             quantity: newQuantity, 
+            rebate: response.order_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).rebate,
             sub_total: parseFloat(response.order_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).sub_total)
         });
         } catch (error) {
