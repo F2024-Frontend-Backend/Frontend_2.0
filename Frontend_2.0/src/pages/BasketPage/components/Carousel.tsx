@@ -48,13 +48,13 @@ const Carousel = () => {
             updateItemInBasket({
                 ...existingItem,
                 quantity: existingItem.quantity + 1,
-                sub_total: existingItem.sub_total + product.price
+                sub_total: existingItem.sub_total + Number(product.price)
             });
         } else {
             updateItemInBasket({
                 product: product,
                 quantity: 1,
-                sub_total: product.price
+                sub_total: Number(product.price)
             });
         }
         console.log("Basket content", basket)

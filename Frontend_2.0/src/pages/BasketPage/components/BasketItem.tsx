@@ -45,7 +45,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
   const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
-    if (item.quantity === 3) {
+    if (item.quantity === item.product.rebateQuantity - 1) {
       setShowAlert(true);
     } else {
       setShowAlert(false);
@@ -55,7 +55,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
     <>
       <div className="basket-item">
         <img
-          src={item.product.imageUrl || "/placeholder.png"}
+          src={item.product.image || "/placeholder.png"}
           alt={item.product.name}
         />
         <div className="product-details">
@@ -80,7 +80,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
         </div>
         <div className="subtotal">
           <p>
-            Subtotal: {item.subtotal.toFixed(2)} {item.product.currency}
+            Subtotal: {item.sub_total.toFixed(2)} {item.product.currency}
           </p>
         </div>
       </div>

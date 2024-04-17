@@ -7,9 +7,10 @@ import Alert from "@mui/material/Alert";
 import Carousel from './components/Carousel';
 
 const BasketPage: React.FC = () => {
-  //const { basket, isEmpty } = useCheckout();
   const { basket } = useBasket();
   const navigate = useNavigate();
+
+  const isEmpty = basket.length === 0;
 
   const handleCheckout = () => {
     navigate("/checkout");
@@ -25,6 +26,7 @@ const BasketPage: React.FC = () => {
       )}
       <PurchaseTotal />
       <button onClick={handleCheckout}>Go to Checkout</button>
+      <Carousel />
     </div>
   );
 };
