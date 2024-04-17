@@ -92,9 +92,9 @@ export const fetchBasket = async () => {
         const items = randomProducts.map((product: Product) => ({
             string_id: product.string_id,
             quantity: 1,
-            subtotal: product.price,
+            sub_total: product.price,
         }));
-        const totalprice = items.reduce((sum: number, item: BasketItem) => sum + Number(item.subtotal), 0).toFixed(2);
+        const totalprice = items.reduce((sum: number, item: BasketItem) => sum + Number(item.sub_total), 0).toFixed(2);
         const postData = { items, totalprice };
         console.log("Data sent to server:", postData);
         const basket = await axiosInstance.post(`${BASE_URL}basket/update/`, postData);
@@ -115,6 +115,18 @@ export const updateBasket = async (items: BasketItemAPI[]) => {
         return response.data.details;
     } catch (error) {
         console.error("Failed to update basket", error);
+        throw error;
+    }
+}
+
+export const updateBasketItemQuantity = async (stringId: string, quantity: number) => {
+    const postData = { string_id: stringId, quantity };
+    try {
+        const response = await axiosInstance.post(`${BASE_URL}basket/update/`, postData);
+        console.log("Basket item updated:", response.data);
+        return response.data.details;
+    } catch (error) {
+        console.error("Failed to update basket item quantity", error);
         throw error;
     }
 }

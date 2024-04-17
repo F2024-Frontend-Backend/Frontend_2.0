@@ -2,6 +2,7 @@ import React from "react";
 
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useBasket } from "../../../hooks/useBasket";
+import { updateBasketItemQuantity } from "../../../api/axios";
 
 interface BasketItemProps {
     item: BasketItemType;
@@ -10,45 +11,34 @@ interface BasketItemProps {
 const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
     const { updateItemInBasket, removeItemFromBasket } = useBasket();
 
-    const calculatePricing = (quantity: number) => {
-        let discountPerItem = 0;
-        if (item.product.rebateQuantity && quantity >= item.product.rebateQuantity) {
-            discountPerItem = item.product.price * (item.product.rebatePercent / 100);
-        }
-        const subtotal = quantity * (item.product.price - discountPerItem); 
-        const rebate = discountPerItem * quantity; 
-        return { rebate, subtotal };
-    };
-
     const handleIncreaseQuantity = () => {
-        const newQuantity = item.quantity + 1;
-        const { rebate, subtotal } = calculatePricing(newQuantity);
-        const updatedItem = {
-            ...item,
-            quantity: newQuantity,
-            subtotal: subtotal,
-            rebate: rebate
-        };
-        updateItemInBasket(updatedItem);
+        updateItemQuantity(item.quantity + 1);
     };
 
     const handleDecreaseQuantity = () => {
-        const newQuantity = item.quantity - 1;
-        const { rebate, subtotal } = calculatePricing(newQuantity);
         if (item.quantity > 1) {
-            const updatedItem = {
-                ...item,
-                quantity: newQuantity,
-                subtotal: subtotal,
-                rebate: rebate
-            };
-            updateItemInBasket(updatedItem);
+            updateItemQuantity(item.quantity - 1);
         }
     };
 
     const handleRemoveItem = () => {
         removeItemFromBasket(item);
     };
+
+    const updateItemQuantity = async (newQuantity: number) => {
+        try {
+            const response = await updateBasketItemQuantity(item.product.string_id, newQuantity);
+            console.log("Response data on update:", response);
+        updateItemInBasket({ 
+            ...item, 
+            quantity: newQuantity, 
+            sub_total: parseFloat(response.order_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).sub_total)
+        });
+        } catch (error) {
+            console.error('Error updating item quantity:', error);
+        }
+    };
+
 
     return (
         <div className="basket-item">
@@ -64,7 +54,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
                 <button onClick={handleRemoveItem}>Remove</button>
             </div>
             <div className="subtotal">
-                <p>Subtotal: {item.subtotal.toFixed(2)} {item.product.currency}</p>
+                <p>Subtotal: {item.sub_total} {item.product.currency}</p>
             </div>
         </div>
     );

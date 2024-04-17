@@ -1,8 +1,15 @@
 import React, { useEffect, useState, ReactNode, useContext} from "react";
 import { fetchBasket, updateBasket } from "../api/axios";
-import { BasketItem } from "../types/types";
+import { BasketItem, Product } from "../types/types";
 import BasketContext from "./BasketContext";
 import { SessionContext } from "../App";
+
+interface APIOrderItem {
+    product: Product;
+    quantity: number;
+    rebate?: string;
+    sub_total: string;
+}
 
 export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [basket, setBasket] = useState<BasketItem[]>([]);
@@ -40,11 +47,13 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
                 const response = await fetchBasket();
                 console.log("Products received:", response);
                 if (Array.isArray(response.order_items)) {
-                    const basketItems = response.order_items.map((item: BasketItem) => ({
+                    const basketItems = response.order_items.map((item: APIOrderItem) => ({
                         product: item.product,
                         quantity: item.quantity,
-                        subtotal: item.quantity * item.product.price
+                        rebate: item.rebate ? parseFloat(item.rebate) : 0,
+                        sub_total: parseFloat(item.sub_total)
                     }));
+                    console.log("Basket items:", basketItems);
                     setBasket(basketItems);
                 }
             } catch (error) {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState, ReactNode } from "react";
-import { BasketItem, BillingInfo, PaymentInfo, PurchaseTotal} from '../types/types';
+import { BillingInfo, PaymentInfo, PurchaseTotal} from '../types/types';
 import CheckoutContext from './CheckoutContext';
+import { useBasket } from '../hooks/useBasket';
 
 export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [basket, setBasket] = useState<BasketItem[]>([]);
+    const { basket } = useBasket();
     const [purchaseTotal, setPurchaseTotal] = useState<PurchaseTotal>({ 
         total: 0,
         shipping: 50,
@@ -21,21 +22,6 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
         paymentMethod: "",
     });
-
-    const updateBasket = (updatedItem: BasketItem) => {
-        setBasket(currentBasket => {
-            const existingItemIndex = currentBasket.findIndex(item => item.product.string_id === updatedItem.product.string_id);
-            if(existingItemIndex !== -1) {
-                return currentBasket.map(item => item.product.string_id === updatedItem.product.string_id ? updatedItem : item);
-            } else {
-                return [...currentBasket, updatedItem];
-            }
-        });
-    };
-
-    const removeItemFromBasket = (itemToRemove: BasketItem) => {
-        setBasket(currentBasket => currentBasket.filter(item => item.product.string_id !== itemToRemove.product.string_id));
-    };
     
     
     const handleSetBillingInfo = (info: BillingInfo) => {
@@ -47,29 +33,26 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     };
 
     useEffect(() => {
-        const subtotal = basket.reduce((total, item) => total + item.subtotal, 0);
+        const subtotal = basket.reduce((total, item) => total + parseFloat(item.sub_total.toString()), 0);
         const rebate = basket.reduce((total, item) => total + (item.rebate || 0), 0);
         const shipping = 50;
         let discount = 0;
-
+    
         if (subtotal > 300) {
             discount = subtotal * 0.1;
-          }
+            console.log("Discount 'over 300' applied:", discount);
+        }
         
         const total = subtotal + shipping - discount - rebate;
-
+    
         setPurchaseTotal({ total, shipping, rebate, discount });
-      }, [basket]);
+    }, [basket]);
     
 
 
     return (
         <CheckoutContext.Provider value={{ 
-            basket, 
-            setBasket,
-            updateBasket,
             purchaseTotal,
-            removeItemFromBasket, 
             billingInfo, 
             handleSetBillingInfo,
             paymentInfo, 
