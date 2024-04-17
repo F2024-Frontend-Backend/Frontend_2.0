@@ -28,9 +28,9 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
         setBillingInfo(info);
     };
 
-    const handleSetPaymentInfo = (details: PaymentInfo) => {
-        setPaymentInfo(details);
-    };
+  const handleSetPaymentInfo = (details: PaymentInfo) => {
+    setPaymentInfo(details);
+  };
 
     useEffect(() => {
         const subtotal = basket.reduce((total, item) => total + parseFloat(item.sub_total.toString()), 0);

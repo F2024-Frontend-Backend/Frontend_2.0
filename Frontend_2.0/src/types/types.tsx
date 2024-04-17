@@ -23,38 +23,38 @@ export type BasketItemAPI = {
 };
 
 export interface PurchaseTotal {
-    total: number;
-    shipping: number;
-    rebate?: number;
-    discount?: number;
+  total: number;
+  shipping: number;
+  rebate?: number;
+  discount?: number;
 }
 
 export interface BillingInfo {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    adress2?: string | null;
-    postalCode: string;
-    city: string;
-    phone: string;
-    email: string;
-    deliveryFirstName?: string | null;
-    deliveryLastName?: string | null;
-    deliveryAdress?: string | null;
-    deliveryPostalCode?: string | null;
-    deliveryCity?: string | null;
-    companyName?: string | null;
-    companyVat?: string | null;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  adress2?: string | null;
+  postalCode: string;
+  city: string;
+  phone: string;
+  email: string;
+  deliveryFirstName?: string | null;
+  deliveryLastName?: string | null;
+  deliveryAdress?: string | null;
+  deliveryPostalCode?: string | null;
+  deliveryCity?: string | null;
+  companyName?: string | null;
+  companyVat?: string | null;
 }
 
 export interface PaymentInfo {
-    paymentMethod: string;
-    cardType?: string | null;
-    cardNo?: string | null;
-    cvv?: string | null;
-    cardExpDate?: string | null;
-    giftCardNumber?: string | null;
-    giftCardAmount?: string | null;
+  paymentMethod: string;
+  cardType?: string | null;
+  cardNo?: string | null;
+  cvv?: string | null;
+  cardExpDate?: string | null;
+  giftCardNumber?: string | null;
+  giftCardAmount?: string | null;
 }
 
 export interface CheckoutContextType {
