@@ -5,10 +5,15 @@ import { useCheckout } from "../../../hooks/useCheckout";
 const PaymentForm: React.FC = () => {
   const { paymentInfo, handleSetPaymentInfo } = useCheckout();
   const navigate = useNavigate();
-  const [giftCardError, setGiftCardError] = useState("");
+  //const [giftCardError, setGiftCardError] = useState("");
+
+  const [errors, setErrors] = useState({
+    giftCardNumberError: "",
+    giftCardAmountError: "",
+  });
 
   const handleContinue = () => {
-    if (giftCardError) {
+    if (errors.giftCardNumberError) {
       alert("Please correct the errors before continuing.");
       return;
     }
@@ -27,9 +32,12 @@ const PaymentForm: React.FC = () => {
     handleSetPaymentInfo({ ...paymentInfo, [name]: value });
     if (name === "giftCardNumber") {
       if (!/^\d+$/.test(value)) {
-        setGiftCardError("Gift card number must be numeric.");
+        setErrors((prev) => ({
+          ...prev,
+          giftCardNumberError: "Gift card number must be numeric.",
+        }));
       } else {
-        setGiftCardError("");
+        setErrors((prev) => ({ ...prev, giftCardNumberError: "" }));
       }
     }
   };
@@ -67,8 +75,8 @@ const PaymentForm: React.FC = () => {
               onChange={handleGiftCardChange}
               required
             />
-            {giftCardError && (
-              <div style={{ color: "red" }}>{giftCardError}</div>
+            {errors.giftCardNumberError && (
+              <div style={{ color: "red" }}>{errors.giftCardNumberError}</div>
             )}
           </div>
           <div>
