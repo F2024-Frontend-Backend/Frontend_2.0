@@ -5,6 +5,7 @@ import Alert from "@mui/material/Alert";
 const PurchaseTotal = () => {
   const { purchaseTotal } = useCheckout();
   const [showAlert, setShowAlert] = useState(true);
+  
   useEffect(() => {
     if (purchaseTotal.shipping == 0) setShowAlert(true);
     else {

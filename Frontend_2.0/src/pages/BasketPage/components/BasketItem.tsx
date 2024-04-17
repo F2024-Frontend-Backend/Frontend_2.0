@@ -72,9 +72,9 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
         </div>
         <div>
           {" "}
-          {item.quantity === 3 && showAlert && (
+          {showAlert && (
             <Alert severity="info" onClose={() => setShowAlert(false)}>
-              Buy 3 and get one for free!
+              Buy 1 more and save {item.product.rebatePercent}%
             </Alert>
           )}
         </div>
