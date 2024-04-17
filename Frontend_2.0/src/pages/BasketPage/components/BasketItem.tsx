@@ -1,5 +1,7 @@
 import React from "react";
 
+import './Basketitem.css'
+
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useCheckout } from "../../../hooks/useCheckout";
 
