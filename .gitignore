@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
+node_modules/.DS_Store
+node_modules/@mui/.DS_Store
