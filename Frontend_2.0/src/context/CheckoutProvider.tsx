@@ -1,5 +1,4 @@
 import React, { useEffect, useState, ReactNode } from "react";
-import { fetchProducts } from "../api/axios";
 import { BasketItem, BillingInfo, PaymentInfo, PurchaseTotal} from '../types/types';
 import CheckoutContext from './CheckoutContext';
 
@@ -46,29 +45,6 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     const handleSetPaymentInfo = (details: PaymentInfo) => {
         setPaymentInfo(details);
     };
-
-    useEffect(() => {
-        const initializeBasket = async () => {
-            try {
-                const products = await fetchProducts();
-                console.log("Products received:", products);
-                if (Array.isArray(products)) {
-                    const basketItems = products.map(product => ({
-                        product: product,
-                        quantity: 1,
-                        subtotal: parseFloat(product.price)
-                    }));
-                    setBasket(basketItems.slice(0, 3));
-                } else {
-                    console.error('Products is not an array:', products);
-                }
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-    
-        initializeBasket();
-    }, [setBasket]);
 
     useEffect(() => {
         const subtotal = basket.reduce((total, item) => total + item.subtotal, 0);

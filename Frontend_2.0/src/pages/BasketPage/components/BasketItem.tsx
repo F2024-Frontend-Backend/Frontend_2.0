@@ -1,14 +1,14 @@
 import React from "react";
 
 import { BasketItem as BasketItemType } from "../../../types/types";
-import { useCheckout } from "../../../hooks/useCheckout";
+import { useBasket } from "../../../hooks/useBasket";
 
 interface BasketItemProps {
     item: BasketItemType;
 }
 
 const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
-    const { updateBasket, removeItemFromBasket } = useCheckout();
+    const { updateItemInBasket, removeItemFromBasket } = useBasket();
 
     const calculatePricing = (quantity: number) => {
         let discountPerItem = 0;
@@ -29,7 +29,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
             subtotal: subtotal,
             rebate: rebate
         };
-        updateBasket(updatedItem);
+        updateItemInBasket(updatedItem);
     };
 
     const handleDecreaseQuantity = () => {
@@ -42,7 +42,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
                 subtotal: subtotal,
                 rebate: rebate
             };
-            updateBasket(updatedItem);
+            updateItemInBasket(updatedItem);
         }
     };
 

@@ -1,48 +1,47 @@
 import { useState, useEffect } from 'react';
-import { useCheckout } from '../../../hooks/useCheckout';
 import { fetchUpsellProducts, fetchRandomProducts } from '../../../api/axios';
 import { Product } from '../../../types/types';
 import './carousel.css';
+import { useBasket } from '../../../hooks/useBasket';
 
 const Carousel = () => {
-    const { basket, updateBasket } = useCheckout();
+    const { basket, updateItemInBasket } = useBasket();
     const [carouselProducts, setCarouselProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         const fecthAndSetCarouselProducts = async () => {
             const upsellIds = [...new Set(basket.filter(item => item.product.upsellProductID).map(item => item.product.upsellProductID))];
             console.log("Upsell IDs:", upsellIds);
-            if (upsellIds.length > 0) {
-                try {
-                    const fetchedUpsellProducts = await fetchUpsellProducts(upsellIds);
-                    console.log("Upsell products", fetchedUpsellProducts);
+            try {
+                const fetchedUpsellProducts = await fetchUpsellProducts(upsellIds);
+                console.log("Upsell products", fetchedUpsellProducts);
 
-                    if (fetchedUpsellProducts.length < 5) {
-                        console.log("Fetching additional products");
-                        const additionalProducts = 5 - fetchedUpsellProducts.length;
-                        const randomProducts = await fetchRandomProducts(additionalProducts);
-                        fetchedUpsellProducts.push(...randomProducts);
-                    }
-                    setCarouselProducts(fetchedUpsellProducts);
-                    console.log("Carousel products", fetchedUpsellProducts);
-                } catch (error) {
-                    console.error("Failed to fetch upsell products", error);
+                if (fetchedUpsellProducts.length < 5) {
+                    console.log("Fetching additional products");
+                    const additionalProducts = 5 - fetchedUpsellProducts.length;
+                    const randomProducts = await fetchRandomProducts(additionalProducts);
+                    fetchedUpsellProducts.push(...randomProducts);
                 }
+                setCarouselProducts(fetchedUpsellProducts);
+                console.log("Carousel products", fetchedUpsellProducts);
+            } catch (error) {
+                console.error("Failed to fetch upsell products", error);
             }
         };
         fecthAndSetCarouselProducts();
     }, [basket]);
 
+
     const handleAddToBasket = (product: Product) => {
         const existingItem = basket.find(item => item.product.string_id === product.string_id);
         if (existingItem) {
-            updateBasket({
+            updateItemInBasket({
                 ...existingItem,
                 quantity: existingItem.quantity + 1,
                 subtotal: existingItem.subtotal + product.price
             });
         } else {
-            updateBasket({
+            updateItemInBasket({
                 product: product,
                 quantity: 1,
                 subtotal: product.price

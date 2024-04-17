@@ -17,6 +17,11 @@ export interface BasketItem {
     subtotal: number;
 }
 
+export type BasketItemAPI = {
+    string_id: string;
+    quantity: number;
+};
+
 export interface PurchaseTotal {
     total: number;
     shipping: number;
@@ -67,6 +72,6 @@ export interface CheckoutContextType {
 export interface BasketContextType {
     basket: BasketItem[];
     setBasket: (basket: BasketItem[]) => void;
-    updateBasket: (updatedItem: BasketItem) => void;
+    updateItemInBasket: (updatedItem: BasketItem) => void;
     removeItemFromBasket: (itemToRemove: BasketItem) => void;
 }
