@@ -55,6 +55,7 @@ export interface PaymentInfo {
   cardExpDate?: string | null;
   giftCardNumber?: string | null;
   giftCardAmount?: string | null;
+  mobilePayNumber?: string | null;
 }
 
 export interface CheckoutContextType {
