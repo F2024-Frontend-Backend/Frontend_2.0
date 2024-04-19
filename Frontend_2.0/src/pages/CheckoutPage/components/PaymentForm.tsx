@@ -12,9 +12,15 @@ const PaymentForm: React.FC = () => {
   });
 
   const handleContinue = () => {
-    if (errors.giftCardNumberError) {
-      alert("Please correct the errors before continuing.");
-      return;
+    if (paymentInfo.paymentMethod === "gift-card") {
+      if (!paymentInfo.giftCardNumber || errors.giftCardNumberError) {
+        alert("Please enter a valid gift card number.");
+        return;
+      }
+      if (!paymentInfo.giftCardAmount || errors.giftCardAmountError) {
+        alert("Please enter a valid gift card amount.");
+        return;
+      }
     }
     navigate("/checkout/confirmation");
   };
@@ -39,6 +45,19 @@ const PaymentForm: React.FC = () => {
         setErrors((prev) => ({ ...prev, giftCardNumberError: "" }));
       }
     }
+    if (name === "giftCardAmount") {
+      const amount = parseFloat(value);
+      if (isNaN(amount) || amount <= 0) {
+        setErrors((prev) => ({
+          ...prev,
+          giftCardAmountError: "Gift card amount must be a positive number.",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, giftCardAmountError: "" }));
+      }
+    }
+
+    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
   };
   return (
     <form
@@ -84,15 +103,16 @@ const PaymentForm: React.FC = () => {
               type="number"
               name="giftCardAmount"
               value={paymentInfo.giftCardAmount || ""}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                handleChange(event)
-              }
+              onChange={handleGiftCardChange}
               required
             />
+            {errors.giftCardAmountError && (
+              <div style={{ color: "red" }}>{errors.giftCardAmountError}</div>
+            )}
           </div>
         </>
       )}
-      <button onClick={handleContinue}>Continue</button>
+      <button onClick={handleContinue}>Continue to Payment</button>
     </form>
   );
 };
