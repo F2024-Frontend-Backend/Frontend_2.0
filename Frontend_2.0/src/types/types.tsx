@@ -52,6 +52,8 @@ export interface PaymentInfo {
   giftCardNumber?: string | null;
   giftCardAmount?: string | null;
   invoiceDetails?: string | null;
+  mobilePhoneNumber?: string | null;
+  
 }
 
 export interface CheckoutContextType {
