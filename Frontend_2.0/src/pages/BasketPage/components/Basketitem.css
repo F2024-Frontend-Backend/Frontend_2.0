@@ -37,9 +37,11 @@
   padding: 1px;
   /*width: 50%;
   height: auto;*/
-  width: 100px;
-  height: 130px;
+  width: 120px;
+  height: 140px;
+  background-color: aliceblue;
   border: solid 1px #c2c0c0; /* Adjust border color as needed */
+  border-radius: 14px;
 }
 
 .product-image img {
