@@ -2,13 +2,24 @@
 
 
 .basket-item-container {
-  width: 100%;
+  /*width: 100%;
   height: 100%;
-  background-color: #f5f5dc; /* Beige background color */
-  padding: 10px; /* Adjust padding as needed */
-  border-radius: 10px; /* Adjust border radius as needed */
-  margin-bottom: 20px; /* Adjust margin as needed */
-  background-color: #140505;
+  background-color: #f5f5dc; 
+  padding: 10px; 
+  border-radius: 10px; 
+  margin-bottom: 20px; 
+  background-color: #140505;*/
+  background-color: aliceblue;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    flex-direction: row; 
+    gap: 1rem;
+    border: 1px solid lightgrey;
+    padding: 0.5rem 1rem ;
+    height: auto;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 
@@ -24,14 +35,18 @@
 
 .product-image {
   padding: 1px;
-  width: 50%;
-  height: auto;
+  /*width: 50%;
+  height: auto;*/
+  width: 100px;
+  height: 130px;
   border: solid 1px #c2c0c0; /* Adjust border color as needed */
 }
 
 .product-image img {
-  width: 10%;
-  height: 10%;
+  /*width: 10%;
+  height: 10%;*/
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
