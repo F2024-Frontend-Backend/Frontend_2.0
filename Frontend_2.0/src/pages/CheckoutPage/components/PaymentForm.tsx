@@ -9,6 +9,7 @@ const PaymentForm: React.FC = () => {
   const [errors, setErrors] = useState({
     giftCardNumberError: "",
     giftCardAmountError: "",
+    mobilePhoneNumberError: "",
   });
 
   const handleContinue = () => {
@@ -23,8 +24,32 @@ const PaymentForm: React.FC = () => {
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
+
+    if (name === "mobilePhoneNumber"){
+      if (!/^\d*$/.test(value)) {
+        setErrors((prev) => ({
+          ...prev, 
+          mobilePhoneNumberError: "Mobile phone number must contain only numbers.", 
+        }));
+       } else if (value.length !== 8) {
+        setErrors((prev) => ({
+      ...prev, 
+      mobilePhoneNumberError: "Mobile phone number must be exactly 8 digits.", 
+     }));
+
+    }else if(!/^\d{8}$/.test(value)){
+      setErrors((prev) => ({
+        ...prev,
+        mobilePhoneNumberError: "Mobile phone number must contain only digits."
+      }));
+    }else{
+      setErrors((prev) => ({...prev, mobilePhoneNumberError: " "}))
+    }
+
+  }
+  handleSetPaymentInfo({ ...paymentInfo, [name]: value });
   };
+
 
   const handleGiftCardChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -60,8 +85,25 @@ const PaymentForm: React.FC = () => {
           <option value="paypal">PayPal</option>
           <option value="gift-card">Gift Card</option>
           <option value="invoice">Invoice</option>
+          <option value ="mobilpay">MobilPay</option>
         </select>
+        
       </div>
+      {paymentInfo.paymentMethod === "mobilpay" && (
+         <div>
+          <label>Mobile Phone Number</label>
+          <input
+            type="tel"
+            name="mobilePhoneNumber"
+            value={paymentInfo.mobilePhoneNumber || ''}
+            onChange={(e) => handleChange(e)}
+            placeholder="Mobile Phone Number"
+           />
+           {errors.mobilePhoneNumberError && (
+             <div style={{ color: "red" }}>{errors.mobilePhoneNumberError}</div>
+    )}
+       </div>
+      )}
 
       {paymentInfo.paymentMethod === "gift-card" && (
         <>
@@ -90,6 +132,7 @@ const PaymentForm: React.FC = () => {
               required
             />
           </div>
+
         </>
       )}
       <button onClick={handleContinue}>Continue</button>
