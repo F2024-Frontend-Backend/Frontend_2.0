@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import { CardSelector, PaymentMethodSelector } from "./payment_components/Card_selector";
 import { isValidCardNumber, isValidDate, isValidCvv } from "./payment_components/CardUtils";
-import  "./PaymentStyling.css";
+import "./PaymentStyling.css";
 import { SpinningCircles } from "react-loading-icons";
 import "../../BasketPage/BasketPage.css";
 
@@ -49,7 +49,7 @@ const PaymentForm: React.FC = () => {
             setErrors(newErrors);
         }
 
-        if(paymentInfo.paymentMethod === 'MobilePay') {
+        if (paymentInfo.paymentMethod === 'MobilePay') {
             if (!/^\d{8}$/.test(paymentInfo.mobilePayNumber || '')) {
                 newErrors.mobilePayNumber = 'Invalid phone number';
             } else {
@@ -63,23 +63,23 @@ const PaymentForm: React.FC = () => {
         validateForm();
     }, [paymentInfo]);
 
-  const handleContinue = (event: { preventDefault: () => void }) => {
-    if (Object.keys(errors).length === 0) {
-        event.preventDefault();
-        setloading(true);
-        setTimeout(() => {
-        //This function should also validate the giftcard if it is present (API call to validate giftcard) probably done in checkoutProvider
-          navigate('/checkout/confirmation');
-        }, 1000);
-    }
-  };
+    const handleContinue = (event: { preventDefault: () => void }) => {
+        if (Object.keys(errors).length === 0) {
+            event.preventDefault();
+            setloading(true);
+            setTimeout(() => {
+                //This function should also validate the giftcard if it is present (API call to validate giftcard) probably done in checkoutProvider
+                navigate('/checkout/confirmation');
+            }, 1000);
+        }
+    };
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
-  };
+    const handleChange = (
+        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    ) => {
+        const { name, value } = event.target;
+        handleSetPaymentInfo({ ...paymentInfo, [name]: value });
+    };
 
     const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
         let value = event.target.value.replace(/\D/g, '');
@@ -112,6 +112,14 @@ const PaymentForm: React.FC = () => {
     console.log(billingInfo.companyName && billingInfo.companyVat)
     return (
         <div className="payment-form">
+            {isLoading && (
+                <div className="loading spinner">
+                    <strong>
+                        Loading...
+                        <SpinningCircles />
+                    </strong>
+                </div>
+            )}
             <PaymentMethodSelector
                 selectedPaymentMethod={paymentInfo.paymentMethod}
                 onPaymentMethodChange={handleChange}
@@ -139,33 +147,33 @@ const PaymentForm: React.FC = () => {
                         />
                     </div>
                     <div className="input-row">
-                    <div className="input-field">
-                        <label>Expiration Date (MM/YY)</label>
-                        {visitedFields.cardExpDate && errors.cardExpDate && <span className="error">{errors.cardExpDate}</span>}
-                        <input
-                            name="cardExpDate"
-                            type="numeric"
-                            value={paymentInfo.cardExpDate || ''}
-                            onBlur={handleBlur}
-                            onChange={handleDateChange}
-                            placeholder="MM/YY"
-                            className={`${visitedFields.cardExpDate && errors.cardExpDate ? 'input-error' : ''}`}
-                        />
-                    </div>
-                    <div className="input-field">
-                        <label>CVV</label>
-                        {visitedFields.cvv && errors.cvv && <span className="error">{errors.cvv}</span>}
-                        <input
-                            name="cvv"
-                            type="text"
-                            value={paymentInfo.cvv || ''}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            placeholder="CVV"
-                            maxLength={3}
-                            className={`${visitedFields.cvv && errors.cvv ? 'input-error' : ''}`}
-                        />
-                    </div>
+                        <div className="input-field">
+                            <label>Expiration Date (MM/YY)</label>
+                            {visitedFields.cardExpDate && errors.cardExpDate && <span className="error">{errors.cardExpDate}</span>}
+                            <input
+                                name="cardExpDate"
+                                type="numeric"
+                                value={paymentInfo.cardExpDate || ''}
+                                onBlur={handleBlur}
+                                onChange={handleDateChange}
+                                placeholder="MM/YY"
+                                className={`${visitedFields.cardExpDate && errors.cardExpDate ? 'input-error' : ''}`}
+                            />
+                        </div>
+                        <div className="input-field">
+                            <label>CVV</label>
+                            {visitedFields.cvv && errors.cvv && <span className="error">{errors.cvv}</span>}
+                            <input
+                                name="cvv"
+                                type="text"
+                                value={paymentInfo.cvv || ''}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                placeholder="CVV"
+                                maxLength={3}
+                                className={`${visitedFields.cvv && errors.cvv ? 'input-error' : ''}`}
+                            />
+                        </div>
                     </div>
                 </>
             )}
