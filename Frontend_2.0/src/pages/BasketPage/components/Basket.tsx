@@ -9,9 +9,9 @@ interface BasketProps {
 const Basket: React.FC<BasketProps> = ({ items }) => {
     return (
         <div className="basket">
-            {items.map((item) => (
-                <BasketItem key={item.product.id} item={item} />
-            ))}
+            {items.map((item) => {
+                return <BasketItem key={item.product.string_id} item={item} />;
+            })}
         </div>
     );
 };

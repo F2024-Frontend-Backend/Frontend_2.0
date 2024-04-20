@@ -1,0 +1,52 @@
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.gift-card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.input-small {
+    width: 100px;
+}
+
+.input-error {
+    border: 1px solid red;
+}
+
+.credit-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 20px;
+}
+
+.input-field:last-child {
+    margin-right: 0;
+}
+
+.input-row {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}

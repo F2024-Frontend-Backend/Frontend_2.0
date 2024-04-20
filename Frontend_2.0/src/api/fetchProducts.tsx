@@ -18,3 +18,32 @@ export const fetchProducts = async (): Promise<BasketItem[]> => {
         throw error;
     }
 };
+
+//This functions needs to be refactored when the API is ready, should be able to fetch multiple products at once with a given array of ids
+export const fetchUpsellProducts = async (upsellIds: string[]): Promise<Product[]> => {
+    try {
+        const response = await axios.get("https://raw.githubusercontent.com/larsthorup/checkout-data/main/product-v2.json");
+        const products: Product[] = response.data;
+
+        const upsellProducts = products.filter(product => upsellIds.includes(product.id));
+
+        return upsellProducts;
+    } catch (error) {
+        console.error("Failed to fetch upsell products", error);
+        throw error;
+    }
+}
+
+export const fetchRandomProducts = async (amount: number): Promise<Product[]> => {
+    try {
+        const response = await axios.get("https://raw.githubusercontent.com/larsthorup/checkout-data/main/product-v2.json");
+        const products: Product[] = response.data;
+
+        const randomProducts = products.sort(() => Math.random() - 0.5).slice(0, amount);
+
+        return randomProducts;
+    } catch (error) {
+        console.error("Failed to fetch random products", error);
+        throw error;
+    }
+}

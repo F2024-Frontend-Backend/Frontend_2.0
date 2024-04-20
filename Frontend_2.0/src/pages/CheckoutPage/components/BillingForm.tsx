@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState, useRef } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
+import "../../BasketPage/BasketPage.css";
+import { SpinningCircles } from "react-loading-icons";
 
 const BillingForm: React.FC = () => {
   const { billingInfo, handleSetBillingInfo } = useCheckout();
   const navigate = useNavigate();
-  const formRef = useRef<HTMLFormElement>(null);
+  const [isLoading, setloading] = useState(false);
 
   const [errors, setErrors] = useState({
     postalError: "",
@@ -15,98 +17,67 @@ const BillingForm: React.FC = () => {
 
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
 
-  const handleContinue = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (formRef.current && formRef.current.checkValidity()) {
+  const handleContinue = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    setloading(true);
+    setTimeout(() => {
       navigate("/checkout/payment");
-    } else {
-      console.log("Form is not valid");
-      formRef.current?.reportValidity();
-    }
+    }, 1000);
   };
 
   const handleChange = async (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    handleSetBillingInfo({ ...billingInfo, [name]: value });
-  };
+    console.log("Input name:", name);
+    console.log("Input value before setting billingInfo:", value);
 
-  const handlePostalCodeChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    handleSetBillingInfo({ ...billingInfo, [name]: value });
-
-    if (value.length !== 4) {
-      setErrors((prev) => ({
-        ...prev,
-        [name === "deliveryPostalCode" ? "deliveryPostalError" : "postalError"]:
-          "Postal code must be exactly 4 digits",
-      }));
-      return;
-    }
-    setErrors((prev) => ({
-      ...prev,
-      [name === "deliveryPostalCode" ? "deliveryPostalError" : "postalError"]:
-        "",
-    }));
-
-    let isDelivery = name === "deliveryPostalCode";
-    if (isDelivery && !isDeliveryDifferent) {
-      return;
-    }
-
-    try {
-      const city = await validatePostalCode(value);
+    if (name === 'postalCode' && value.length === 4) {
+      try {
+        const city = await validatePostalCode(value);
+        handleSetBillingInfo({
+          ...billingInfo,
+          [name]: value,
+          city: city
+        });
+      } catch (error) {
+        console.log("Error validating postal code:", error);
+      }
+    } else {
       handleSetBillingInfo({
         ...billingInfo,
-        [name]: value,
-        ...(isDelivery ? { deliveryCity: city } : { city: city }),
+        [name]: value
       });
-      setErrors((prev) => ({
-        ...prev,
-        ...(isDelivery ? { deliveryPostalError: "" } : { postalError: "" }),
-      }));
-    } catch (error) {
-      setErrors((prev) => ({
-        ...prev,
-        ...(isDelivery
-          ? { deliveryPostalError: (error as Error).message }
-          : { postalError: (error as Error).message }),
-      }));
-      console.log(`Error validating ${name}:`, (error as Error).message);
     }
   };
 
   const validatePostalCode = async (postalCode: string) => {
-    const apiUrl = `https://api.dataforsyningen.dk/postnumre/${postalCode}`;
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      if (!response.ok || !data || !data.navn) {
-        throw new Error("Postal code invalid");
-      }
+    const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${postalCode}`);
+    if (!response.ok) throw new Error("Response not ok");
+    const data = await response.json();
+    if (data && data.navn) {
       return data.navn;
-    } catch (error) {
-      throw error;
+    } else {
+      throw new Error("Invalid postal code entered");
     }
-  };
+  };  
 
   const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
     setIsDeliveryDifferent(e.target.checked);
-    // if (!e.target.checked) {
-    //   handleSetBillingInfo({
-    //     ...billingInfo,
-    //     deliveryFirstName: null,
-    //     deliveryLastName: null,
-    //     deliveryAddress: null,
-    //     deliveryPostalCode: null,
-    //     deliveryCity: null,
-    //   });
-    // }
+    if (!e.target.checked) {
+      handleSetBillingInfo({
+        ...billingInfo,
+        deliveryFirstName: null,
+        deliveryLastName: null,
+        deliveryAddress: null,
+        deliveryPostalCode: null,
+        deliveryCity: null,
+      });
+    }
   };
 
   return (
-    <form ref={formRef}>
+    <div>
       <div>
         <label>First Name</label>
         <input
@@ -164,7 +135,7 @@ const BillingForm: React.FC = () => {
           required
           maxLength={4}
           value={billingInfo.postalCode}
-          onChange={handlePostalCodeChange}
+          onChange={handleChange}
         />
         {errors.postalError && (
           <div style={{ color: "red" }}>{errors.postalError}</div>
@@ -209,84 +180,92 @@ const BillingForm: React.FC = () => {
           />
           Deliver to a different address?
         </label>
+        {isDeliveryDifferent && (
+          <>
+            <div>
+              <label>First Name</label>
+              <input
+                type="text"
+                name="deliveryFirstName"
+                required
+                value={billingInfo.deliveryFirstName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input
+                type="text"
+                name="deliveryLastName"
+                required
+                value={billingInfo.deliveryLastName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Delivery Address</label>
+              <input
+                type="text"
+                name="deliveryAddress"
+                required
+                value={billingInfo.deliveryAddress || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Postal Code</label>
+              <input
+                type="text"
+                name="deliveryPostalCode"
+                required
+                maxLength={4}
+                value={billingInfo.deliveryPostalCode || ""}
+                onChange={handleChange}
+              />
+              {errors.deliveryPostalError && (
+                <div style={{ color: "red" }}>{errors.deliveryPostalError}</div>
+              )}
+            </div>
+            <div>
+              <label>City</label>
+              <input
+                type="text"
+                name="deliveryCity"
+                value={billingInfo.deliveryCity || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Company Name (Optional)</label>
+              <input
+                type="text"
+                name="companyName"
+                value={billingInfo.companyName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Company VAT (Optional)</label>
+              <input
+                type="text"
+                name="companyVat"
+                value={billingInfo.companyVat || ""}
+                onChange={handleChange}
+              />
+            </div>
+          </>
+        )}
       </div>
-      {isDeliveryDifferent && (
-        <>
-          <div>
-            <label>First Name</label>
-            <input
-              type="text"
-              name="deliveryFirstName"
-              required
-              value={billingInfo.deliveryFirstName || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="deliveryLastName"
-              required
-              value={billingInfo.deliveryLastName || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Delivery Address</label>
-            <input
-              type="text"
-              name="deliveryAddress"
-              required
-              value={billingInfo.deliveryAddress || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Postal Code</label>
-            <input
-              type="text"
-              name="deliveryPostalCode"
-              required
-              maxLength={4}
-              value={billingInfo.deliveryPostalCode || ""}
-              onChange={handlePostalCodeChange}
-            />
-            {errors.deliveryPostalError && (
-              <div style={{ color: "red" }}>{errors.deliveryPostalError}</div>
-            )}
-          </div>
-          <div>
-            <label>City</label>
-            <input
-              type="text"
-              name="deliveryCity"
-              value={billingInfo.deliveryCity || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Company Name (Optional)</label>
-            <input
-              type="text"
-              name="companyName"
-              value={billingInfo.companyName || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label>Company VAT (Optional)</label>
-            <input
-              type="text"
-              name="companyVat"
-              value={billingInfo.companyVat || ""}
-              onChange={handleChange}
-            />
-          </div>
-        </>
-      )}
       <button onClick={handleContinue}>Continue to Payment</button>
-    </form>
+      {isLoading && (
+        <div className="loading spinner">
+          <strong>
+            Loading...
+            <SpinningCircles />
+          </strong>
+        </div>
+      )}
+    </div>
   );
 };
 

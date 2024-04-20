@@ -1,21 +1,26 @@
 export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  currency: string;
-  rebateQuantity: number;
-  rebatePercent: number;
-  imageUrl?: string;
-  count: number;
-  upsellProductId: string;
+    string_id: string;
+    name: string;
+    price: number;
+    currency: string;
+    rebateQuantity: number;
+    rebatePercent: number;
+    image?: string;
+    count: number;
+    upsellProductID: string;
 }
 
 export interface BasketItem {
-  product: Product;
-  quantity: number;
-  rebate?: number;
-  subtotal: number;
+    product: Product;
+    quantity: number;
+    rebate?: number;
+    sub_total: number;
 }
+
+export type BasketItemAPI = {
+    string_id: string;
+    quantity: number;
+};
 
 export interface PurchaseTotal {
   total: number;
@@ -51,20 +56,20 @@ export interface PaymentInfo {
   cardExpDate?: string | null;
   giftCardNumber?: string | null;
   giftCardAmount?: string | null;
-  invoiceDetails?: string | null;
-  mobilePhoneNumber?: string | null;
-  
+  mobilePayNumber?: string | null;
 }
 
 export interface CheckoutContextType {
-  basket: BasketItem[];
-  setBasket: (basket: BasketItem[]) => void;
-  purchaseTotal: PurchaseTotal;
-  updateBasket: (updatedItem: BasketItem) => void;
-  removeItemFromBasket: (itemToRemove: BasketItem) => void;
-  billingInfo: BillingInfo;
-  handleSetBillingInfo: (info: BillingInfo) => void;
-  paymentInfo: PaymentInfo;
-  handleSetPaymentInfo: (details: PaymentInfo) => void;
-  
+    purchaseTotal: PurchaseTotal;
+    billingInfo: BillingInfo;
+    handleSetBillingInfo: (info: BillingInfo) => void;
+    paymentInfo: PaymentInfo;
+    handleSetPaymentInfo: (details: PaymentInfo) => void;
+}
+
+export interface BasketContextType {
+    basket: BasketItem[];
+    setBasket: (basket: BasketItem[]) => void;
+    updateItemInBasket: (updatedItem: BasketItem) => void;
+    removeItemFromBasket: (itemToRemove: BasketItem) => void;
 }
