@@ -1,21 +1,124 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
 
+interface Errors {
+  firstNameError?: string;
+  lastNameError?: string;
+  address1Error?: string;
+  address2Error?: string;
+  postalCodeError?: string;
+  cityError?: string;
+  phoneError?: string;
+  emailError?: string;
+  countryError?: string;
+  deliveryFirstNameError?: string;
+  deliveryLastNameError?: string;
+  deliveryAddressError?: string;
+  deliveryPostalCodeError?: string;
+  deliveryCityError?: string;
+  companyNameError?: string;
+  companyVatError?: string;
+}
+
 const BillingForm: React.FC = () => {
   const { billingInfo, handleSetBillingInfo } = useCheckout();
   const navigate = useNavigate();
+
   const [isLoading, setloading] = useState(false);
-
-  const [errors, setErrors] = useState({
-    postalError: "",
-    vatErrors: "",
-    deliveryPostalError: "",
-  });
-
+  const [errors, setErrors] = useState<Errors>({});
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
+
+  const validateForm = () => {
+    const newErrors: Errors = {};
+
+    if (!billingInfo.firstName) {
+      newErrors.firstNameError = "First name is required";
+    } else {
+      delete newErrors.firstNameError;
+    }
+
+    if (!billingInfo.lastName) {
+      newErrors.lastNameError = "Last name is required";
+    } else {
+      delete newErrors.lastNameError;
+    }
+
+    if (!billingInfo.address1) {
+      newErrors.address1Error = "Address is required";
+    } else {
+      delete newErrors.address1Error;
+    }
+
+    if (!billingInfo.postalCode) {
+      newErrors.postalCodeError = "Postal code is required";
+    } else {
+      delete newErrors.postalCodeError;
+    }
+
+    if (!billingInfo.city) {
+      newErrors.cityError = "City is required";
+    } else {
+      delete newErrors.cityError;
+    }
+
+    if (!billingInfo.phone) {
+      newErrors.phoneError = "Phone number is required";
+    } else {
+      delete newErrors.phoneError;
+    }
+
+    if (!billingInfo.email) {
+      newErrors.emailError = "Email is required";
+    } else {
+      delete newErrors.emailError;
+    }
+
+    if (!billingInfo.country) {
+      newErrors.countryError = "Country is required";
+    } else {
+      delete newErrors.countryError;
+    }
+
+    if (isDeliveryDifferent) {
+      if (!billingInfo.deliveryFirstName) {
+        newErrors.deliveryFirstNameError = "First name is required";
+      } else {
+        delete newErrors.deliveryFirstNameError;
+      }
+
+      if (!billingInfo.deliveryLastName) {
+        newErrors.deliveryLastNameError = "Last name is required";
+      } else {
+        delete newErrors.deliveryLastNameError;
+      }
+
+      if (!billingInfo.deliveryAddress) {
+        newErrors.deliveryAddressError = "Address is required";
+      } else {
+        delete newErrors.deliveryAddressError;
+      }
+
+      if (!billingInfo.deliveryPostalCode) {
+        newErrors.deliveryPostalCodeError = "Postal code is required";
+      } else {
+        delete newErrors.deliveryPostalCodeError;
+      }
+
+      if (!billingInfo.deliveryCity) {
+        newErrors.deliveryCityError = "City is required";
+      } else {
+        delete newErrors.deliveryCityError;
+      }
+    }
+    setErrors(newErrors);
+  }
+
+  useEffect(() => {
+    validateForm();
+  }, [billingInfo, isDeliveryDifferent]);
 
   const handleContinue = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -75,6 +178,8 @@ const BillingForm: React.FC = () => {
       });
     }
   };
+
+  console.log("Errors" , errors)
 
   return (
     <div>
@@ -137,9 +242,6 @@ const BillingForm: React.FC = () => {
           value={billingInfo.postalCode}
           onChange={handleChange}
         />
-        {errors.postalError && (
-          <div style={{ color: "red" }}>{errors.postalError}</div>
-        )}
       </div>
       <div>
         <label>City</label>
@@ -222,9 +324,6 @@ const BillingForm: React.FC = () => {
                 value={billingInfo.deliveryPostalCode || ""}
                 onChange={handleChange}
               />
-              {errors.deliveryPostalError && (
-                <div style={{ color: "red" }}>{errors.deliveryPostalError}</div>
-              )}
             </div>
             <div>
               <label>City</label>
@@ -256,7 +355,7 @@ const BillingForm: React.FC = () => {
           </>
         )}
       </div>
-      <button onClick={handleContinue}>Continue to Payment</button>
+      <button onClick={handleContinue} disabled={Object.keys(errors).length > 0}>Continue to Payment</button>
       {isLoading && (
         <div className="loading spinner">
           <strong>
