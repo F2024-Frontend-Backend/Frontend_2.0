@@ -4,6 +4,9 @@ import { useCheckout } from "../../../hooks/useCheckout";
 import { CardSelector, PaymentMethodSelector } from "./payment_components/Card_selector";
 import { isValidCardNumber, isValidDate, isValidCvv } from "./payment_components/CardUtils";
 import  "./PaymentStyling.css";
+import { SpinningCircles } from "react-loading-icons";
+import "../../BasketPage/BasketPage.css";
+
 
 interface Errors {
     cardNo?: string;
@@ -11,11 +14,12 @@ interface Errors {
     cvv?: string;
     mobilePayNumber?: string;
 }
-
 const PaymentForm: React.FC = () => {
     const { paymentInfo, handleSetPaymentInfo } = useCheckout();
     const { billingInfo } = useCheckout();
     const navigate = useNavigate();
+
+    const [isLoading, setloading] = useState(false);
 
     const [errors, setErrors] = useState<Errors>({});
     const [visitedFields, setVisitedFields] = useState<Errors>({});
@@ -59,17 +63,23 @@ const PaymentForm: React.FC = () => {
         validateForm();
     }, [paymentInfo]);
 
-    const handleContinue = () => {
+  const handleContinue = (event: { preventDefault: () => void }) => {
+    if (Object.keys(errors).length === 0) {
+        event.preventDefault();
+        setloading(true);
+        setTimeout(() => {
         //This function should also validate the giftcard if it is present (API call to validate giftcard) probably done in checkoutProvider
-        if (Object.keys(errors).length === 0) {
-            navigate('/checkout/confirmation');
-        }
+          navigate('/checkout/confirmation');
+        }, 1000);
     }
+  };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = event.target;
-        handleSetPaymentInfo({ ...paymentInfo, [name]: value });
-    };
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
+  };
 
     const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
         let value = event.target.value.replace(/\D/g, '');

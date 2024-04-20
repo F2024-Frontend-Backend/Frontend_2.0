@@ -1,10 +1,13 @@
 import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
+import "../../BasketPage/BasketPage.css";
+import { SpinningCircles } from "react-loading-icons";
 
 const BillingForm: React.FC = () => {
   const { billingInfo, handleSetBillingInfo } = useCheckout();
   const navigate = useNavigate();
+  const [isLoading, setloading] = useState(false);
 
   const [errors, setErrors] = useState({
     postalError: "",
@@ -14,8 +17,12 @@ const BillingForm: React.FC = () => {
 
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
 
-  const handleContinue = () => {
-    navigate("/checkout/payment");
+  const handleContinue = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    setloading(true);
+    setTimeout(() => {
+      navigate("/checkout/payment");
+    }, 1000);
   };
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,52 +52,22 @@ const BillingForm: React.FC = () => {
     }
   };
 
-  const validatePostalCode = async (
-    postalCode: string,
-    isDelivery: boolean
-  ) => {
-    const apiUrl = `https://api.dataforsyningen.dk/postnumre/${postalCode}`;
+  const validatePostalCode = async (postalCode: string, isDelivery = false) => {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(
+        `https://api.dataforsyningen.dk/postnumre/${postalCode}`
+      );
+      if (!response.ok) throw new Error("Response not ok");
       const data = await response.json();
-      if (response.ok && data && data.navn) {
-        handleSetBillingInfo({
-          ...billingInfo,
-          ...(isDelivery ? { deliveryCity: data.navn } : { city: data.navn }),
-        });
-        setErrors((prev) => ({
-          ...prev,
-          ...(isDelivery ? { deliveryPostalError: "" } : { postalError: "" }),
-        }));
-        console.log("Validation successful:", data.navn);
-        return data.navn;
+      if (data && data.navn) {
+        handleSetBillingInfo({ ...billingInfo, city: data.navn });
+        setErrors({ ...errors, postalError: "" });
       } else {
-        throw new Error("Postal code not found");
+        setErrors({ ...errors, postalError: "Invalid postal code entered" });
       }
     } catch (error) {
-      console.error("Error validating postal code:", error);
-      setErrors((prev) => ({
-        ...prev,
-        ...(isDelivery
-          ? { deliveryPostalError: (error as Error).message }
-          : { postalError: (error as Error).message }),
-      }));
-      console.log("Validation failed:", (error as Error).message);
-    }
-  };
-
-  const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsDeliveryDifferent(e.target.checked);
-    if (!e.target.checked) {
-      // Reset delivery information if unchecked
-      handleSetBillingInfo({
-        ...billingInfo,
-        deliveryFirstName: null,
-        deliveryLastName: null,
-        deliveryAddress: null,
-        deliveryPostalCode: null,
-        deliveryCity: null,
-      });
+      console.error("Invalid postal code entered", error);
+      setErrors({ ...errors, postalError: "Invalid postal code entered" });
     }
   };
 
@@ -246,6 +223,14 @@ const BillingForm: React.FC = () => {
         </>
       )}
       <button onClick={handleContinue}>Continue to Payment</button>
+      {isLoading && (
+          <div className="loading spinner">
+            <strong>
+              Loading...
+              <SpinningCircles />
+            </strong>
+          </div>
+        )}
     </form>
   );
 };
