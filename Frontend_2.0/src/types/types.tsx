@@ -33,18 +33,19 @@ export interface BillingInfo {
   firstName: string;
   lastName: string;
   address1: string;
-  adress2?: string | null;
+  address2?: string | null;
   postalCode: string;
   city: string;
   phone: string;
   email: string;
   deliveryFirstName?: string | null;
   deliveryLastName?: string | null;
-  deliveryAdress?: string | null;
+  deliveryAddress?: string | null;
   deliveryPostalCode?: string | null;
   deliveryCity?: string | null;
   companyName?: string | null;
   companyVat?: string | null;
+  [key: string]: string | null | undefined; // Index signature
 }
 
 export interface PaymentInfo {

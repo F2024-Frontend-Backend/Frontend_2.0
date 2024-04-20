@@ -10,23 +10,31 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
         shipping: 50,
     });
 
-    const [billingInfo, setBillingInfo] = useState<BillingInfo>({
-        firstName: "",
-        lastName: "",
-        address1: "",
-        postalCode: "",
-        city: "",
-        phone: "",
-        email: "",
-    });
-    const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
-        paymentMethod: "",
-    });
-    
-    
-    const handleSetBillingInfo = (info: BillingInfo) => {
-        setBillingInfo(info);
-    };
+  const [billingInfo, setBillingInfo] = useState<BillingInfo>({
+    firstName: "",
+    lastName: "",
+    address1: "",
+    address2: null,
+    postalCode: "",
+    city: "",
+    phone: "",
+    email: "",
+    deliveryFirstName: null,
+    deliveryLastName: null,
+    deliveryAddress: null,
+    deliveryPostalCode: null,
+    deliveryCity: null,
+    companyName: null,
+    companyVat: null,
+  });
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
+    paymentMethod: "",
+  });
+
+
+  const handleSetBillingInfo = (info: BillingInfo): void => {
+    setBillingInfo(info);
+  };
 
   const handleSetPaymentInfo = (details: PaymentInfo) => {
     setPaymentInfo(details);
