@@ -30,51 +30,42 @@ const BillingForm: React.FC = () => {
     console.log("Input name:", name);
     console.log("Input value before setting billingInfo:", value);
 
-    handleSetBillingInfo({ 
-      ...billingInfo, 
-      [name]: value 
-    });
+    if (name === 'postalCode' && value.length === 4) {
+      try {
+        const city = await validatePostalCode(value);
+        handleSetBillingInfo({
+          ...billingInfo,
+          [name]: value,
+          city: city
+        });
+      } catch (error) {
+        console.log("Error validating postal code:", error);
+      }
+    } else {
+      handleSetBillingInfo({
+        ...billingInfo,
+        [name]: value
+      });
+    }
 
     console.log("Input value after setting billingInfo:", billingInfo[name]);
     console.log("billingInfo state:", billingInfo);
-
-    if (name === 'postalCode' && value.length === 4) {
-      try {
-        const city = await validatePostalCode(value, false);
-        handleSetBillingInfo({
-           ...billingInfo, 
-           [name]: value,
-           city: city
-          });
-      } catch(error) {
-        console.log("Error validating postal code:", error);
-      }
-    }
   };
 
-  const validatePostalCode = async (postalCode: string, isDelivery = false) => {
-    try {
-      const response = await fetch(
-        `https://api.dataforsyningen.dk/postnumre/${postalCode}`
-      );
-      if (!response.ok) throw new Error("Response not ok");
-      const data = await response.json();
-      if (data && data.navn) {
-        handleSetBillingInfo({ ...billingInfo, city: data.navn });
-        setErrors({ ...errors, postalError: "" });
-      } else {
-        setErrors({ ...errors, postalError: "Invalid postal code entered" });
-      }
-    } catch (error) {
-      console.error("Invalid postal code entered", error);
-      setErrors({ ...errors, postalError: "Invalid postal code entered" });
+  const validatePostalCode = async (postalCode: string) => {
+    const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${postalCode}`);
+    if (!response.ok) throw new Error("Response not ok");
+    const data = await response.json();
+    if (data && data.navn) {
+      return data.navn;
+    } else {
+      throw new Error("Invalid postal code entered");
     }
-  };
+  };  
 
   const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
     setIsDeliveryDifferent(e.target.checked);
     if (!e.target.checked) {
-      // Reset delivery information if unchecked
       handleSetBillingInfo({
         ...billingInfo,
         deliveryFirstName: null,
@@ -239,13 +230,13 @@ const BillingForm: React.FC = () => {
       )}
       <button onClick={handleContinue}>Continue to Payment</button>
       {isLoading && (
-          <div className="loading spinner">
-            <strong>
-              Loading...
-              <SpinningCircles />
-            </strong>
-          </div>
-        )}
+        <div className="loading spinner">
+          <strong>
+            Loading...
+            <SpinningCircles />
+          </strong>
+        </div>
+      )}
     </form>
   );
 };
