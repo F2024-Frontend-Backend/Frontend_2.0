@@ -120,6 +120,7 @@ const BillingForm: React.FC = () => {
     validateForm();
   }, [billingInfo, isDeliveryDifferent]);
 
+  const disableContinue = false /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setloading(true);
@@ -355,7 +356,7 @@ const BillingForm: React.FC = () => {
           </>
         )}
       </div>
-      <button onClick={handleContinue} disabled={Object.keys(errors).length > 0}>Continue to Payment</button>
+      <button onClick={handleContinue} disabled={disableContinue}>Continue to Payment</button>
       {isLoading && (
         <div className="loading spinner">
           <strong>

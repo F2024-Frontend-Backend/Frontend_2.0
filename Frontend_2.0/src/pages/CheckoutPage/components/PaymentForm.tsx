@@ -27,11 +27,16 @@ const PaymentForm: React.FC = () => {
 
     const [isLoading, setloading] = useState(false);
     const [errors, setErrors] = useState<Errors>({});
-    
+
     const [visitedFields, setVisitedFields] = useState<Errors>({});
 
     const validateForm = () => {
         const newErrors: Errors = {};
+
+        if(!paymentInfo.paymentMethod){
+            newErrors.cardNo = "Please select a payment method";
+            setErrors(newErrors);
+        }
 
         if (paymentInfo.paymentMethod === 'Creditcard') {
             const cardNumberValidationResult = isValidCardNumber(paymentInfo.cardNo || '');
@@ -69,15 +74,15 @@ const PaymentForm: React.FC = () => {
         validateForm();
     }, [paymentInfo]);
 
+    const disableContinue = false /*Object.keys(errors).length > 0*/;
+
     const handleContinue = (event: { preventDefault: () => void }) => {
-        if (Object.keys(errors).length === 0) {
-            event.preventDefault();
+        event.preventDefault();
             setloading(true);
             setTimeout(() => {
                 //This function should also validate the giftcard if it is present (API call to validate giftcard) probably done in checkoutProvider
                 navigate('/checkout/confirmation');
             }, 1000);
-        }
     };
 
     const handleChange = (
@@ -243,7 +248,7 @@ const PaymentForm: React.FC = () => {
                     placeholder="Gift Card Number"
                 />
             </div>
-            <button onClick={handleContinue} disabled={Object.keys(errors).length > 0}>Continue</button>
+            <button onClick={handleContinue} disabled={disableContinue}>Continue</button>
         </div>
     );
 };
