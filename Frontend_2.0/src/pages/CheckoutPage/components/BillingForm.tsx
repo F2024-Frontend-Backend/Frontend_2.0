@@ -71,6 +71,21 @@ const BillingForm: React.FC = () => {
     }
   };
 
+  const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsDeliveryDifferent(e.target.checked);
+    if (!e.target.checked) {
+      // Reset delivery information if unchecked
+      handleSetBillingInfo({
+        ...billingInfo,
+        deliveryFirstName: null,
+        deliveryLastName: null,
+        deliveryAddress: null,
+        deliveryPostalCode: null,
+        deliveryCity: null,
+      });
+    }
+  };
+
   return (
     <form>
       <div>
