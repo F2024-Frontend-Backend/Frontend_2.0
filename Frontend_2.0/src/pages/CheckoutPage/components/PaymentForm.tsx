@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
+import "./PaymentForm.css"
 
 const PaymentForm: React.FC = () => {
   const { paymentInfo, handleSetPaymentInfo } = useCheckout();
@@ -11,6 +12,8 @@ const PaymentForm: React.FC = () => {
     giftCardAmountError: "",
     mobilePhoneNumberError: "",
   });
+  
+
 
   const handleContinue = () => {
     if (paymentInfo.paymentMethod === "gift-card") {
@@ -85,48 +88,46 @@ const PaymentForm: React.FC = () => {
     handleSetPaymentInfo({ ...paymentInfo, [name]: value });
   };
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleContinue();
-      }}
-    >
-      <div>
+    <div className="form-container">
+    <form  onSubmit={(e) => { e.preventDefault(); handleContinue(); }}>
+      <div className="form-group">
         <label>Payment Method</label>
         <select
           name="paymentMethod"
           value={paymentInfo.paymentMethod}
-          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-            handleChange(event)
-          }
+          onChange={(event: ChangeEvent<HTMLSelectElement>) => handleChange(event)}
+          className="input"
         >
           <option value="credit-card">Credit Card</option>
           <option value="paypal">PayPal</option>
           <option value="gift-card">Gift Card</option>
           <option value="invoice">Invoice</option>
-          <option value ="mobilpay">MobilPay</option>
+          <option value="mobilpay">MobilPay</option>
         </select>
-        
       </div>
+      {/* Empty space */}
+      <div className="spacer"></div>
+      
       {paymentInfo.paymentMethod === "mobilpay" && (
-         <div>
-          <label>Mobile Phone Number</label>
+        <div className="form-group">
+          <label>Enter your Phone Number</label>
           <input
             type="tel"
             name="mobilePhoneNumber"
             value={paymentInfo.mobilePhoneNumber || ''}
             onChange={(e) => handleChange(e)}
             placeholder="Mobile Phone Number"
-           />
-           {errors.mobilePhoneNumberError && (
-             <div style={{ color: "red" }}>{errors.mobilePhoneNumberError}</div>
-    )}
-       </div>
+            className="input"
+          />
+          {errors.mobilePhoneNumberError && (
+            <div className="form-message">{errors.mobilePhoneNumberError}</div>
+          )}
+        </div>
       )}
 
       {paymentInfo.paymentMethod === "gift-card" && (
         <>
-          <div>
+          <div className="form-group">
             <label>Gift Card Number</label>
             <input
               type="text"
@@ -134,12 +135,13 @@ const PaymentForm: React.FC = () => {
               value={paymentInfo.giftCardNumber || ""}
               onChange={handleGiftCardChange}
               required
+              className="input"
             />
             {errors.giftCardNumberError && (
-              <div style={{ color: "red" }}>{errors.giftCardNumberError}</div>
+              <div className="form-message">{errors.giftCardNumberError}</div>
             )}
           </div>
-          <div>
+          <div className="form-group">
             <label>Gift Card Amount</label>
             <input
               type="number"
@@ -147,16 +149,22 @@ const PaymentForm: React.FC = () => {
               value={paymentInfo.giftCardAmount || ""}
               onChange={handleGiftCardChange}
               required
+              className="input"
             />
             {errors.giftCardAmountError && (
-              <div style={{ color: "red" }}>{errors.giftCardAmountError}</div>
+              <div className="form-message">{errors.giftCardAmountError}</div>
             )}
           </div>
 
         </>
       )}
-      <button onClick={handleContinue}>Continue to Payment</button>
-    </form>
+
+        <div className="form-group-button">
+          <button onClick={handleContinue}>Continue to Payment</button>
+        </div>
+      </form>
+      </div>
+    
   );
 };
 

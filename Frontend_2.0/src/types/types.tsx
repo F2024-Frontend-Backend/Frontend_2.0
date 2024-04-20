@@ -66,4 +66,5 @@ export interface CheckoutContextType {
   handleSetBillingInfo: (info: BillingInfo) => void;
   paymentInfo: PaymentInfo;
   handleSetPaymentInfo: (details: PaymentInfo) => void;
+  
 }
