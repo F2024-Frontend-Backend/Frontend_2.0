@@ -1,3 +1,5 @@
+import "./Selector.css";
+
 interface CardSelectorProps {
     selectedCardType: string;
     onCardTypeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -7,10 +9,9 @@ export const CardSelector = ({ selectedCardType, onCardTypeChange }: CardSelecto
     const cardTypes = ['Visa/Dankort', 'Visa', 'MasterCard',];
 
     return (
-        <div className="card-selector-container">
-        <div className="card-selector">
+        <div className="credit-card-selector">
             {cardTypes.map(cardType => (
-                <label key={cardType}>
+                <label key={cardType} className={`button ${selectedCardType === cardType ? 'selected' : ''}`}>
                     <input
                         type="radio"
                         name="cardType"
@@ -20,7 +21,6 @@ export const CardSelector = ({ selectedCardType, onCardTypeChange }: CardSelecto
                     /> {cardType}
                 </label>
             ))}
-        </div>
         </div>
     );
 };
@@ -35,9 +35,9 @@ export const PaymentMethodSelector = ({ selectedPaymentMethod, onPaymentMethodCh
     const paymentMethods = ['Creditcard', 'MobilePay'];
 
     return (
-        <div className="payment-method-selector">
+        <div className="selector">
         {paymentMethods.map(paymentMethod => (
-            <label key={paymentMethod}>
+            <label key={paymentMethod} className={`button ${selectedPaymentMethod === paymentMethod ? 'selected' : ''}`}>
                 <input
                     type="radio"
                     name="paymentMethod"

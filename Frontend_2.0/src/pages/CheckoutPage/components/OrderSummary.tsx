@@ -9,10 +9,11 @@ const OrderSummary: React.FC = () => {
     return (
         <div>
             <h1>Order Summary</h1>
-            <ul>
+            <ul style={{ listStyleType: "none" }}>
                 {basket.map((item) => (
                     <li key={item.product.string_id}>
-                        <span>{item.product.name}</span>
+                        <img src={item.product.image} alt={item.product.name} width="50" height="50" />
+                        <span>{item.product.name}</span>{" "}
                         <span>{item.product.price}</span>
                     </li>
                 ))}

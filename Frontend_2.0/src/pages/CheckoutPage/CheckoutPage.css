@@ -8,6 +8,7 @@
 .checkout-forms {
     flex: 3;
     padding: 20px;
+    min-width: 400px;
 }
 
 .checkout-summary {
@@ -15,3 +16,5 @@
     padding: 20px;
     border-left: 1px solid #ccc;
 }
+
+
