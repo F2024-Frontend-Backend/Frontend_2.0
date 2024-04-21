@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import { SpinningCircles } from "react-loading-icons";
+import { submitOrder } from "../../../api/axios";
 import "../../BasketPage/BasketPage.css";
 
 const Confirmation: React.FC = () => {
@@ -9,12 +10,10 @@ const Confirmation: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
 
+  
+
   const handleConfirmOrder = () => {
-    setloading(true);
-    setTimeout(() => {
-      // This is where we send the order to the server
-      navigate("/receipt");
-    }, 1000);
+    submitOrder()
   };
 
   return (

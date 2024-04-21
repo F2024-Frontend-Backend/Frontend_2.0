@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode, useContext} from "react";
+import React, { useEffect, useState, ReactNode, useContext } from "react";
 import { fetchBasket, updateBasket } from "../api/axios";
 import { BasketItem, Product } from "../types/types";
 import BasketContext from "./BasketContext";
@@ -19,13 +19,13 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setBasket(currentBasket => {
             const existingItemIndex = currentBasket.findIndex(item => item.product.string_id === updatedItem.product.string_id);
             let newBasket;
-            if(existingItemIndex !== -1) {
+            if (existingItemIndex !== -1) {
                 newBasket = currentBasket.map(item => item.product.string_id === updatedItem.product.string_id ? updatedItem : item);
             } else {
                 newBasket = [...currentBasket, updatedItem];
             }
-            const newBasketForAPI = newBasket.map(item => ({string_id: item.product.string_id, quantity: item.quantity}));
-            updateBasket(newBasketForAPI); 
+            const newBasketForAPI = newBasket.map(item => ({ string_id: item.product.string_id, quantity: item.quantity }));
+            updateBasket(newBasketForAPI);
             return newBasket;
         });
     };
@@ -33,21 +33,21 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const removeItemFromBasket = async (itemToRemove: BasketItem) => {
         setBasket(currentBasket => {
             const newBasket = currentBasket.filter(item => item.product.string_id !== itemToRemove.product.string_id);
-            const newBasketForAPI = newBasket.map(item => ({string_id: item.product.string_id, quantity: item.quantity}));
-            updateBasket(newBasketForAPI); 
+            const newBasketForAPI = newBasket.map(item => ({ string_id: item.product.string_id, quantity: item.quantity }));
+            updateBasket(newBasketForAPI);
             return newBasket;
         });
     };
 
     //This useEffect should initialize the basket with the sessions basket from the api - if a session exists.
     useEffect(() => {
-        if(!session) return;
+        if (!session) return;
         const initializeBasket = async () => {
             try {
                 const response = await fetchBasket();
                 console.log("Products received:", response);
-                if (Array.isArray(response.order_items)) {
-                    const basketItems = response.order_items.map((item: APIOrderItem) => ({
+                if (Array.isArray(response.basket_items)) {
+                    const basketItems = response.basket_items.map((item: APIOrderItem) => ({
                         product: item.product,
                         quantity: item.quantity,
                         rebate: item.rebate ? parseFloat(item.rebate) : 0,
@@ -64,12 +64,12 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }, [session]);
 
     return (
-        <BasketContext.Provider value={{ 
-            basket, 
-            setBasket, 
-            updateItemInBasket, 
-            removeItemFromBasket 
-            }}>
+        <BasketContext.Provider value={{
+            basket,
+            setBasket,
+            updateItemInBasket,
+            removeItemFromBasket
+        }}>
             {children}
         </BasketContext.Provider>
     );

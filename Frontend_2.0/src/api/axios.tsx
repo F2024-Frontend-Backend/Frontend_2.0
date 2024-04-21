@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BasketItem, Product, BasketItemAPI} from "../types/types";
+import { BasketItem, Product, BasketItemAPI, BillingInfo, PaymentInfo} from "../types/types";
 const BASE_URL = `http://localhost:8000/api/`;
 
 const axiosInstance = axios.create({
@@ -80,15 +80,18 @@ export const fetchBasket = async () => {
     try {
         const response = await axiosInstance.get(`${BASE_URL}basket/`);
         console.log("Basket response:", response.data);
-        console.log("Order items:", response.data.order_items)
-        console.log("Order items length:", response.data.order_items.length)
-        if (response.data.order_items && response.data.order_items.length > 0) {
+        console.log("Basket items:", response.data.basket_items)
+        console.log("Basket items length:", response.data.basket_items.length)
+
+        if (response.data.basket_items && response.data.basket_items.length > 0) {
             console.log("Basket already exists, returning items");
             return response.data;
         }
         console.log("Basket empty, filling with random products");
+
         const randomProducts = await fetchRandomProducts(3);
         console.log("Random products:", randomProducts);
+
         const items = randomProducts.map((product: Product) => ({
             string_id: product.string_id,
             quantity: 1,
@@ -97,8 +100,10 @@ export const fetchBasket = async () => {
         const totalprice = items.reduce((sum: number, item: BasketItem) => sum + Number(item.sub_total), 0).toFixed(2);
         const postData = { items, totalprice };
         console.log("Data sent to server:", postData);
+
         const basket = await axiosInstance.post(`${BASE_URL}basket/update/`, postData);
         console.log("Basket updated:", basket.data);
+        
         return basket.data.details;
     } catch (error) {
         console.error("Failed to fetch basket", error);
@@ -127,6 +132,44 @@ export const updateBasketItemQuantity = async (stringId: string, quantity: numbe
         return response.data.details;
     } catch (error) {
         console.error("Failed to update basket item quantity", error);
+        throw error;
+    }
+}
+
+export const submitOrder = async () => {
+    //const postData = { billingInfo, paymentInfo };
+    const postData = {
+        "billingInfo": {
+          "firstName": "John",
+          "lastName": "Doe",
+          "address1": "123 Main St",
+          "address2": "Suite 101",
+          "postalCode": "12345",
+          "city": "Anytown",
+          "phone": "1234567890",
+          "email": "john.doe@example.com",
+          "country": "USA",
+          "deliveryFirstName": "Jane",
+          "deliveryLastName": "Doe",
+          "deliveryAddress": "456 Elm St",
+          "deliveryPostalCode": "54321",
+          "deliveryCity": "Othertown",
+          "companyName": "Doe Inc.",
+          "companyVat": "123456"
+        },
+        "paymentInfo": {
+          "paymentMethod": "Credit Card"
+        },
+        "totalPrice": 150.00,
+        "acceptMarketing": true
+      };
+    try {
+        const response = await axiosInstance.post(`${BASE_URL}order/submit/`, postData);
+        console.log("Order submitted:", response.data);
+        const order_number = response.data;
+        console.log("Order number:", order_number);
+    } catch (error) {
+        console.error("Failed to submit order", error);
         throw error;
     }
 }
