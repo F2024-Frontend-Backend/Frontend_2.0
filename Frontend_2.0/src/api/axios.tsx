@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BasketItem, Product, BasketItemAPI, BillingInfo, PaymentInfo} from "../types/types";
+import { BasketItem, Product, BasketItemAPI, BillingInfo, PaymentInfo, PurchaseTotal} from "../types/types";
 const BASE_URL = `http://localhost:8000/api/`;
 
 const axiosInstance = axios.create({
@@ -136,9 +136,34 @@ export const updateBasketItemQuantity = async (stringId: string, quantity: numbe
     }
 }
 
-export const submitOrder = async () => {
-    //const postData = { billingInfo, paymentInfo };
-    const postData = {
+export const submitOrder = async (/*billingInfo: BillingInfo, paymentInfo: PaymentInfo, purchaseTotal: PurchaseTotal*/) => {
+    /*const postData = { 
+        billingInfo: {
+            firstName: billingInfo.firstName,
+            lastName: billingInfo.lastName,
+            address1: billingInfo.address1,
+            address2: billingInfo.address2,
+            postalCode: billingInfo.postalCode,
+            city: billingInfo.city,
+            phone: billingInfo.phone,
+            email: billingInfo.email,
+            country: billingInfo.country,
+            deliveryFirstName: billingInfo.deliveryFirstName,
+            deliveryLastName: billingInfo.deliveryLastName,
+            deliveryAddress: billingInfo.deliveryAddress,
+            deliveryPostalCode: billingInfo.deliveryPostalCode,
+            deliveryCity: billingInfo.deliveryCity,
+            companyName: billingInfo.companyName,
+            companyVat: billingInfo.companyVat
+        },
+        paymentInfo: {
+            paymentMethod: paymentInfo.paymentMethod
+        },
+        totalPrice: purchaseTotal.total,
+        acceptMarketing: true
+        };*/
+    //DUMMY DATA => 
+        const postData = {
         "billingInfo": {
           "firstName": "John",
           "lastName": "Doe",
@@ -166,8 +191,9 @@ export const submitOrder = async () => {
     try {
         const response = await axiosInstance.post(`${BASE_URL}order/submit/`, postData);
         console.log("Order submitted:", response.data);
-        const order_number = response.data;
-        console.log("Order number:", order_number);
+        const order_details = response.data;
+        console.log("Order number:", order_details);
+        return order_details;
     } catch (error) {
         console.error("Failed to submit order", error);
         throw error;

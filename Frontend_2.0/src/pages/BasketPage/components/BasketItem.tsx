@@ -7,7 +7,6 @@ import './Basketitem.css'
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useBasket } from "../../../hooks/useBasket";
 import { updateBasketItemQuantity } from "../../../api/axios";
-import defaultProductImage from "../../../resources/defaultProductImage.png";
 
 interface BasketItemProps {
   item: BasketItemType;
@@ -37,7 +36,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
         updateItemInBasket({ 
             ...item, 
             quantity: newQuantity, 
-            rebate: response.basket_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).rebate,
+            rebate: parseFloat(response.basket_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).rebate),
             sub_total: parseFloat(response.basket_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).sub_total)
         });
         } catch (error) {

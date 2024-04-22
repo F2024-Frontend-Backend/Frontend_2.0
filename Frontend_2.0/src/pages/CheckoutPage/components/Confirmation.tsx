@@ -11,9 +11,16 @@ const Confirmation: React.FC = () => {
   const [isLoading, setloading] = useState(false);
 
   
-
-  const handleConfirmOrder = () => {
-    submitOrder()
+  const handleConfirmOrder = async () => {
+    setloading(true);
+      try{
+        const response = await submitOrder();
+        console.log("Response data on submit:", response);
+        navigate('/receipt');
+      } catch (error) {
+        console.error('Error submitting order:', error);
+        setloading(false);
+      }
   };
 
   return (

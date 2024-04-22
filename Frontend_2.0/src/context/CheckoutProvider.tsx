@@ -49,8 +49,11 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   useEffect(() => {
+    
     const subtotal = basket.reduce((total, item) => total + parseFloat(item.sub_total.toString()), 0);
+    console.log("Subtotal:", subtotal);
     const rebate = basket.reduce((total, item) => total + (item.rebate || 0), 0);
+    console.log("Rebate:", rebate);
     const shipping = 50;
     let discount = 0;
 
@@ -62,6 +65,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     const total = subtotal + shipping - discount - rebate;
 
     setPurchaseTotal({ total, shipping, rebate, discount });
+    console.log("Total:", total, "Shipping:", shipping, "Rebate:", rebate, "Discount:", discount);
   }, [basket]);
 
 

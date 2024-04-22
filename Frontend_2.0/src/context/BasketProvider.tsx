@@ -4,7 +4,7 @@ import { BasketItem, Product } from "../types/types";
 import BasketContext from "./BasketContext";
 import { SessionContext } from "../App";
 
-interface APIOrderItem {
+interface APIBasketItem {
     product: Product;
     quantity: number;
     rebate?: string;
@@ -24,7 +24,11 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             } else {
                 newBasket = [...currentBasket, updatedItem];
             }
-            const newBasketForAPI = newBasket.map(item => ({ string_id: item.product.string_id, quantity: item.quantity }));
+            const newBasketForAPI = newBasket.map(item => ({ 
+                string_id: 
+                item.product.string_id, 
+                quantity: item.quantity 
+            }));
             updateBasket(newBasketForAPI);
             return newBasket;
         });
@@ -47,7 +51,7 @@ export const BasketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
                 const response = await fetchBasket();
                 console.log("Products received:", response);
                 if (Array.isArray(response.basket_items)) {
-                    const basketItems = response.basket_items.map((item: APIOrderItem) => ({
+                    const basketItems = response.basket_items.map((item: APIBasketItem) => ({
                         product: item.product,
                         quantity: item.quantity,
                         rebate: item.rebate ? parseFloat(item.rebate) : 0,

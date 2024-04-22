@@ -80,7 +80,6 @@ const PaymentForm: React.FC = () => {
         event.preventDefault();
             setloading(true);
             setTimeout(() => {
-                //This function should also validate the giftcard if it is present (API call to validate giftcard) probably done in checkoutProvider
                 navigate('/checkout/confirmation');
             }, 1000);
     };
