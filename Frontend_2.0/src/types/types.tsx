@@ -76,7 +76,7 @@ export interface BasketContextType {
 
 
 export interface OrderResponseContextType {
-  orderResponse: OrderResponse;
+  orderResponse: OrderResponse | null;
   setOrderResponse: (orderResponse: OrderResponse) => void;
 }
 
