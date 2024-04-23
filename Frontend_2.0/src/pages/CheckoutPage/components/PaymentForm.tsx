@@ -1,64 +1,130 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
-import "./PaymentForm.css"
+import {
+  CardSelector,
+  PaymentMethodSelector,
+} from "./payment_components/Card_selector";
+import {
+  isValidCardNumber,
+  isValidDate,
+  isValidCvv,
+} from "./payment_components/CardUtils";
+import "./PaymentStyling.css";
+import { SpinningCircles } from "react-loading-icons";
+import "../../BasketPage/BasketPage.css";
 
+interface Errors {
+  cardNo?: string;
+  cardExpDate?: string;
+  cvv?: string;
+  mobilePayNumber?: string;
+}
 const PaymentForm: React.FC = () => {
   const { paymentInfo, handleSetPaymentInfo } = useCheckout();
+  const { billingInfo } = useCheckout();
   const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({
-    giftCardNumberError: "",
-    giftCardAmountError: "",
-    mobilePhoneNumberError: "",
-  });
-  
+  /*const [errors, setErrors] = useState({
+        giftCardNumberError: "",
+        giftCardAmountError: "",
+        mobilePhoneNumberError: "",
+    });*/
 
+  const [isLoading, setloading] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
 
-  const handleContinue = () => {
-    if (paymentInfo.paymentMethod === "gift-card") {
-      if (!paymentInfo.giftCardNumber || errors.giftCardNumberError) {
-        alert("Please enter a valid gift card number.");
-        return;
-      }
-      if (!paymentInfo.giftCardAmount || errors.giftCardAmountError) {
-        alert("Please enter a valid gift card amount.");
-        return;
-      }
+  const [visitedFields, setVisitedFields] = useState<Errors>({});
+
+  const validateForm = () => {
+    const newErrors: Errors = {};
+
+    if (!paymentInfo.paymentMethod) {
+      newErrors.cardNo = "Please select a payment method";
+      setErrors(newErrors);
     }
-    navigate("/checkout/confirmation");
+
+    if (paymentInfo.paymentMethod === "Creditcard") {
+      const cardNumberValidationResult = isValidCardNumber(
+        paymentInfo.cardNo || ""
+      );
+      if (cardNumberValidationResult !== true) {
+        newErrors.cardNo = cardNumberValidationResult.message;
+      } else {
+        delete newErrors.cardNo;
+      }
+
+      if (!isValidDate(paymentInfo.cardExpDate || "")) {
+        newErrors.cardExpDate = "Invalid expiration date";
+      } else {
+        delete newErrors.cardExpDate;
+      }
+
+      if (!isValidCvv(paymentInfo.cvv || "")) {
+        newErrors.cvv = "Invalid CVV";
+      } else {
+        delete newErrors.cvv;
+      }
+      setErrors(newErrors);
+    }
+
+    if (paymentInfo.paymentMethod === "MobilePay") {
+      if (!/^\d{8}$/.test(paymentInfo.mobilePayNumber || "")) {
+        newErrors.mobilePayNumber = "Invalid phone number";
+      } else {
+        delete newErrors.mobilePayNumber;
+      }
+      setErrors(newErrors);
+    }
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [paymentInfo]);
+
+  const disableContinue = false; /*Object.keys(errors).length > 0*/
+
+  const handleContinue = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    setloading(true);
+    setTimeout(() => {
+      navigate("/checkout/confirmation");
+    }, 1000);
   };
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-
-    if (name === "mobilePhoneNumber"){
-      if (!/^\d*$/.test(value)) {
-        setErrors((prev) => ({
-          ...prev, 
-          mobilePhoneNumberError: "Mobile phone number must contain only numbers.", 
-        }));
-       } else if (value.length !== 8) {
-        setErrors((prev) => ({
-      ...prev, 
-      mobilePhoneNumberError: "Mobile phone number must be exactly 8 digits.", 
-     }));
-
-    }else if(!/^\d{8}$/.test(value)){
-      setErrors((prev) => ({
-        ...prev,
-        mobilePhoneNumberError: "Mobile phone number must contain only digits."
-      }));
-    }else{
-      setErrors((prev) => ({...prev, mobilePhoneNumberError: " "}))
-    }
-
-  }
-  handleSetPaymentInfo({ ...paymentInfo, [name]: value });
+    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
   };
 
+  const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value.replace(/\D/g, "");
+    const parts = [];
+    for (let i = 0; i < value.length; i += 4) {
+      parts.push(value.substring(i, i + 4));
+    }
+    value = parts.join(" ");
+    handleSetPaymentInfo({ ...paymentInfo, cardNo: value });
+  };
+
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value.replace(/[^\d/]/g, "");
+    if (!value.includes("/") && value.length > 2) {
+      value = value.slice(0, 2) + "/" + value.slice(2);
+    }
+    value = value.slice(0, 5);
+
+    handleSetPaymentInfo({ ...paymentInfo, cardExpDate: value });
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    setVisitedFields({
+      ...visitedFields,
+      [event.target.name]: true,
+    });
+  };
 
   const handleGiftCardChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -87,84 +153,135 @@ const PaymentForm: React.FC = () => {
 
     handleSetPaymentInfo({ ...paymentInfo, [name]: value });
   };
+
+  console.log(errors);
+  console.log(billingInfo.companyName && billingInfo.companyVat);
+
   return (
-    <div className="form-container">
-    <form  onSubmit={(e) => { e.preventDefault(); handleContinue(); }}>
-      <div className="form-group">
-        <label>Payment Method</label>
-        <select
-          name="paymentMethod"
-          value={paymentInfo.paymentMethod}
-          onChange={(event: ChangeEvent<HTMLSelectElement>) => handleChange(event)}
-          className="input"
-        >
-          <option value="credit-card">Credit Card</option>
-          <option value="paypal">PayPal</option>
-          <option value="gift-card">Gift Card</option>
-          <option value="invoice">Invoice</option>
-          <option value="mobilpay">MobilPay</option>
-        </select>
-      </div>
-      {/* Empty space */}
-      <div className="spacer"></div>
-      
-      {paymentInfo.paymentMethod === "mobilpay" && (
-        <div className="form-group">
-          <label>Enter your Phone Number</label>
-          <input
-            type="tel"
-            name="mobilePhoneNumber"
-            value={paymentInfo.mobilePhoneNumber || ''}
-            onChange={(e) => handleChange(e)}
-            placeholder="Mobile Phone Number"
-            className="input"
-          />
-          {errors.mobilePhoneNumberError && (
-            <div className="form-message">{errors.mobilePhoneNumberError}</div>
-          )}
+    <div className="payment-form">
+      {isLoading && (
+        <div className="loading spinner">
+          <strong>
+            Loading...
+            <SpinningCircles />
+          </strong>
         </div>
       )}
-
-      {paymentInfo.paymentMethod === "gift-card" && (
+      <PaymentMethodSelector
+        selectedPaymentMethod={paymentInfo.paymentMethod}
+        onPaymentMethodChange={handleChange}
+        isCompany={
+          (billingInfo.companyName || "") !== "" &&
+          (billingInfo.companyVat || "") !== ""
+        }
+      />
+      {paymentInfo.paymentMethod === "Creditcard" && (
         <>
-          <div className="form-group">
-            <label>Gift Card Number</label>
+          <div>
+            <CardSelector
+              selectedCardType={paymentInfo.cardType || "Visa/Dankort"}
+              onCardTypeChange={handleChange}
+            />
+          </div>
+          <div className="input-field">
+            <label>Card Number</label>
             <input
+              name="cardNo"
               type="text"
-              name="giftCardNumber"
-              value={paymentInfo.giftCardNumber || ""}
-              onChange={handleGiftCardChange}
-              required
-              className="input"
+              value={paymentInfo.cardNo || ""}
+              onBlur={handleBlur}
+              onChange={handleCardNumberChange}
+              placeholder="0000 0000 0000 0000"
+              maxLength={19}
+              className={`${
+                visitedFields.cardNo && errors.cardNo ? "input-error" : ""
+              }`}
             />
-            {errors.giftCardNumberError && (
-              <div className="form-message">{errors.giftCardNumberError}</div>
-            )}
           </div>
-          <div className="form-group">
-            <label>Gift Card Amount</label>
-            <input
-              type="number"
-              name="giftCardAmount"
-              value={paymentInfo.giftCardAmount || ""}
-              onChange={handleGiftCardChange}
-              required
-              className="input"
-            />
-            {errors.giftCardAmountError && (
-              <div className="form-message">{errors.giftCardAmountError}</div>
-            )}
+          <div className="input-row">
+            <div className="input-field">
+              <label>Expiration Date (MM/YY)</label>
+              {visitedFields.cardExpDate && errors.cardExpDate && (
+                <span className="error">{errors.cardExpDate}</span>
+              )}
+              <input
+                name="cardExpDate"
+                type="numeric"
+                value={paymentInfo.cardExpDate || ""}
+                onBlur={handleBlur}
+                onChange={handleDateChange}
+                placeholder="MM/YY"
+                className={`${
+                  visitedFields.cardExpDate && errors.cardExpDate
+                    ? "input-error"
+                    : ""
+                }`}
+              />
+            </div>
+            <div className="input-field">
+              <label>CVV</label>
+              {visitedFields.cvv && errors.cvv && (
+                <span className="error">{errors.cvv}</span>
+              )}
+              <input
+                name="cvv"
+                type="text"
+                value={paymentInfo.cvv || ""}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="CVV"
+                maxLength={3}
+                className={`${
+                  visitedFields.cvv && errors.cvv ? "input-error" : ""
+                }`}
+              />
+            </div>
           </div>
-
         </>
       )}
 
-        <div className="form-group-button">
-          <button onClick={handleContinue}>Continue to Payment</button>
+      {paymentInfo.paymentMethod === "MobilePay" && (
+        <div className="input-field">
+          <label>MobilePay Number</label>
+          {visitedFields.mobilePayNumber && errors.mobilePayNumber && (
+            <span className="error">{errors.mobilePayNumber}</span>
+          )}
+          <input
+            name="mobilePayNumber"
+            type="text"
+            value={paymentInfo.mobilePayNumber || ""}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="MobilePay Number"
+            className={`${
+              visitedFields.mobilePayNumber && errors.mobilePayNumber
+                ? "input-error"
+                : ""
+            }`}
+          />
         </div>
-      </form>
+      )}
+
+      {paymentInfo.paymentMethod === "Invoice" && (
+        <p>
+          You'll receive the invoice with your order. Please pay within 30 days
+        </p>
+      )}
+
+      <div className="gift-card">
+        <label>Use Gift Card (Optional) </label>
+        <input
+          name="giftCardNumber"
+          type="text"
+          value={paymentInfo.giftCardNumber || ""}
+          onChange={handleGiftCardChange}
+          placeholder="Gift Card Number"
+        />
       </div>
-    
+      <button onClick={handleContinue} disabled={disableContinue}>
+        Continue
+      </button>
+    </div>
   );
 };
 

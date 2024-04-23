@@ -6,6 +6,7 @@ import PaymentForm from './components/PaymentForm';
 import Confirmation from './components/Confirmation';
 import OrderSummary from './components/OrderSummary';
 
+
 const CheckoutPage = () => {
     return (
         <div className="checkout-container">
