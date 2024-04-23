@@ -31,15 +31,15 @@ function App() {
     <SessionContext.Provider value={session}>
       <BasketProvider>
         <CheckoutProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<BasketPage />} />
-              <Route path="/checkout/*" element={<CheckoutPage />} />
-              <OrderResponseProvider>
-              <Route path="/receipt" element={<h1>Receipt</h1>} />
-              </OrderResponseProvider>
-            </Routes>
-          </BrowserRouter>
+          <OrderResponseProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<BasketPage />} />
+                <Route path="/checkout/*" element={<CheckoutPage />} />
+                <Route path="/receipt" element={<h1>Receipt</h1>} />
+              </Routes>
+            </BrowserRouter>
+          </OrderResponseProvider>
         </CheckoutProvider>
       </BasketProvider>
     </SessionContext.Provider>
