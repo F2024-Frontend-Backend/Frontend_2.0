@@ -5,6 +5,7 @@ import BillingForm from './components/BillingForm';
 import PaymentForm from './components/PaymentForm';
 import Confirmation from './components/Confirmation';
 import OrderSummary from './components/OrderSummary';
+import { OrderResponseProvider } from '../../context/OrderResponseProvider';
 
 const CheckoutPage = () => {
     return (
@@ -13,7 +14,9 @@ const CheckoutPage = () => {
                 <Routes>
                     <Route path="/" element={<BillingForm />} />
                     <Route path="payment" element={<PaymentForm />} />
-                    <Route path="confirmation" element={<Confirmation />} />
+                    <OrderResponseProvider>
+                        <Route path="confirmation" element={<Confirmation />} />
+                    </OrderResponseProvider>
                 </Routes>
             </div>
             <div className="checkout-summary">
