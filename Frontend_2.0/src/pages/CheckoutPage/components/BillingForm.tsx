@@ -114,13 +114,13 @@ const BillingForm: React.FC = () => {
       }
     }
     setErrors(newErrors);
-  }
+  };
 
   useEffect(() => {
     validateForm();
   }, [billingInfo, isDeliveryDifferent]);
 
-  const disableContinue = false /*{Object.keys(errors).length > 0}*/
+  const disableContinue = false; /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setloading(true);
@@ -136,13 +136,13 @@ const BillingForm: React.FC = () => {
     console.log("Input name:", name);
     console.log("Input value before setting billingInfo:", value);
 
-    if (name === 'postalCode' && value.length === 4) {
+    if (name === "postalCode" && value.length === 4) {
       try {
         const city = await validatePostalCode(value);
         handleSetBillingInfo({
           ...billingInfo,
           [name]: value,
-          city: city
+          city: city,
         });
       } catch (error) {
         console.log("Error validating postal code:", error);
@@ -150,13 +150,15 @@ const BillingForm: React.FC = () => {
     } else {
       handleSetBillingInfo({
         ...billingInfo,
-        [name]: value
+        [name]: value,
       });
     }
   };
 
   const validatePostalCode = async (postalCode: string) => {
-    const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${postalCode}`);
+    const response = await fetch(
+      `https://api.dataforsyningen.dk/postnumre/${postalCode}`
+    );
     if (!response.ok) throw new Error("Response not ok");
     const data = await response.json();
     if (data && data.navn) {
@@ -164,7 +166,7 @@ const BillingForm: React.FC = () => {
     } else {
       throw new Error("Invalid postal code entered");
     }
-  };  
+  };
 
   const handleToggleDelivery = (e: ChangeEvent<HTMLInputElement>) => {
     setIsDeliveryDifferent(e.target.checked);
@@ -180,7 +182,7 @@ const BillingForm: React.FC = () => {
     }
   };
 
-  console.log("Errors" , errors)
+  console.log("Errors", errors);
 
   return (
     <div>
@@ -356,7 +358,9 @@ const BillingForm: React.FC = () => {
           </>
         )}
       </div>
-      <button onClick={handleContinue} disabled={disableContinue}>Continue to Payment</button>
+      <button onClick={handleContinue} disabled={disableContinue}>
+        Continue to Payment
+      </button>
       {isLoading && (
         <div className="loading spinner">
           <strong>

@@ -1,0 +1,36 @@
+.purchase-total {
+    background-color: #e4e3e07b; 
+    border-radius: 5px; 
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    font-family: 'Arial', sans-serif; 
+    margin: 20px 0; 
+  }
+  
+  .purchase-total h4 {
+    color: #333; 
+    margin-bottom: 5px; 
+  }
+  
+  .purchase-total p {
+    color: #666; 
+    margin-bottom: 10px; 
+  }
+  
+  .purchase-total p.rebate {
+    color: #d00; 
+    font-weight: bold; 
+  }
+  
+  
+  .purchase-total h4.total {
+    font-size: 1.2em; 
+    color: black; 
+  }
+  
+  .purchase-total p.total-sum {
+    font-size: 1.2em; 
+    font-weight: bold; 
+    color: black; 
+  }
+  
