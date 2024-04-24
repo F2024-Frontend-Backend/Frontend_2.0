@@ -182,13 +182,13 @@ const PaymentForm: React.FC = () => {
               onCardTypeChange={handleChange}
             />*/}
             <div className="card-image-container">
-              <div className="image-wrapper">
+              <div className="credit-image-wrapper">
                 <img className="card-image" src={dkLogo} alt="DK logo" />
               </div>
-              <div className="image-wrapper">
+              <div className="credit-image-wrapper">
                 <img className="card-image" src={visaLogo} alt="Visa logo" />
               </div>
-              <div className="image-wrapper">
+              <div className="credit-image-wrapper">
                 <img className="card-image" src={mastercardLogo} alt="MasterCard logo" />
               </div>
             </div>
