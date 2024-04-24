@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
+import "./BillingForm.css";
 
 interface Errors {
   firstNameError?: string;
@@ -146,6 +147,10 @@ const BillingForm: React.FC = () => {
         });
       } catch (error) {
         console.log("Error validating postal code:", error);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          postalCodeError: "Invalid postal code entered",
+        }));
       }
     } else {
       handleSetBillingInfo({
@@ -197,6 +202,9 @@ const BillingForm: React.FC = () => {
             value={billingInfo.firstName}
             onChange={handleChange}
           />
+          {errors.firstNameError && (
+            <p className="error">{errors.firstNameError}</p>
+          )}
         </div>
       </div>
       <div>
@@ -209,6 +217,9 @@ const BillingForm: React.FC = () => {
             value={billingInfo.lastName}
             onChange={handleChange}
           />
+          {errors.lastNameError && (
+            <p className="error">{errors.lastNameError}</p>
+          )}
         </div>
       </div>
       <div>
@@ -221,6 +232,7 @@ const BillingForm: React.FC = () => {
             value={billingInfo.email}
             onChange={handleChange}
           />
+          {errors.emailError && <p className="error">{errors.emailError}</p>}
         </div>
       </div>
       <div>
@@ -233,6 +245,9 @@ const BillingForm: React.FC = () => {
             value={billingInfo.address1}
             onChange={handleChange}
           />
+          {errors.address1Error && (
+            <p className="error">{errors.address1Error}</p>
+          )}
         </div>
       </div>
       <div>
@@ -244,6 +259,9 @@ const BillingForm: React.FC = () => {
             value={billingInfo.address2 || ""}
             onChange={handleChange}
           />
+          {errors.address2Error && (
+            <p className="error">{errors.address2Error}</p>
+          )}
         </div>
       </div>
       <div>
@@ -257,6 +275,9 @@ const BillingForm: React.FC = () => {
             value={billingInfo.postalCode}
             onChange={handleChange}
           />
+          {errors.postalCodeError && (
+            <p className="error">{errors.postalCodeError}</p>
+          )}
         </div>
       </div>
       <div>
@@ -268,6 +289,7 @@ const BillingForm: React.FC = () => {
             value={billingInfo.city}
             onChange={handleChange}
           />
+          {errors.cityError && <p className="error">{errors.cityError}</p>}
         </div>
       </div>
       <div>
@@ -280,6 +302,7 @@ const BillingForm: React.FC = () => {
             value={billingInfo.phone}
             onChange={handleChange}
           />
+          {errors.phoneError && <p className="error">{errors.phoneError}</p>}
         </div>
       </div>
       <div>
@@ -316,6 +339,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.deliveryFirstName || ""}
                   onChange={handleChange}
                 />
+                {errors.deliveryFirstNameError && (
+                  <p className="error">{errors.deliveryFirstNameError}</p>
+                )}
               </div>
             </div>
             <div>
@@ -328,6 +354,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.deliveryLastName || ""}
                   onChange={handleChange}
                 />
+                {errors.deliveryLastNameError && (
+                  <p className="error">{errors.deliveryLastNameError}</p>
+                )}
               </div>
             </div>
             <div>
@@ -340,6 +369,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.deliveryAddress || ""}
                   onChange={handleChange}
                 />
+                {errors.deliveryAddressError && (
+                  <p className="error">{errors.deliveryAddressError}</p>
+                )}
               </div>
             </div>
             <div>
@@ -353,6 +385,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.deliveryPostalCode || ""}
                   onChange={handleChange}
                 />
+                {errors.deliveryPostalCodeError && (
+                  <p className="error">{errors.deliveryPostalCodeError}</p>
+                )}
               </div>
             </div>
             <div>
@@ -364,6 +399,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.deliveryCity || ""}
                   onChange={handleChange}
                 />
+                {errors.deliveryCityError && (
+                  <p className="error">{errors.deliveryCityError}</p>
+                )}
               </div>
             </div>
             <div>
@@ -375,6 +413,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.companyName || ""}
                   onChange={handleChange}
                 />
+                {errors.companyNameError && (
+                  <p className="error">{errors.companyNameError}</p>
+                )}
               </div>
             </div>
             <div>
@@ -386,6 +427,9 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.companyVat || ""}
                   onChange={handleChange}
                 />
+                {errors.companyVatError && (
+                  <p className="error">{errors.companyVatError}</p>
+                )}
               </div>
             </div>
           </>
