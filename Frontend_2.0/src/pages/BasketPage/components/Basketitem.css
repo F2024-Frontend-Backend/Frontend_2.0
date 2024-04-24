@@ -39,13 +39,12 @@
 .product-image-item {
   padding: 1px;
   margin-top: 10px;
-  /*border: solid 1px #c2c0c0; /* Adjust border color as needed */
   border: 2px solid black;
   border-radius: 14px;
-  width: 30%; /* Set desired width */
-  height: 110px;; /* Set desired height */
-  display: flex; /* This will allow you to center the image within */
-  align-items: center; /* These two properties center the image vertically */
+  width: 30%; 
+  height: 110px;; 
+  display: flex; 
+  align-items: center; 
   justify-content: center; 
 
 }
@@ -53,13 +52,12 @@
  
   padding: 1px;
   margin-top: 10px;
-  /*border: solid 1px #c2c0c0; /* Adjust border color as needed */
   border: 2px solid black;
   border-radius: 14px;
-  width: 18%; /* Set desired width */
-  height:40%; /* Set desired height */
-  display: flex; /* This will allow you to center the image within */
-  align-items: center; /* These two properties center the image vertically */
+  width: 18%; 
+  height:40%;
+  display: flex; 
+  align-items: center; 
   justify-content: center; 
   
 
@@ -71,10 +69,10 @@
   object-fit: contain;
 }
 .product-info {
-  display: flex; /* Flex layout to align elements horizontally */
+  display: flex; 
   flex-wrap: wrap;
-  align-items: center; /* Align vertically */
-  justify-content: space-between; /* Distribute space horizontally */
+  align-items: center; 
+  justify-content: space-between; 
   background-color: yellow;
 }
 .controls-container {
@@ -114,7 +112,7 @@
   flex-grow: 0.1;
 }
 .product-details p {
-  font-size: large; /* Adjust the font size as needed */
+  font-size: large;
   font-weight: 600;
   font-style: italic;
   text-align: center;
@@ -137,8 +135,6 @@
     font-size: medium;      
     cursor: pointer;
     text-align: center;
-    /*background-color: var(--button-color);
-    /*color: var(--secondary-background-color);*/
     background-color: black;
     border: solid black;
     color:white;
@@ -176,12 +172,11 @@
   color: black;
 }
 .custum-alert{
-  background-color: #e3f2fd; /* Example light blue background */
-  color: #0d47a1; /* Example dark blue text color */
-  /*font-size: 1rem; /* Example font size */
-  padding: 10px; /* Adjust padding */
-  border: 1px solid #0d47a1; /* Example border color */
-  border-radius: 15px; /* Example border radius */
+  background-color: #e3f2fd; 
+  color: #0d47a1; 
+  padding: 10px; 
+  border: 1px solid #0d47a1; 
+  border-radius: 15px; 
   transition: all 0.3s ease;
   font-size: larger;
 
