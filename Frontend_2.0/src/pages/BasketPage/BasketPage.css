@@ -5,26 +5,32 @@
     max-width: 800px;
     margin: auto;
     padding: 20px;
+    
   }
   
   .basket-heading {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    
   }
   
   .checkout-button {
-    background-color: #28a745;
+    background-color: aliceblue;
     color: #fff;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    color: black;
+    transition: 3s;
+    width: 300px;
+   
   }
   
   .checkout-button:hover {
-    background-color: #218838;
+    background-color: #444bfc;
   }
   .loading {
     position: fixed; 
