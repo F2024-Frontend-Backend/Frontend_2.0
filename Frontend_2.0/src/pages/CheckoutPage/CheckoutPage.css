@@ -1,20 +1,25 @@
 /* checkout-page.css */
 .checkout-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
+  display: flex;
+  /* justify-content: space-between; */
+  padding: 20px;
+  background-color: gray;
+  border-radius: 10px;
 }
 
 .checkout-forms {
-    flex: 3;
-    padding: 20px;
-    min-width: 400px;
+  flex: 3;
+  padding: 20px;
+  min-width: 300px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .checkout-summary {
-    flex: 1;
-    padding: 20px;
-    border-left: 1px solid #ccc;
+  flex: 1;
+  padding: 20px;
+  border-left: 1px solid #ccc;
+  min-width: 400px;
+  margin-left: 10px;
+  text-align: left;
 }
-
-
