@@ -31,6 +31,24 @@ const BillingForm: React.FC = () => {
   const [isLoading, setloading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
+  const [visitedFields, setVisitedFields] = useState({
+    firstName: false,
+    lastName: false,
+    address1: false,
+    address2: false,
+    postalCode: false,
+    city: false,
+    phone: false,
+    email: false,
+    country: false,
+    deliveryFirstName: false,
+    deliveryLastName: false,
+    deliveryAddress: false,
+    deliveryPostalCode: false,
+    deliveryCity: false,
+    companyName: false,
+    companyVat: false,
+  });
 
   const validateForm = () => {
     const newErrors: Errors = {};
@@ -186,6 +204,12 @@ const BillingForm: React.FC = () => {
       });
     }
   };
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    setVisitedFields({
+      ...visitedFields,
+      [event.target.name]: true,
+    });
+  };
 
   console.log("Errors", errors);
 
@@ -199,10 +223,11 @@ const BillingForm: React.FC = () => {
             type="text"
             name="firstName"
             required
+            onBlur={handleBlur}
             value={billingInfo.firstName}
             onChange={handleChange}
           />
-          {errors.firstNameError && (
+          {visitedFields.firstName && (
             <p className="error">{errors.firstNameError}</p>
           )}
         </div>
@@ -214,10 +239,11 @@ const BillingForm: React.FC = () => {
             type="text"
             name="lastName"
             required
+            onBlur={handleBlur}
             value={billingInfo.lastName}
             onChange={handleChange}
           />
-          {errors.lastNameError && (
+          {visitedFields.lastName && (
             <p className="error">{errors.lastNameError}</p>
           )}
         </div>
@@ -229,10 +255,11 @@ const BillingForm: React.FC = () => {
             type="email"
             name="email"
             required
+            onBlur={handleBlur}
             value={billingInfo.email}
             onChange={handleChange}
           />
-          {errors.emailError && <p className="error">{errors.emailError}</p>}
+          {visitedFields.email && <p className="error">{errors.emailError}</p>}
         </div>
       </div>
       <div>
@@ -242,10 +269,11 @@ const BillingForm: React.FC = () => {
             type="text"
             name="address1"
             required
+            onBlur={handleBlur}
             value={billingInfo.address1}
             onChange={handleChange}
           />
-          {errors.address1Error && (
+          {visitedFields.address1 && (
             <p className="error">{errors.address1Error}</p>
           )}
         </div>
@@ -259,7 +287,7 @@ const BillingForm: React.FC = () => {
             value={billingInfo.address2 || ""}
             onChange={handleChange}
           />
-          {errors.address2Error && (
+          {visitedFields.address2 && (
             <p className="error">{errors.address2Error}</p>
           )}
         </div>
@@ -271,11 +299,12 @@ const BillingForm: React.FC = () => {
             type="text"
             name="postalCode"
             required
+            onBlur={handleBlur}
             maxLength={4}
             value={billingInfo.postalCode}
             onChange={handleChange}
           />
-          {errors.postalCodeError && (
+          {visitedFields.postalCode && errors.postalCodeError && (
             <p className="error">{errors.postalCodeError}</p>
           )}
         </div>
@@ -286,10 +315,11 @@ const BillingForm: React.FC = () => {
           <input
             type="text"
             name="city"
+            onBlur={handleBlur}
             value={billingInfo.city}
             onChange={handleChange}
           />
-          {errors.cityError && <p className="error">{errors.cityError}</p>}
+          {visitedFields.city && <p className="error">{errors.cityError}</p>}
         </div>
       </div>
       <div>
@@ -299,10 +329,11 @@ const BillingForm: React.FC = () => {
             type="text"
             name="phone"
             required
+            onBlur={handleBlur}
             value={billingInfo.phone}
             onChange={handleChange}
           />
-          {errors.phoneError && <p className="error">{errors.phoneError}</p>}
+          {visitedFields.phone && <p className="error">{errors.phoneError}</p>}
         </div>
       </div>
       <div>
@@ -336,10 +367,11 @@ const BillingForm: React.FC = () => {
                   type="text"
                   name="deliveryFirstName"
                   required
+                  onBlur={handleBlur}
                   value={billingInfo.deliveryFirstName || ""}
                   onChange={handleChange}
                 />
-                {errors.deliveryFirstNameError && (
+                {visitedFields.deliveryFirstName && (
                   <p className="error">{errors.deliveryFirstNameError}</p>
                 )}
               </div>
@@ -351,10 +383,11 @@ const BillingForm: React.FC = () => {
                   type="text"
                   name="deliveryLastName"
                   required
+                  onBlur={handleBlur}
                   value={billingInfo.deliveryLastName || ""}
                   onChange={handleChange}
                 />
-                {errors.deliveryLastNameError && (
+                {visitedFields.deliveryLastName && (
                   <p className="error">{errors.deliveryLastNameError}</p>
                 )}
               </div>
@@ -366,10 +399,11 @@ const BillingForm: React.FC = () => {
                   type="text"
                   name="deliveryAddress"
                   required
+                  onBlur={handleBlur}
                   value={billingInfo.deliveryAddress || ""}
                   onChange={handleChange}
                 />
-                {errors.deliveryAddressError && (
+                {visitedFields.deliveryAddress && (
                   <p className="error">{errors.deliveryAddressError}</p>
                 )}
               </div>
@@ -382,10 +416,11 @@ const BillingForm: React.FC = () => {
                   name="deliveryPostalCode"
                   required
                   maxLength={4}
+                  onBlur={handleBlur}
                   value={billingInfo.deliveryPostalCode || ""}
                   onChange={handleChange}
                 />
-                {errors.deliveryPostalCodeError && (
+                {visitedFields.deliveryPostalCode && (
                   <p className="error">{errors.deliveryPostalCodeError}</p>
                 )}
               </div>
@@ -396,10 +431,11 @@ const BillingForm: React.FC = () => {
                 <input
                   type="text"
                   name="deliveryCity"
+                  onBlur={handleBlur}
                   value={billingInfo.deliveryCity || ""}
                   onChange={handleChange}
                 />
-                {errors.deliveryCityError && (
+                {visitedFields.deliveryCity && (
                   <p className="error">{errors.deliveryCityError}</p>
                 )}
               </div>
@@ -410,10 +446,11 @@ const BillingForm: React.FC = () => {
                 <input
                   type="text"
                   name="companyName"
+                  onBlur={handleBlur}
                   value={billingInfo.companyName || ""}
                   onChange={handleChange}
                 />
-                {errors.companyNameError && (
+                {visitedFields.companyName && (
                   <p className="error">{errors.companyNameError}</p>
                 )}
               </div>
@@ -424,10 +461,11 @@ const BillingForm: React.FC = () => {
                 <input
                   type="text"
                   name="companyVat"
+                  onBlur={handleBlur}
                   value={billingInfo.companyVat || ""}
                   onChange={handleChange}
                 />
-                {errors.companyVatError && (
+                {visitedFields.companyVat && (
                   <p className="error">{errors.companyVatError}</p>
                 )}
               </div>
