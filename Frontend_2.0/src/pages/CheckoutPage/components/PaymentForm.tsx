@@ -10,9 +10,12 @@ import {
   isValidDate,
   isValidCvv,
 } from "./payment_components/CardUtils";
-import "./PaymentStyling.css";
+import "./PaymentForm.css";
 import { SpinningCircles } from "react-loading-icons";
 import "../../BasketPage/BasketPage.css";
+import dkLogo from "../../../resources/Dankort_logo.png";
+import visaLogo from "../../../resources/360_F_333216210_HjHUw1jjcYdGr3rRtYm3W1DIXAElEFJL.jpg";
+import mastercardLogo from "../../../resources/mastercard-logo-png-transparent_600px.png";
 
 interface Errors {
   cardNo?: string;
@@ -175,10 +178,21 @@ const PaymentForm: React.FC = () => {
       {paymentInfo.paymentMethod === "Creditcard" && (
         <>
           <div className="credit-card-section">
-            <CardSelector
+            {/*<CardSelector
               selectedCardType={paymentInfo.cardType || "Visa/Dankort"}
               onCardTypeChange={handleChange}
-            />
+            />*/}
+            <div className="card-image-container">
+              <div className="image-wrapper">
+                <img className="card-image" src={dkLogo} alt="DK logo" />
+              </div>
+              <div className="image-wrapper">
+                <img className="card-image" src={visaLogo} alt="Visa logo" />
+              </div>
+              <div className="image-wrapper">
+                <img className="card-image" src={mastercardLogo} alt="MasterCard logo" />
+              </div>
+            </div>
             <div className="input-field">
               <label>Card Number</label>
               <input
@@ -204,8 +218,8 @@ const PaymentForm: React.FC = () => {
                   onChange={handleDateChange}
                   placeholder="MM/YY"
                   className={`${visitedFields.cardExpDate && errors.cardExpDate
-                      ? "input-error"
-                      : ""
+                    ? "input-error"
+                    : ""
                     }`}
                 />
               </div>
@@ -231,29 +245,29 @@ const PaymentForm: React.FC = () => {
       {paymentInfo.paymentMethod === "MobilePay" && (
         <div className="mobile-pay-section">
           <p>MobilePay is only available in Denmark</p>
-        <div className="input-field">
-          <label>MobilePay Number</label>
-          <input
-            name="mobilePayNumber"
-            type="text"
-            value={paymentInfo.mobilePayNumber || ""}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            placeholder="MobilePay Number"
-            className={`${visitedFields.mobilePayNumber && errors.mobilePayNumber
+          <div className="input-field">
+            <label>MobilePay Number</label>
+            <input
+              name="mobilePayNumber"
+              type="text"
+              value={paymentInfo.mobilePayNumber || ""}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              placeholder="MobilePay Number"
+              className={`${visitedFields.mobilePayNumber && errors.mobilePayNumber
                 ? "input-error"
                 : ""
-              }`}
-          />
+                }`}
+            />
           </div>
         </div>
       )}
 
       {paymentInfo.paymentMethod === "Invoice" && (
         <div className="invoice-section">
-        <p>
-          You'll receive the invoice with your order. Please pay within 30 days
-        </p>
+          <p>
+            You'll receive the invoice with your order. Please pay within 30 days
+          </p>
         </div>
       )}
 

@@ -6,7 +6,7 @@ import { submitOrder } from "../../../api/axios";
 import "../../BasketPage/BasketPage.css";
 
 const Confirmation: React.FC = () => {
-  const { billingInfo, paymentInfo } = useCheckout();
+  const { billingInfo, paymentInfo, purchaseTotal } = useCheckout();
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
 
@@ -14,7 +14,7 @@ const Confirmation: React.FC = () => {
   const handleConfirmOrder = async () => {
     setloading(true);
       try{
-        const response = await submitOrder();
+        const response = await submitOrder(billingInfo, paymentInfo, purchaseTotal);
         console.log("Response data on submit:", response);
         navigate('/receipt');
       } catch (error) {
