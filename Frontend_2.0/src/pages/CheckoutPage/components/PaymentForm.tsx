@@ -39,10 +39,6 @@ const PaymentForm: React.FC = () => {
   const validateForm = () => {
     const newErrors: Errors = {};
 
-    if (!paymentInfo.paymentMethod) {
-      newErrors.cardNo = "Please select a payment method";
-      setErrors(newErrors);
-    }
 
     if (paymentInfo.paymentMethod === "Creditcard") {
       const cardNumberValidationResult = isValidCardNumber(
@@ -156,6 +152,7 @@ const PaymentForm: React.FC = () => {
 
   console.log(errors);
   console.log(billingInfo.companyName && billingInfo.companyVat);
+  console.log("default payment", paymentInfo.paymentMethod);
 
   return (
     <div className="payment-form">
@@ -177,75 +174,65 @@ const PaymentForm: React.FC = () => {
       />
       {paymentInfo.paymentMethod === "Creditcard" && (
         <>
-          <div>
+          <div className="credit-card-section">
             <CardSelector
               selectedCardType={paymentInfo.cardType || "Visa/Dankort"}
               onCardTypeChange={handleChange}
             />
-          </div>
-          <div className="input-field">
-            <label>Card Number</label>
-            <input
-              name="cardNo"
-              type="text"
-              value={paymentInfo.cardNo || ""}
-              onBlur={handleBlur}
-              onChange={handleCardNumberChange}
-              placeholder="0000 0000 0000 0000"
-              maxLength={19}
-              className={`${
-                visitedFields.cardNo && errors.cardNo ? "input-error" : ""
-              }`}
-            />
-          </div>
-          <div className="input-row">
             <div className="input-field">
-              <label>Expiration Date (MM/YY)</label>
-              {visitedFields.cardExpDate && errors.cardExpDate && (
-                <span className="error">{errors.cardExpDate}</span>
-              )}
+              <label>Card Number</label>
               <input
-                name="cardExpDate"
-                type="numeric"
-                value={paymentInfo.cardExpDate || ""}
+                name="cardNo"
+                type="text"
+                value={paymentInfo.cardNo || ""}
                 onBlur={handleBlur}
-                onChange={handleDateChange}
-                placeholder="MM/YY"
-                className={`${
-                  visitedFields.cardExpDate && errors.cardExpDate
-                    ? "input-error"
-                    : ""
-                }`}
+                onChange={handleCardNumberChange}
+                placeholder="0000 0000 0000 0000"
+                maxLength={19}
+                className={`${visitedFields.cardNo && errors.cardNo ? "input-error" : ""
+                  }`}
               />
             </div>
-            <div className="input-field">
-              <label>CVV</label>
-              {visitedFields.cvv && errors.cvv && (
-                <span className="error">{errors.cvv}</span>
-              )}
-              <input
-                name="cvv"
-                type="text"
-                value={paymentInfo.cvv || ""}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                placeholder="CVV"
-                maxLength={3}
-                className={`${
-                  visitedFields.cvv && errors.cvv ? "input-error" : ""
-                }`}
-              />
+            <div className="input-row">
+              <div className="input-field">
+                <label>Expiration Date (MM/YY)</label>
+                <input
+                  name="cardExpDate"
+                  type="numeric"
+                  value={paymentInfo.cardExpDate || ""}
+                  onBlur={handleBlur}
+                  onChange={handleDateChange}
+                  placeholder="MM/YY"
+                  className={`${visitedFields.cardExpDate && errors.cardExpDate
+                      ? "input-error"
+                      : ""
+                    }`}
+                />
+              </div>
+              <div className="input-field">
+                <label>CVV</label>
+                <input
+                  name="cvv"
+                  type="text"
+                  value={paymentInfo.cvv || ""}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  placeholder="CVV"
+                  maxLength={3}
+                  className={`${visitedFields.cvv && errors.cvv ? "input-error" : ""
+                    }`}
+                />
+              </div>
             </div>
           </div>
         </>
       )}
 
       {paymentInfo.paymentMethod === "MobilePay" && (
+        <div className="mobile-pay-section">
+          <p>MobilePay is only available in Denmark</p>
         <div className="input-field">
           <label>MobilePay Number</label>
-          {visitedFields.mobilePayNumber && errors.mobilePayNumber && (
-            <span className="error">{errors.mobilePayNumber}</span>
-          )}
           <input
             name="mobilePayNumber"
             type="text"
@@ -253,19 +240,21 @@ const PaymentForm: React.FC = () => {
             onBlur={handleBlur}
             onChange={handleChange}
             placeholder="MobilePay Number"
-            className={`${
-              visitedFields.mobilePayNumber && errors.mobilePayNumber
+            className={`${visitedFields.mobilePayNumber && errors.mobilePayNumber
                 ? "input-error"
                 : ""
-            }`}
+              }`}
           />
+          </div>
         </div>
       )}
 
       {paymentInfo.paymentMethod === "Invoice" && (
+        <div className="invoice-section">
         <p>
           You'll receive the invoice with your order. Please pay within 30 days
         </p>
+        </div>
       )}
 
       <div className="gift-card">

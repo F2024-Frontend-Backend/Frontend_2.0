@@ -1,16 +1,58 @@
 /* BasketPage.css */
 
-.basketPageContainer {
+.basket-page {
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
     margin: auto;
-    padding: 20px;
+    padding: 10px;
   }
-  
-  .basket-heading {
-    font-size: 24px;
-    font-weight: bold;
+
+  .basket-header-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
+  }
+
+  .basket-page-container {
+    border: rgb(215, 211, 211) 1px solid;
+    border-radius: 40px;
+    background-color: rgb(225, 223, 223);
+    padding: 80px;
+  }
+
+  .outer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .basket-container {
+    display: flex;
+    flex: 2;
+  }
+
+  .inner-container {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px;
+  }
+
+  .carousel-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+  }
+  .checkout-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
   }
   
   .checkout-button {
@@ -26,6 +68,7 @@
   .checkout-button:hover {
     background-color: #218838;
   }
+
   .loading {
     position: fixed; 
     top: 0; 

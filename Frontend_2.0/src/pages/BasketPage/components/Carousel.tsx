@@ -61,6 +61,7 @@ const Carousel = () => {
     }
 
     return (
+        <div className='carousel-wrapper'>
         <div className="carousel">
             {carouselProducts.map((product, index) => (
                 <div key={product.string_id || index} className="carousel-item">
@@ -79,6 +80,7 @@ const Carousel = () => {
                     </div>
                 </div>
             ))}
+        </div>
         </div>
     );
 }

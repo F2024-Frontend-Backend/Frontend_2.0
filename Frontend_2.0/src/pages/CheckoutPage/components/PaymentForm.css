@@ -12,6 +12,13 @@ input {
     margin-bottom: 10px;
 }
 
+.mobile-pay-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .input-small {
     width: 100px;
 }
@@ -66,3 +73,10 @@ input {
     
     height: 30px; 
   }
+
+.gift-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

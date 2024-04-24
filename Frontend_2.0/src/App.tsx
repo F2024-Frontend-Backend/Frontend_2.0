@@ -6,6 +6,7 @@ import CheckoutPage from './pages/CheckoutPage/CheckoutPage'
 import { createContext, useEffect, useState } from 'react'
 import { initSession } from './api/axios'
 import { OrderResponseProvider } from './context/OrderResponseProvider'
+import './App.css'
 
 export const SessionContext = createContext(false)
 

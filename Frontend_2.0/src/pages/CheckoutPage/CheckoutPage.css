@@ -1,18 +1,34 @@
 /* checkout-page.css */
-.checkout-container {
+.checkout-page {
+    width: 100%;
+    max-width: 1200px;
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin: 0 auto;
 }
 
-.checkout-forms {
+.checkout-container {
+    display: flex;
+    border: rgb(215, 211, 211) 1px solid;
+    border-radius: 40px;
+    background-color: rgb(225, 223, 223);
+    padding: 80px;
+}
+
+
+
+.checkout-forms-container {
     flex: 3;
     padding: 20px;
     min-width: 400px;
 }
 
 .checkout-summary {
-    flex: 1;
+    flex: 2;
     padding: 20px;
     border-left: 1px solid #ccc;
 }

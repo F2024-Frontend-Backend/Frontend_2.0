@@ -29,7 +29,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({ children }
     companyVat: null,
   });
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
-    paymentMethod: "",
+    paymentMethod: "Creditcard",
     cardType: "",
     cardNo: "",
     cvv: "",
