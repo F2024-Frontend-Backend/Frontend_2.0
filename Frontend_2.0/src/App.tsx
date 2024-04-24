@@ -6,8 +6,10 @@ import CheckoutPage from './pages/CheckoutPage/CheckoutPage'
 import { createContext, useEffect, useState } from 'react'
 import { initSession } from './api/axios'
 import { OrderResponseProvider } from './context/OrderResponseProvider'
-import Receipt from './pages/CheckoutPage/components/receipt/receipt'
+import Receipt from './pages/CheckoutPage/components/Receipt'
+
 export const SessionContext = createContext(false)
+
 
 function App() {
   console.log("App component rendered")
@@ -35,9 +37,9 @@ function App() {
             <BrowserRouter>
               <Routes>
               <Route path="/" element={<BasketPage />} />
-                <Route path="/checkout/*" element={<CheckoutPage />} />
-                <Route path="/receipt" element={<Receipt />} />
-              
+              <Route path="/checkout/*" element={<CheckoutPage />} />
+              <Route path="/receipt" element={<Receipt />} />
+               
               </Routes>
             </BrowserRouter>
           </OrderResponseProvider>
