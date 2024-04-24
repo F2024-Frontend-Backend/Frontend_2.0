@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import {
-  CardSelector,
   PaymentMethodSelector,
 } from "./payment_components/Card_selector";
 import {
