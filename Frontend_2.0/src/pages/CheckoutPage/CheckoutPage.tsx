@@ -1,6 +1,6 @@
 
 import './CheckoutPage.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import BillingForm from './components/BillingForm';
 import PaymentForm from './components/PaymentForm';
 import Confirmation from './components/Confirmation';
@@ -8,10 +8,26 @@ import OrderSummary from './components/OrderSummary';
 
 
 const CheckoutPage = () => {
+    const location = useLocation();
+    let heading;
+    switch (location.pathname) {
+        case '/checkout':
+            heading = 'Billing Information';
+            break;
+        case '/checkout/payment':
+            heading = 'Payment Information';
+            break;
+        case '/checkout/confirmation':
+            heading = 'Confirmation';
+            break;
+        default:
+            heading = '';
+    }
     return (
         <div className="checkout-page">
             <div className="checkout-header">
-            </div>
+                    <h1>{heading}</h1>
+                </div>
             <div className='checkout-container'>
                 <div className="checkout-forms-container">
                     <Routes>
