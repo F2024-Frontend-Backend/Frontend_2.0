@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { SetStateAction, useState } from "react";
+import { useNavigate, useSubmit } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import { SpinningCircles } from "react-loading-icons";
 import axiosInstance, { submitOrder } from "../../../api/axios";
 import "../../BasketPage/BasketPage.css";
 import "./Confirmation.css";
+import { useOrderResponse } from "../../../hooks/useOrderResponse";
 
 const Confirmation: React.FC = () => {
   const { billingInfo, paymentInfo } = useCheckout();
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
   const [errVisible, setVisible] = useState<boolean>(false);
-
   const handleVisibility = () => {
     setVisible(false)
   }
@@ -32,8 +32,8 @@ const Confirmation: React.FC = () => {
     <>
     <div className="ConfComp">
     <dialog className="errocDialog" open={errVisible}>
-          <p>An unexpected error occured! Please try again, or contact customer support.</p>
-          {setTimeout(handleVisibility,3000)}
+          <p>An unexpected error occured!</p>
+          {setTimeout(handleVisibility,5000) && <></>}
     </dialog>
     <h1>Order Confirmation</h1>
       {isLoading && (

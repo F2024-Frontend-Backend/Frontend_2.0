@@ -356,7 +356,8 @@ const BillingForm: React.FC = () => {
                 value={billingInfo.companyVat || ""}
                 onChange={handleChange}
               />
-              {validateVAT(billingInfo.companyVat) && <div className="error-message">{vatErrors}</div>}
+              {//validateVAT(billingInfo.companyVat) && <div className="error-message">{vatErrors}</div>
+              }
             </div>
           </>
         )}
