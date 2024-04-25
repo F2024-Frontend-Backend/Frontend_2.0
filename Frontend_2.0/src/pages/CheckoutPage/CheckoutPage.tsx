@@ -13,13 +13,15 @@ const CheckoutPage = () => {
             <div className="checkout-summary">
                 <OrderSummary />
             </div>
-            <div className="checkout-forms">
-                <Routes>
-                    <Route path="/" element={<BillingForm />} />
-                    <Route path="payment" element={<PaymentForm />} />
-                    <Route path="confirmation" element={<Confirmation />} />
-                </Routes>
-            </div>
+            <div className="checkout-wrapper">
+                <div className="checkout-forms">
+                    <Routes>
+                        <Route path="/" element={<BillingForm />} />
+                        <Route path="payment" element={<PaymentForm />} />
+                        <Route path="confirmation" element={<Confirmation />} />
+                    </Routes>
+                    </div>
+                </div>
         </div>
     );
 };

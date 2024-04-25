@@ -13,6 +13,7 @@
     }
 }
 @media screen and (min-width: 591px) {
+    
     .checkout-container {
         display: grid;
         grid-template-columns: repeat(2,1fr);
@@ -24,7 +25,6 @@
         margin-left:2.5px;
     }
     .checkout-summary {
-        flex: 1;
         padding: 20px;
         margin-left: 10px;
         text-align: left;
@@ -33,7 +33,6 @@
         margin-right:50vh;
       }
       .checkout-forms {
-        flex: 3;
         padding: 20px;
         margin-right: 10px;
         background-color: whitesmoke;
