@@ -3,8 +3,14 @@
   align-items: center;
 }
 
-.fields {
+.fields input {
   margin-bottom: 5px;
+  width: 90%;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
 }
 
 .error {
