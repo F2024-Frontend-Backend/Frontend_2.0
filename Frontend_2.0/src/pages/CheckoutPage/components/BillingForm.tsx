@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
+import {validateVAT} from "./BillingFormComponents/vatUtils"
 
 interface Errors {
   firstNameError?: string;
@@ -186,6 +187,7 @@ const BillingForm: React.FC = () => {
 
   return (
     <div>
+      <h1>Billing Info</h1>
       <div>
         <label>First Name</label>
         <input
@@ -354,6 +356,7 @@ const BillingForm: React.FC = () => {
                 value={billingInfo.companyVat || ""}
                 onChange={handleChange}
               />
+              {validateVAT(billingInfo.companyVat) && <div className="error-message">{vatErrors}</div>}
             </div>
           </>
         )}

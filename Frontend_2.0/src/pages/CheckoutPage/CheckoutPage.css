@@ -1,22 +1,42 @@
 /* checkout-page.css */
-.checkout-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-   
+
+@media screen and (max-width: 590px) {
+    .checkout-container {
+      grid-template-columns: 1fr; 
+      background-color: whitesmoke;
+    }
+    .checkout-summary{
+        border-bottom: 1px solid #ccc;
+    }
+    .checkout-forms{
+        margin-bottom: 10px;
+    }
+}
+@media screen and (min-width: 591px) {
+    .checkout-container {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        min-height: min-content;
+        min-width: min-content;
+        gap: 0%;
+        background-color: whitesmoke;
+
+    }
+    .checkout-summary {
+        flex: 1;
+        height: max-content;
+        padding-right: 50vh;
+        border-left: 1px solid #ccc; 
+        order:2;
+    }
+    .checkout-forms {
+        flex: 2;
+        padding-left:50vh;
+        height: max-content;
+        min-width: 400px;
+        order:1;
+    }
 }
 
-.checkout-forms {
-    flex: 3;
-    padding: 20px;
-    min-width: 400px;
-}
-
-.checkout-summary {
-    flex: 1;
-    padding: 20px;
-    border-left: 1px solid #ccc;
-    
-}
 
 

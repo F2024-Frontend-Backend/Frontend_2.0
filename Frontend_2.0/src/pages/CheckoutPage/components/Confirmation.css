@@ -1,0 +1,37 @@
+.Confirmation{
+    display:flexbox;
+    flex-direction: column;
+    align-items: center;
+    padding:2rem;
+}
+
+
+.Confirmation h1{
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.ConfInfo{
+    display: flex;
+    background-color: whitesmoke;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.errocDialog{
+    transition: 2s linear;
+    width:80%;
+    height:10%;
+    background-color: lightblue;
+    border: rgb(91, 148, 167);
+    border-radius: 10px;
+    border-width: 5px;
+    color:red;
+    z-index: 99999;
+    
+}
+
+
+.ConfClick{
+    align-self: right;
+}

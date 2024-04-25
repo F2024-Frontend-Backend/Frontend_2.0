@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import { SpinningCircles } from "react-loading-icons";
-import { submitOrder } from "../../../api/axios";
+import axiosInstance, { submitOrder } from "../../../api/axios";
 import "../../BasketPage/BasketPage.css";
+import "./Confirmation.css";
 
 const Confirmation: React.FC = () => {
   const { billingInfo, paymentInfo } = useCheckout();
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
+  const [errVisible, setVisible] = useState<boolean>(false);
 
-  
+  const handleVisibility = () => {
+    setVisible(false)
+  }
+
   const handleConfirmOrder = async () => {
     setloading(true);
       try{
@@ -18,13 +23,19 @@ const Confirmation: React.FC = () => {
         console.log("Response data on submit:", response);
         navigate('/receipt');
       } catch (error) {
-        console.error('Error submitting order:', error);
+        console.log(error)
+        setVisible(true);
         setloading(false);
       }
   };
-
   return (
-    <div>
+    <>
+    <div className="ConfComp">
+    <dialog className="errocDialog" open={errVisible}>
+          <p>An unexpected error occured! Please try again, or contact customer support.</p>
+          {setTimeout(handleVisibility,3000)}
+    </dialog>
+    <h1>Order Confirmation</h1>
       {isLoading && (
         <div className="loading spinner">
           <strong>
@@ -33,7 +44,6 @@ const Confirmation: React.FC = () => {
           </strong>
         </div>
       )}
-      <h1>Order Confirmation</h1>
       <div>
         <h2>Billing Information</h2>
         <p>
@@ -45,9 +55,11 @@ const Confirmation: React.FC = () => {
       <div>
         <h2>Payment Information</h2>
         <p>Payment Method: {paymentInfo.paymentMethod}</p>
+        <p>Card No:{paymentInfo.cardNo?.substring(0,4)+"-"+paymentInfo.cardNo?.substring(5,paymentInfo.cardNo.length-10)+"-XXXX-XXXX"}</p>
       </div>
-      <button onClick={handleConfirmOrder}>Confirm Order</button>
+      <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
     </div>
+    </>
   );
 };
 

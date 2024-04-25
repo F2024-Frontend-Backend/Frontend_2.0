@@ -10,15 +10,15 @@ import OrderSummary from './components/OrderSummary';
 const CheckoutPage = () => {
     return (
         <div className="checkout-container">
+            <div className="checkout-summary">
+                <OrderSummary />
+            </div>
             <div className="checkout-forms">
                 <Routes>
                     <Route path="/" element={<BillingForm />} />
                     <Route path="payment" element={<PaymentForm />} />
                     <Route path="confirmation" element={<Confirmation />} />
                 </Routes>
-            </div>
-            <div className="checkout-summary">
-                <OrderSummary />
             </div>
         </div>
     );
