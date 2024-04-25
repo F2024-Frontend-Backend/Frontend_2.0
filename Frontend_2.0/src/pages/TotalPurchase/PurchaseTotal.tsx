@@ -1,6 +1,5 @@
 import { useCheckout } from "../../hooks/useCheckout";
 import { useState, useEffect } from "react";
-import Alert from "@mui/material/Alert";
 import "./PurchaseTotal.css";
 
 const PurchaseTotal = () => {

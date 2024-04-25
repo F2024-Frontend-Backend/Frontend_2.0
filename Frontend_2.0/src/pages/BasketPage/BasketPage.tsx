@@ -61,17 +61,6 @@ const BasketPage: React.FC = () => {
           </strong>
         </div>
       )}
-      <h1>Your Shopping Basket</h1>
-      {isEmpty ? (
-        <Alert severity="info">Your basket is empty.</Alert>
-      ) : (
-        <Basket items={basket} />
-      )}
-      <PurchaseTotal />
-      <button className="checkout-button" onClick={handleCheckout}>
-        Go to Checkout
-      </button>
-      <Carousel />
     </div>
   );
 };
