@@ -1,7 +1,7 @@
-import React from "react";
-import BasketItem from "./BasketItem";
-import { BasketItem as BasketItemType } from "../../../types/types";
-import "./Basket.css";
+import React from 'react';
+import BasketItem from './BasketItem';
+import { BasketItem as BasketItemType } from '../../../types/types';
+import './Basket.css';
 
 interface BasketProps {
   items: BasketItemType[];

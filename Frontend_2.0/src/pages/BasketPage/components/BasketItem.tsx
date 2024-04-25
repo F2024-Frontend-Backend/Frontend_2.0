@@ -5,6 +5,8 @@ import "./Basketitem.css";
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useBasket } from "../../../hooks/useBasket";
 import { updateBasketItemQuantity } from "../../../api/axios";
+import Rebate from "./utils/Rebate";
+import { CounterButton } from "./utils/CounterButton";
 
 interface BasketItemProps {
   item: BasketItemType;
@@ -22,7 +24,11 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
       updateItemQuantity(item.quantity - 1);
     }
   };
+  const { updateItemInBasket, removeItemFromBasket } = useBasket();
 
+  const handleRemoveItem = () => {
+    removeItemFromBasket(item);
+  };
   const handleRemoveItem = () => {
     removeItemFromBasket(item);
   };
@@ -54,6 +60,20 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
       console.error("Error updating item quantity:", error);
     }
   };
+  const updateItemQuantity = async (newQuantity: number) => {
+    try {
+      const response = await updateBasketItemQuantity(item.product.string_id, newQuantity);
+      console.log("Response data on update:", response);
+      updateItemInBasket({
+        ...item,
+        quantity: newQuantity,
+        rebate: parseFloat(response.basket_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).rebate),
+        sub_total: parseFloat(response.basket_items.find((i: BasketItemType) => i.product.string_id === item.product.string_id).sub_total)
+      });
+    } catch (error) {
+      console.error('Error updating item quantity:', error);
+    }
+  };
 
   const [showAlert, setShowAlert] = useState(true);
 
@@ -64,6 +84,52 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
       setShowAlert(false);
     }
   }, [item.quantity]);
+
+
+  return (
+    <>
+      <div className="basket-item-container">
+        <div className="image-container">
+          <img
+            className="basket-item-image"
+            src={item.product.image}
+            alt={item.product.name}
+          />
+        </div>
+        <div className="item-details">
+          <div className="top-section">
+            <span className="item-name">{item.product.name}</span>
+            <span className="item-price">{item.product.price} {item.product.currency}</span>
+          </div>
+          <div className="bottom-section">
+            <div className="left-container">
+              <Rebate rebatePercent={item.product.rebatePercent} rebateQuantity={item.product.rebateQuantity} count={item.quantity} />
+            </div>
+            <div className="right-container">
+              <span className="counter-button">
+                <CounterButton
+                min={1}
+                max={99}
+                onCountChange={updateItemQuantity}/>
+              </span>
+              <span className="item-total-price">
+                {item.sub_total.toFixed(2)} {item.product.currency}
+              </span>
+            </div>
+
+          </div>
+        </div>
+        <button className="remove-button" onClick={handleRemoveItem}>x</button>
+      </div>
+    </>
+  );
+}
+
+
+
+
+
+  /*
   return (
     <>
       <div className="basket-item-container">
@@ -110,5 +176,6 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
     </>
   );
 };
+*/
 
 export default BasketItem;

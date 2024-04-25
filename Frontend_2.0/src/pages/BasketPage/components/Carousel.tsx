@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from "react";
-import { fetchUpsellProducts, fetchRandomProducts } from "../../../api/axios";
-import { Product } from "../../../types/types";
-import "./carousel.css";
-import { useBasket } from "../../../hooks/useBasket";
+import { useState, useEffect, useRef } from 'react';
+import { fetchUpsellProducts, fetchRandomProducts } from '../../../api/axios';
+import { Product } from '../../../types/types';
+import './carousel.css';
+import { useBasket } from '../../../hooks/useBasket';
+import defaultImage from '../../../resources/defaultProductImage.png';
 
 const Carousel = () => {
-  const { basket, updateItemInBasket } = useBasket();
-  const [carouselProducts, setCarouselProducts] = useState<Product[]>([]);
-  const prevBasketLength = useRef(basket.length);
+    const { basket, updateItemInBasket } = useBasket();
+    const [carouselProducts, setCarouselProducts] = useState<Product[]>([]);
+    const prevBasketLength = useRef(basket.length);
+    
 
   useEffect(() => {
     const fecthAndSetCarouselProducts = async () => {
@@ -69,33 +71,38 @@ const Carousel = () => {
     console.log("Basket content", basket);
   };
 
-  return (
-    <div className="carousel">
-      {carouselProducts.map((product, index) => (
-        <div key={product.string_id || index} className="carousel-item">
-          <div className="product-image-wrapper">
-            <img
-              src={product.image || "path_to_default_image.jpg"}
-              alt={product.name}
-              className="product-image"
-            />
-            <button
-              className="add-to-basket-button"
-              onClick={() => handleAddToBasket(product)}
-            >
-              Add to basket
-            </button>
-          </div>
-          <div className="product-details">
-            <h4 className="product-name">{product.name}</h4>
-            <p className="product-price">
-              {product.price} {product.currency}
-            </p>
-          </div>
+    return (
+        <div className='carousel-wrapper'>
+        <div className="carousel">
+            {carouselProducts.map((product, index) => (
+                <div key={product.string_id || index} className="carousel-item">
+                    <div className="product-image-wrapper">
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="product-image"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.onerror = null;
+                                target.src = defaultImage;
+                            }}
+                        />
+                        <button
+                            className="add-to-basket-button"
+                            onClick={() => handleAddToBasket(product)}
+                        >
+                            Add to basket
+                        </button>
+                    </div>
+                    <div className="product-details">
+                        <h4 className="product-name">{product.name}</h4>
+                        <p className="product-price">{product.price} {product.currency}</p>
+                    </div>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
-};
+        </div>
+    );
+}
 
 export default Carousel;

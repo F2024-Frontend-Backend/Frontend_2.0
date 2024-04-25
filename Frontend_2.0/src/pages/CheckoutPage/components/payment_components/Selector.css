@@ -18,12 +18,12 @@
     display: inline-flex;
     justify-content: center;
     padding: 10px 0;
-    background-color: white;
+    background-color: rgb(225, 223, 223);
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .selector label.selected {
-    background-color: #bbb;
+    background-color: white;
 }

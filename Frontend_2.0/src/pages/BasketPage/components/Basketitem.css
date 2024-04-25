@@ -1,5 +1,8 @@
 /* BasketItem.css */
 
+span {
+  color: black;
+}
 
 .basket-item-container {
   background-color: #e4e3e07b;
@@ -143,7 +146,7 @@
   color: black;
 }
 
-.remove-button {
+.right-container {
   width: 60%;
   padding: 5px;
   margin: 1px;
@@ -181,3 +184,4 @@
   font-size: larger;
 
 }
+

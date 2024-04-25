@@ -136,8 +136,8 @@ export const updateBasketItemQuantity = async (stringId: string, quantity: numbe
     }
 }
 
-export const submitOrder = async (/*billingInfo: BillingInfo, paymentInfo: PaymentInfo, purchaseTotal: PurchaseTotal*/) => {
-    /*const postData = { 
+export const submitOrder = async (billingInfo: BillingInfo, paymentInfo: PaymentInfo, purchaseTotal: PurchaseTotal) => {
+    const postData = { 
         billingInfo: {
             firstName: billingInfo.firstName,
             lastName: billingInfo.lastName,
@@ -161,8 +161,8 @@ export const submitOrder = async (/*billingInfo: BillingInfo, paymentInfo: Payme
         },
         totalPrice: purchaseTotal.total,
         acceptMarketing: true
-        };*/
-    //DUMMY DATA => 
+        };
+    /*DUMMY DATA => 
         const postData = {
         "billingInfo": {
           "firstName": "John",
@@ -187,7 +187,7 @@ export const submitOrder = async (/*billingInfo: BillingInfo, paymentInfo: Payme
         },
         "totalPrice": 150.00,
         "acceptMarketing": true
-      };
+      };*/
     try {
         const response = await axiosInstance.post(`${BASE_URL}order/submit/`, postData);
         console.log("Order submitted:", response.data);
