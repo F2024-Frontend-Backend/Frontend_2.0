@@ -1,11 +1,12 @@
 import { useCheckout } from "../../hooks/useCheckout";
 import { useState, useEffect } from "react";
 import Alert from "@mui/material/Alert";
+import "./PurchaseTotal.css";
 
 const PurchaseTotal = () => {
   const { purchaseTotal } = useCheckout();
   const [showAlert, setShowAlert] = useState(true);
-  
+
   useEffect(() => {
     if (purchaseTotal.shipping == 0) setShowAlert(true);
     else {
@@ -16,8 +17,8 @@ const PurchaseTotal = () => {
   return (
     <>
       <div className="purchase-total">
-        <h4>Total Before Shipping:</h4>
-        <p>{purchaseTotal.total.toFixed(2)} DKK</p>
+        <h4 className="total">Total Before Shipping:</h4>
+        <p className="total-sum">{purchaseTotal.total.toFixed(2)} DKK</p>
         {purchaseTotal.rebate && (
           <p>Rebate: -{purchaseTotal.rebate.toFixed(2)} DKK</p>
         )}
@@ -32,13 +33,15 @@ const PurchaseTotal = () => {
           DKK
         </p>
       </div>
-      <div>
+      {/**
+      *  <div>
         {showAlert && (
           <Alert severity="info" onClose={() => setShowAlert(false)}>
             Congratulations! Your order has earned free shipping.
           </Alert>
         )}
       </div>
+      */}
     </>
   );
 };

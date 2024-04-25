@@ -1,10 +1,9 @@
 /* checkout-page.css */
 .checkout-container {
-  display: flex;
-  /* justify-content: space-between; */
-  padding: 20px;
-  background-color: gray;
-  border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+   
 }
 
 .checkout-forms {
