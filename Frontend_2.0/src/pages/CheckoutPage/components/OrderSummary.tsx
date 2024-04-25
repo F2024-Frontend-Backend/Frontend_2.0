@@ -2,6 +2,7 @@ import React from "react";
 import { useCheckout } from "../../../hooks/useCheckout";
 import { useBasket } from "../../../hooks/useBasket";
 import "./OrderSummary.css";
+import defaultImage from '../../../resources/defaultProductImage.png';
 
 const OrderSummary: React.FC = () => {
     const { basket } = useBasket();
@@ -13,7 +14,16 @@ const OrderSummary: React.FC = () => {
             <ul style={{ listStyleType: "none" }}>
                 {basket.map((item) => (
                     <li key={item.product.string_id}>
-                        <img src={item.product.image} alt={item.product.name} width="50" height="50" />
+                        <img src={item.product.image} 
+                        alt={item.product.name} 
+                        width="50" 
+                        height="50"
+                        onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.onerror = null;
+                            target.src = defaultImage;
+                        }}
+                        />
                         <span>{item.product.name}</span>{" "}
                         <span>{item.product.price} {item.product.currency}</span>
                     </li>
