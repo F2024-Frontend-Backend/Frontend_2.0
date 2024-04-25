@@ -1,21 +1,26 @@
 .errocDialog{
     transition: 2s linear;
-    width:80%;
-    height:10%;
+    size:1fr;
     background-color: lightblue;
     border: rgb(91, 148, 167);
-    border-radius: 10px;
     border-width: 5px;
     color:red;
     z-index: 99999;
 }
+.ConfComp{
+  flex-grow: 2;
+  width: 100%;
+  background-color: white;
+  border-radius: 1rem;
+  margin-top: 30%;
+}
+
 .allInfo {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     min-height: min-content;
     min-width: min-content;
     gap: 0%;
-    background-color: whitesmoke;
   }
   
   .BillAddr,
@@ -27,7 +32,6 @@
     justify-content: space-between; 
     padding: 10px; 
     border-bottom: 1px solid lightgray; 
-
   }
   
   .BillAddr {
@@ -59,6 +63,6 @@
     cursor: pointer;
     color: black;
     transition: 3s;
-    width: 1fr; 
+    width: 0.5fr; 
   }
   

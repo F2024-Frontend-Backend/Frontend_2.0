@@ -37,7 +37,6 @@ const Confirmation: React.FC = () => {
           <p>An unexpected error occured!</p>
           {setTimeout(handleVisibility,5000) && <></>}
     </dialog>
-    <h1>Order Confirmation</h1>
       {isLoading && (
         <div className="loading spinner">
           <strong>
@@ -93,11 +92,8 @@ const Confirmation: React.FC = () => {
         </div>
       )}
       </div>
-      <div className="total"><h2>Your Order</h2>
-      <hr style={{ margin: "10px 0" }} />
-      <p>Subtotal: {purchaseTotal.total}</p></div>
+      </div>
       <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
-    </div>
     </div>
     </>
   );

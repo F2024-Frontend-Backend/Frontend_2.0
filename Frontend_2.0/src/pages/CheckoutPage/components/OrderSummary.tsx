@@ -20,6 +20,7 @@ const OrderSummary: React.FC = () => {
                         <span><p>{item.product.price}kr.-</p></span>
                         </div>
                     </li>
+                    <hr style={{ margin: "10px 0" }} />
                     </>
                 ))}
             </ul>

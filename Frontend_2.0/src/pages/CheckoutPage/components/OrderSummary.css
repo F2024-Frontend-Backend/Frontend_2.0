@@ -47,6 +47,10 @@
 /* large screen */
 @media screen and (min-width: 591px) {
     .prodsum{
+        flex-grow: 1;
+        width: 100%;
+        border-radius: 1rem;
+        background-color: whitesmoke;
         display:flexbox;
         width:100%;
         padding-left: 5px;

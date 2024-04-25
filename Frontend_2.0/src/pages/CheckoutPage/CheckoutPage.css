@@ -16,23 +16,24 @@
     .checkout-container {
         display: grid;
         grid-template-columns: repeat(2,1fr);
-        min-height: min-content;
-        min-width: min-content; 
-        gap: 0%;
+        size:100%;
+        gap: 20px;
         background-color: whitesmoke;
+        justify-content: space-evenly;
+        border-radius: 20px;
 
     }
     .checkout-summary {
+        box-shadow: black;
         flex: 1;
         height: max-content;
         padding-right: 50vh;
-        border-left: 1px solid #ccc; 
         order:2;
     }
     .checkout-forms {
         flex: 2;
         padding-left:50vh;
-        height: max-content;
+        min-height:800px;
         min-width: 400px;
         order:1;
     }
