@@ -11,7 +11,6 @@
         vertical-align: middle;
     }
     .listdiv{
-        width: 90%;
         border-style: solid;
         border-width: 1px;
         border-radius: 15px;
@@ -24,9 +23,9 @@
         max-height: 400px;
     }
     .prodlist{
+        display:flex;
         padding-top: 5px;
         padding-right:5px;
-        display:flex;
         justify-content: space-between;
         height: 50%;
         width: 100%;
@@ -51,7 +50,6 @@
         width: 100%;
         border-radius: 1rem;
         background-color: gray;
-        display:flexbox;
         width:100%;
         padding-left: 5px;
     }

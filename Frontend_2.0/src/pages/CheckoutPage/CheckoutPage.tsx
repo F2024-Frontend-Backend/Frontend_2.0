@@ -20,8 +20,8 @@ const CheckoutPage = () => {
                         <Route path="payment" element={<PaymentForm />} />
                         <Route path="confirmation" element={<Confirmation />} />
                     </Routes>
-                    </div>
                 </div>
+            </div>
         </div>
     );
 };

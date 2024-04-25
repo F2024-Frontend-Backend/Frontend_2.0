@@ -7,58 +7,45 @@
     color:red;
     z-index: 99999;
 }
+
+.Wrapper-rapper{
+  display:flex;
+  flex-direction: column;
+  height:100%;
+  border-radius:1rem;
+}
+
 .ConfComp{
   flex-grow: 2;
-  width: 100%;
   border-radius: 1rem;
   padding:10px;
   background-color: whitesmoke;
-  height:max-content;
+  height:100%;
 }
 
 .allInfo {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    min-height: min-content;
-    min-width: min-content;
   }
   
   .BillAddr,
   .PaymentDetails,
   .total,
   .ConfClick {
-    display: -moz-grid; 
     align-items: center; 
-    justify-content: space-between; 
     padding: 10px; 
   }
   
-  .BillAddr {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-  } 
-
-  
-  .PaymentDetails {
-    grid-column: 2 / span 1;
-    grid-row: 1 / span 1;
-  }
-  
-  .total {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-  }
-  
   .ConfClick {
-    grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
     align-self: flex-end; 
-    background-color: aliceblue;
+    background-color: #00C78C;
     color: #fff;
     border: none;
     cursor: pointer;
     color: black;
     transition: 3s;
     width: 0.5fr; 
+    margin-left: auto;
+    margin-top: auto;
   }
   
