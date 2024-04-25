@@ -17,32 +17,22 @@ span {
     height: auto;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
-    border-radius: 15px;
-    
     height: 120px;
-   
 }
 
 
 .basket-item {
   display: grid;
-  grid-gap: 10px;
-  padding: 5px;
-  border-radius: 2rem;
   justify-content: space-between;
-  border: 3px solid #dedbdb;
-  background-color: #e8e5e5; /* Adjust the background color as needed */
-  grid-template-columns: repeat(2, minmax(150px, 1fr)); /* Adjust the number of columns and width as needed */
-  border-bottom: 2px solid black;
-  width: 90%;
+  grid-template-columns: repeat(2, minmax(135px, 1fr)); /* number of columns and width  */
+  width: 35%;
   height: auto;
-  background-color: yellow;
+  font-size:small;
 }
 
 .product-image-item {
   padding: 1px;
   margin-top: 10px;
-  border: 2px solid black;
   border-radius: 14px;
   width: 30%; 
   height: 110px;; 
@@ -69,17 +59,12 @@ span {
   height: 100%;
   object-fit: contain;
 }
-.product-info {
-  display: flex; 
-  flex-wrap: wrap;
-  align-items: center; 
-  justify-content: space-between; 
-  background-color: yellow;
-}
+
 .controls-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform: translate(18px, 0px);
 }
 .quantity-controls {
   display: flex;
@@ -88,37 +73,17 @@ span {
   padding: 5px;
 }
 
-
-.product-details {
-  grid-column: span 0.5;
-  padding: 5px;
-  height: 120px;
-}
-
-.product-details h3 {
-  font-size: 1em;
-  line-height: 50px;
-  padding: 0 3px;
-  font-weight: bold;
-  transition: font-size 0.35s;
-  color: black;
-  flex-grow: 1;
-  flex-basis: calc(50% - 8px);
-  
-}
-
-.product-details p,
+.basket-item p,
 .quantity-controls,
 .remove-button {
   flex-grow: 0.1;
 }
-.product-details p {
-  font-size: large;
+.basket-item p {
+  font-size: small;
   font-weight: 600;
   font-style: italic;
-  text-align: center;
-  transition: font-size 0.35s;
-  color: black;
+  text-align: left;
+  color: rgb(104, 104, 104); 
 }
 
 .quantity-controls {
@@ -136,12 +101,12 @@ span {
     font-size: medium;      
     cursor: pointer;
     text-align: center;
-    background-color: black;
-    border: solid black;
+    background-color: rgb(128, 125, 125);
     color:white;
 }
 .item-quantity{
   color: black;
+  font-size: medium;
 }
 
 .remove-button {
@@ -152,7 +117,7 @@ span {
   cursor: pointer;
   text-align: center; 
   color: #fff;
-  background-color: black;
+  background-color: rgb(128, 125, 125);
   width: 80%;
   margin-top: 10px; 
 }
@@ -172,21 +137,12 @@ span {
   text-align: center;
   color: black;
 }
-.custum-alert{
-  background-color: #e3f2fd; 
-  color: #0d47a1; 
-  padding: 10px; 
-  border: 1px solid #0d47a1; 
-  border-radius: 15px; 
-  transition: all 0.3s ease;
-  font-size: larger;
-
-}
 
 .bottom-section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: red;
 }
 
 .left-container {
@@ -198,4 +154,5 @@ span {
   display: flex;
   justify-content: space-between;
   padding: 0 3rem;
+  background-color: yellowgreen;
 }

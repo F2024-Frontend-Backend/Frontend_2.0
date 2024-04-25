@@ -5,7 +5,7 @@ import "./Basketitem.css";
 import { BasketItem as BasketItemType } from "../../../types/types";
 import { useBasket } from "../../../hooks/useBasket";
 import { updateBasketItemQuantity } from "../../../api/axios";
-import defaultImage from '../../../resources/defaultProductImage.png';
+import defaultImage from "../../../resources/defaultProductImage.png";
 
 interface BasketItemProps {
   item: BasketItemType;
@@ -76,9 +76,9 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
             const target = e.target as HTMLImageElement;
             target.onerror = null;
             target.src = defaultImage;
-        }}
+          }}
         />
-        <div className="product-details">
+        <div className="basket-item">
           <h3>{item.product.name}</h3>
           <p>
             {item.product.price} {item.product.currency}
@@ -104,11 +104,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
       <div>
         {" "}
         {showAlert && (
-          <Alert
-            severity="info"
-            className="custum-alert"
-            onClose={() => setShowAlert(false)}
-          >
+          <Alert severity="info" onClose={() => setShowAlert(false)}>
             Buy 1 more and save {item.product.rebatePercent}%
           </Alert>
         )}
