@@ -1,17 +1,8 @@
 import { useCheckout } from "../../hooks/useCheckout";
-import { useState, useEffect } from "react";
 import "./PurchaseTotal.css";
 
 const PurchaseTotal = () => {
   const { purchaseTotal } = useCheckout();
-  const [showAlert, setShowAlert] = useState(true);
-
-  useEffect(() => {
-    if (purchaseTotal.shipping == 0) setShowAlert(true);
-    else {
-      setShowAlert(false);
-    }
-  }, [purchaseTotal.shipping]);
 
   return (
     <>
@@ -32,15 +23,6 @@ const PurchaseTotal = () => {
           DKK
         </p>
       </div>
-      {/**
-      *  <div>
-        {showAlert && (
-          <Alert severity="info" onClose={() => setShowAlert(false)}>
-            Congratulations! Your order has earned free shipping.
-          </Alert>
-        )}
-      </div>
-      */}
     </>
   );
 };

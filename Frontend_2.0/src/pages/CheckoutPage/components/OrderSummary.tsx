@@ -19,8 +19,14 @@ const OrderSummary: React.FC = () => {
                     </li>
                 ))}
             </ul>
-            <span className="sub-total-summary">Total discount: -{(purchaseTotal.discount || 0) + (purchaseTotal.rebate || 0)} DKK</span>
-            <span className="shipping-summary">Shipping: {purchaseTotal.shipping} DKK</span>
+            <div className="sub-total-summary">
+                <span>Total discount:</span>
+                <span>-{(purchaseTotal.discount || 0) + (purchaseTotal.rebate || 0)} DKK</span>
+            </div>
+            <div className="shipping-summary">
+                <span>Shipping:</span>
+                <span>{purchaseTotal.shipping} DKK</span>
+            </div>
             <p>Total: {purchaseTotal.total} DKK</p>
         </div>
     );

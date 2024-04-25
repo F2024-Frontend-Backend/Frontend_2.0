@@ -280,7 +280,7 @@ const PaymentForm: React.FC = () => {
           placeholder="Gift Card Number"
         />
       </div>
-      <button onClick={handleContinue} disabled={disableContinue}>
+      <button className="continue-button" onClick={handleContinue} disabled={disableContinue}>
         Continue
       </button>
     </div>

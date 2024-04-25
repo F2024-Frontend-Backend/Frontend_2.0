@@ -76,11 +76,11 @@ const Carousel = () => {
         <div className="carousel">
             {carouselProducts.map((product, index) => (
                 <div key={product.string_id || index} className="carousel-item">
-                    <div className="product-image-wrapper">
+                    <div className="carousel-product-image-wrapper">
                         <img
                             src={product.image}
                             alt={product.name}
-                            className="product-image"
+                            className="carousel-product-image"
                             onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.onerror = null;
@@ -94,9 +94,9 @@ const Carousel = () => {
                             Add to basket
                         </button>
                     </div>
-                    <div className="product-details">
-                        <h4 className="product-name">{product.name}</h4>
-                        <p className="product-price">{product.price} {product.currency}</p>
+                    <div className="carousel-product-details">
+                        <h4 className="carousel-product-name">{product.name}</h4>
+                        <p className="carousel-product-price">{product.price} {product.currency}</p>
                     </div>
                 </div>
             ))}

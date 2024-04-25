@@ -473,7 +473,7 @@ const BillingForm: React.FC = () => {
           </>
         )}
       </div>
-      <button onClick={handleContinue} disabled={disableContinue}>
+      <button className="continue-button" onClick={handleContinue} disabled={disableContinue}>
         Continue to Payment
       </button>
       {isLoading && (
