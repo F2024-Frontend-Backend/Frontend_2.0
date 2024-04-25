@@ -83,8 +83,5 @@ export interface OrderResponseContextType {
 export interface OrderResponse {
   order_number: string;
   order_total: number;
-  order_shipping: number;
-  order_rebate: number;
-  order_discount: number;
   order_items: BasketItem[];
 }
