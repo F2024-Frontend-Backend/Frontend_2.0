@@ -3,7 +3,7 @@
 @media screen and (max-width: 590px) {
     .checkout-container {
       grid-template-columns: 1fr; 
-      background-color: whitesmoke;
+      background-color: gray;
     }
     .checkout-summary{
         border-bottom: 1px solid #ccc;
@@ -18,25 +18,30 @@
         grid-template-columns: repeat(2,1fr);
         size:100%;
         gap: 20px;
-        background-color: whitesmoke;
+        background-color: gray;
         justify-content: space-evenly;
         border-radius: 20px;
-
+        margin-left:2.5px;
     }
     .checkout-summary {
-        box-shadow: black;
         flex: 1;
-        height: max-content;
-        padding-right: 50vh;
-        order:2;
-    }
-    .checkout-forms {
-        flex: 2;
-        padding-left:50vh;
-        min-height:800px;
-        min-width: 400px;
-        order:1;
-    }
+        padding: 20px;
+        margin-left: 10px;
+        text-align: left;
+        background-color: gray;
+        order: 2;
+        margin-right:50vh;
+      }
+      .checkout-forms {
+        flex: 3;
+        padding: 20px;
+        margin-right: 10px;
+        background-color: whitesmoke;
+        border-radius: 10px;
+        margin-left:50vh;
+        order: 1;
+      }
+
 }
 
 

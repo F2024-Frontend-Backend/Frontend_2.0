@@ -93,8 +93,8 @@ const Confirmation: React.FC = () => {
       )}
       </div>
       </div>
-      <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
     </div>
+    <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
     </>
   );
 };

@@ -10,9 +10,8 @@
 .ConfComp{
   flex-grow: 2;
   width: 100%;
-  background-color: white;
   border-radius: 1rem;
-  margin-top: 30%;
+  padding:10px;
 }
 
 .allInfo {
@@ -20,7 +19,6 @@
     grid-template-columns: repeat(2, 1fr);
     min-height: min-content;
     min-width: min-content;
-    gap: 0%;
   }
   
   .BillAddr,
@@ -31,15 +29,11 @@
     align-items: center; 
     justify-content: space-between; 
     padding: 10px; 
-    border-bottom: 1px solid lightgray; 
   }
   
   .BillAddr {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
-    border-right:1px;
-    border-right-style: solid;
-    border-right-color:lightgray;
   } 
 
   
@@ -56,7 +50,7 @@
   .ConfClick {
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
-    align-self: right; 
+    align-self: flex-end; 
     background-color: aliceblue;
     color: #fff;
     border: none;

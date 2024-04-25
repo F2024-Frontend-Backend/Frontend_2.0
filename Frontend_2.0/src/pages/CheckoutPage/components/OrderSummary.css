@@ -50,7 +50,7 @@
         flex-grow: 1;
         width: 100%;
         border-radius: 1rem;
-        background-color: whitesmoke;
+        background-color: gray;
         display:flexbox;
         width:100%;
         padding-left: 5px;
@@ -60,10 +60,6 @@
     }
     .listdiv{
         width: 100%;
-        border-style: solid;
-        border-width: 1px;
-        border-radius: 10px;
-        border-color: #ccc;
         overflow-y:scroll;
     }
     .ulist{
