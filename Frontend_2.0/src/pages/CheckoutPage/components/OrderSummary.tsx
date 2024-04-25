@@ -17,7 +17,7 @@ const OrderSummary: React.FC = () => {
                         <img className="prodimg" src={item.product.image} alt={item.product.name}/>
                         <div className="prodinfo">
                         <span><p>{item.product.name}</p></span>{" "}
-                        <span><p>{item.product.price}</p></span>
+                        <span><p>{item.product.price}kr.-</p></span>
                         </div>
                     </li>
                     </>
@@ -25,7 +25,7 @@ const OrderSummary: React.FC = () => {
             </ul>
             </div>
             <div className="totdiv">
-            <p>Total: {purchaseTotal.total} DKK</p>
+            <p>Total: {purchaseTotal.total}kr.-</p>
             </div>
         </div>
     );

@@ -17,7 +17,7 @@
         display: grid;
         grid-template-columns: repeat(2,1fr);
         min-height: min-content;
-        min-width: min-content;
+        min-width: min-content; 
         gap: 0%;
         background-color: whitesmoke;
 

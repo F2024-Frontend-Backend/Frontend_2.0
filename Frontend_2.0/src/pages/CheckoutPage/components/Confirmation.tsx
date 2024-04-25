@@ -6,9 +6,11 @@ import axiosInstance, { submitOrder } from "../../../api/axios";
 import "../../BasketPage/BasketPage.css";
 import "./Confirmation.css";
 import { useOrderResponse } from "../../../hooks/useOrderResponse";
+import OrderSummary from "./OrderSummary";
+import PurchaseTotal from "../../TotalPurchase/PurchaseTotal";
 
 const Confirmation: React.FC = () => {
-  const { billingInfo, paymentInfo } = useCheckout();
+  const { purchaseTotal, billingInfo, paymentInfo } = useCheckout();
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
   const [errVisible, setVisible] = useState<boolean>(false);
@@ -44,20 +46,58 @@ const Confirmation: React.FC = () => {
           </strong>
         </div>
       )}
-      <div>
-        <h2>Billing Information</h2>
+      <div className="allInfo">
+      <div className="BillAddr">
+        <h2>Billing Address</h2>
+        <hr style={{ margin: "10px 0" }} />
         <p>
-          {billingInfo.firstName} {billingInfo.lastName}
+          <strong>Name: </strong> {billingInfo.firstName} {billingInfo.lastName}
         </p>
-        <p>{billingInfo.email}</p>
-        <p>{billingInfo.address1}</p>
+        <p>
+        <strong>Email</strong>: {billingInfo.email}
+        </p>
+        <p>
+        <strong>Address</strong>: {billingInfo.address1}
+        </p>
+        <p>
+        <strong>Post code:</strong>: {billingInfo.postalCode}
+        </p>
+        <div>
+        {billingInfo.deliveryAddress && (
+          <div>
+            <p><strong>Delivery Address:</strong>:{billingInfo.deliveryAddress}</p>
+        </div>
+        )}
+        {billingInfo.companyVat &&(
+          <div>
+            <p><strong>Company name</strong>:{billingInfo.companyName}</p>
+            <p><strong>Company VAT</strong>:{billingInfo.companyVat}</p>
+          </div>
+        )}
+        </div>
       </div>
-      <div>
-        <h2>Payment Information</h2>
+      <div className="PaymentDetails">
+        <h2>Payment Details</h2>
+        <hr style={{ margin: "10px 0" }} />
         <p>Payment Method: {paymentInfo.paymentMethod}</p>
-        <p>Card No:{paymentInfo.cardNo?.substring(0,4)+"-"+paymentInfo.cardNo?.substring(5,paymentInfo.cardNo.length-10)+"-XXXX-XXXX"}</p>
+        {paymentInfo.paymentMethod === "MobilePay" && (
+          <div>
+              <p>mobile pay number: {paymentInfo.mobilePayNumber}</p>
+          </div>
+        )}
+        {paymentInfo.paymentMethod === "Creditcard" && ( 
+        <div>
+          <p>Card type: {paymentInfo.cardType}</p>
+          <p>Card No:{paymentInfo.cardNo?.substring(0,4)+"-"+paymentInfo.cardNo?.substring(5,paymentInfo.cardNo.length-10)+"-XXXX-XXXX"}</p>
+          <p>Expiry date: {paymentInfo.cardExpDate}</p>
+        </div>
+      )}
       </div>
+      <div className="total"><h2>Your Order</h2>
+      <hr style={{ margin: "10px 0" }} />
+      <p>Subtotal: {purchaseTotal.total}</p></div>
       <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
+    </div>
     </div>
     </>
   );
