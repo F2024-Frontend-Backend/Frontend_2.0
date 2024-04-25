@@ -1,0 +1,14 @@
+.form {
+  margin-left: 20px;
+  align-items: center;
+}
+
+.fields {
+  margin-bottom: 5px;
+}
+
+.error {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 5px;
+}
