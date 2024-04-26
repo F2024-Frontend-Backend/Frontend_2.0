@@ -140,20 +140,32 @@ const PaymentForm: React.FC = () => {
 
   const handleGiftCardChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log("handleGiftCardChange - Name:", name, "Value:", value);
-    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
-    if (name === "giftCardNumber") {
-      if (!/^\d+$/.test(value)) {
-        console.log("Gift card number is invalid.");
+    //console.log("handleGiftCardChange - Name:", name, "Value:", value);
+    
+    // input to only numbers
+    const numericValue = value.replace(/\D/g,"");
+
+    handleSetPaymentInfo({ ...paymentInfo, [name]: numericValue });
+
+
+   // if (name === "giftCardNumber") {
+
+      if (numericValue === "12345677890123456")  {
+       // console.log("Gift card number is invalid.");
         setErrors({
           ...errors,
-          giftCardError: "Gift card number must be numeric.",
+          giftCardError: " Special gift card number detected!.",
         });
-      } else {
-        console.log("Gift card number is valid.");
-        setErrors({ ...errors, giftCardError: "" });
+      } else if (value.trim() !== numericValue) {
+        // console.log("Gift card number is valid.");
+        setErrors({ ...errors, giftCardError: "Gift card number must be numeric."
+         });
+
+        } else {
+          setErrors({ ...errors, giftCardError: "" });
+
       }
-    }
+    
 
     if (name === "giftCardAmount") {
       const amount = parseFloat(value);
@@ -314,6 +326,9 @@ const PaymentForm: React.FC = () => {
         {visitedFields.giftCard && errors.giftCardError && (
           <p className="error">{errors.giftCardError}</p>
         )}
+        {visitedFields.giftCard && !errors.giftCardError && (
+          <p className="numeric-message">Enter only numbers</p>
+  )} 
       </div>
       <div className="gift-card">
         <label>Gift Card Amount</label>

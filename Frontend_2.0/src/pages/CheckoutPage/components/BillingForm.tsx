@@ -165,7 +165,7 @@ const BillingForm: React.FC = () => {
         });
       } catch (error) {
         console.log("Error validating postal code:", error);
-        setErrors((prevErrors) => ({
+        setErrors((prevErrors: any) => ({
           ...prevErrors,
           postalCodeError: "Invalid postal code entered",
         }));

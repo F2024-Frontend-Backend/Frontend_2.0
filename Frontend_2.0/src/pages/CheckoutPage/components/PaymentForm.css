@@ -101,3 +101,9 @@ input {
   font-size: 16px;
   margin-top: 20px;
 }
+
+.numeric-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
