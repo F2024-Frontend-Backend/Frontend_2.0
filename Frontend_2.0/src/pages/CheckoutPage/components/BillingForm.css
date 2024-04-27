@@ -1,0 +1,39 @@
+  
+  .BI-wrapper-rapper{
+    display:flex    ;
+    flex-direction: column;
+    height:100%;
+    border-radius:1rem;
+  }
+  .BI-wrapper{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+  }
+  .BI-info{
+    justify-self: center;
+    align-self: center;
+  }
+  .BI-extra{
+    justify-self: center;
+    align-self: center;
+  }
+  .btn {
+    align-self: flex-end; 
+    background-color: #00C78C;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    color: black;
+    transition: 3s;
+    width: 0.5fr; 
+    margin-left: auto;
+    margin-top: auto;
+  }
+  
+  .err{
+    border-color: red;
+    border-width: 1px;
+  }

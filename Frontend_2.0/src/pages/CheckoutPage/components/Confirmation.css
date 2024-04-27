@@ -8,30 +8,37 @@
     z-index: 99999;
 }
 
-.Wrapper-rapper{
+
+.btnWrapper{
   display:flex;
   flex-direction: column;
-  height:100%;
-  border-radius:1rem;
+  height: 100%;
+  
 }
-
 .ConfComp{
   flex-grow: 2;
   border-radius: 1rem;
   padding:10px;
   background-color: whitesmoke;
-  height:100%;
+
+}
+
+
+.Wrapper-rapper{
+  display:flex;
+  flex-direction: column;
+  border-radius:10px;
 }
 
 .allInfo {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+
   }
   
   .BillAddr,
   .PaymentDetails,
-  .total,
-  .ConfClick {
+  .total {
     align-items: center; 
     padding: 10px; 
   }

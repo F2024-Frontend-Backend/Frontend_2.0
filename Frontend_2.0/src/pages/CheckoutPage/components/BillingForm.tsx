@@ -4,6 +4,7 @@ import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
 import {validateVAT} from "./BillingFormComponents/vatUtils"
+import "./BillingForm.css"
 
 interface Errors {
   firstNameError?: string;
@@ -31,10 +32,12 @@ const BillingForm: React.FC = () => {
   const [isLoading, setloading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isDeliveryDifferent, setIsDeliveryDifferent] = useState(false);
+  const [isTerms,setTerms] = useState(false);
+  const [isMarketEmails, setMarketEmails] = useState(false);
+
 
   const validateForm = () => {
     const newErrors: Errors = {};
-
     if (!billingInfo.firstName) {
       newErrors.firstNameError = "First name is required";
     } else {
@@ -123,12 +126,16 @@ const BillingForm: React.FC = () => {
 
   const disableContinue = false; /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
+    if(Object.keys(errors).length > 0){
+   
+    }else{
     event.preventDefault();
     setloading(true);
     setTimeout(() => {
       navigate("/checkout/payment");
     }, 1000);
-  };
+  }
+};
 
   const handleChange = async (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -182,197 +189,235 @@ const BillingForm: React.FC = () => {
       });
     }
   };
-
+  const handleToggleTerms = (e: ChangeEvent<HTMLInputElement>) => {
+    setTerms(e.target.checked);
+    if (!e.target.checked) {
+      e.target.checked
+    }
+  };
+  const handleToggleMarketEmails = (e: ChangeEvent<HTMLInputElement>) => {
+    setMarketEmails(e.target.checked);
+  };
   console.log("Errors", errors);
-
   return (
-    <div>
-      <h1>Billing Info</h1>
-      <div>
-        <label>First Name</label>
-        <input
-          type="text"
-          name="firstName"
-          required
-          value={billingInfo.firstName}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Last Name</label>
-        <input
-          type="text"
-          name="lastName"
-          required
-          value={billingInfo.lastName}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          required
-          value={billingInfo.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Address Line1</label>
-        <input
-          type="text"
-          name="address1"
-          required
-          value={billingInfo.address1}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Address Line2(Optional)</label>
-        <input
-          type="text"
-          name="address2"
-          value={billingInfo.address2 || ""}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Postal Code</label>
-        <input
-          type="text"
-          name="postalCode"
-          required
-          maxLength={4}
-          value={billingInfo.postalCode}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>City</label>
-        <input
-          type="text"
-          name="city"
-          value={billingInfo.city}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Phone</label>
-        <input
-          type="text"
-          name="phone"
-          required
-          value={billingInfo.phone}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Country</label>
-        <select
-          name="country"
-          required
-          value={billingInfo.country}
-          onChange={handleChange}
-        >
-          <option value="Denmark">Denmark</option>
-        </select>
-      </div>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={isDeliveryDifferent}
-            onChange={handleToggleDelivery}
-          />
-          Deliver to a different address?
-        </label>
-        {isDeliveryDifferent && (
-          <>
-            <div>
-              <label>First Name</label>
+    <div className="BI-wrapper-rapper">
+      
+    <h1>Billing Info</h1>
+      <div className="BI-wrapper">
+        <div className="BI-info">
+          <div>
+            <label>First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              required
+              value={billingInfo.firstName}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              required
+              value={billingInfo.lastName}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              required
+              value={billingInfo.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Address Line1</label>
+            <input
+              type="text"
+              name="address1"
+              required
+              value={billingInfo.address1}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Address Line2(Optional)</label>
+            <input
+              type="text"
+              name="address2"
+              value={billingInfo.address2 || ""}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Postal Code</label>
+            <input
+              type="text"
+              name="postalCode"
+              required
+              maxLength={4}
+              value={billingInfo.postalCode}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>City</label>
+            <input
+              type="text"
+              name="city"
+              value={billingInfo.city}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Phone</label>
+            <input
+              type="text"
+              name="phone"
+              required
+              value={billingInfo.phone}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Country</label>
+            <select
+              name="country"
+              required
+              value={billingInfo.country}
+              onChange={handleChange}
+            >
+              <option value="Denmark">Denmark</option>
+            </select>
+          </div>
+          <div className="checkbox">
+            <label>
               <input
-                type="text"
-                name="deliveryFirstName"
+                type="checkbox"
+                checked={isDeliveryDifferent}
+                onChange={handleToggleDelivery}
+              />
+              Deliver to a different address?
+            </label>
+          </div>
+          <div className="checkbox">
+            <label>
+              <input
+                type="checkbox"
+                checked={isTerms}
+                onChange={handleToggleTerms}
                 required
-                value={billingInfo.deliveryFirstName || ""}
-                onChange={handleChange}
               />
-            </div>
-            <div>
-              <label>Last Name</label>
+              I agree to the <a href="terms-and-conditions" id="tnc">terms and conditions</a>
+            </label>
+          </div>
+          <div className="checkbox">
+            <label>
               <input
-                type="text"
-                name="deliveryLastName"
+                type="checkbox"
+                checked={isMarketEmails}
+                onChange={handleToggleMarketEmails}
                 required
-                value={billingInfo.deliveryLastName || ""}
-                onChange={handleChange}
               />
-            </div>
-            <div>
-              <label>Delivery Address</label>
-              <input
-                type="text"
-                name="deliveryAddress"
-                required
-                value={billingInfo.deliveryAddress || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Postal Code</label>
-              <input
-                type="text"
-                name="deliveryPostalCode"
-                required
-                maxLength={4}
-                value={billingInfo.deliveryPostalCode || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>City</label>
-              <input
-                type="text"
-                name="deliveryCity"
-                value={billingInfo.deliveryCity || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Company Name (Optional)</label>
-              <input
-                type="text"
-                name="companyName"
-                value={billingInfo.companyName || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Company VAT (Optional)</label>
-              <input
-                type="text"
-                name="companyVat"
-                value={billingInfo.companyVat || ""}
-                onChange={handleChange}
-              />
-              {//validateVAT(billingInfo.companyVat) && <div className="error-message">{vatErrors}</div>
-              }
-            </div>
-          </>
-        )}
-      </div>
-      <button onClick={handleContinue} disabled={disableContinue}>
-        Continue to Payment
-      </button>
-      {isLoading && (
-        <div className="loading spinner">
-          <strong>
-            Loading...
-            <SpinningCircles />
-          </strong>
+              I want to recieve marketing emails.
+            </label>
+          </div>
         </div>
-      )}
+        <div className="BI-extra">
+          <></>
+         {isDeliveryDifferent && (
+            <>
+              <div>
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="deliveryFirstName"
+                  required
+                  value={billingInfo.deliveryFirstName || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="deliveryLastName"
+                  required
+                  value={billingInfo.deliveryLastName || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Delivery Address</label>
+                <input
+                  type="text"
+                  name="deliveryAddress"
+                  required
+                  value={billingInfo.deliveryAddress || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Postal Code</label>
+                <input
+                  type="text"
+                  name="deliveryPostalCode"
+                  required
+                  maxLength={4}
+                  value={billingInfo.deliveryPostalCode || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>City</label>
+                <input
+                  type="text"
+                  name="deliveryCity"
+                  value={billingInfo.deliveryCity || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Company Name (Optional)</label>
+                <input
+                  type="text"
+                  name="companyName"
+                  value={billingInfo.companyName || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Company VAT (Optional)</label>
+                <input
+                  type="text"
+                  name="companyVat"
+                  value={billingInfo.companyVat || ""}
+                  onChange={handleChange}
+                />
+                {//validateVAT(billingInfo.companyVat) && <div className="error-message">{vatErrors}</div>
+                }
+              </div>
+              
+            </>
+          )}
+        </div>
+      </div>
+      <button className="btn" onClick={handleContinue} disabled={disableContinue}>
+          Continue to Payment
+        </button>
+        {isLoading && (
+          <div className="loading spinner">
+            <strong>
+              Loading...
+              <SpinningCircles />
+            </strong>
+          </div>
+        )}
     </div>
   );
 };

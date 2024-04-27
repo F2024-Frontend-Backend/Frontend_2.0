@@ -32,6 +32,7 @@ const Confirmation: React.FC = () => {
   };
   return (
     <>
+    <div className="btnWrapper">
     <div className="ConfComp">
     <dialog className="errocDialog" open={errVisible}>
           <p>An unexpected error occured!</p>
@@ -94,8 +95,9 @@ const Confirmation: React.FC = () => {
           )}
           </div>
         </div>
-        <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
       </div>
+    </div>
+    <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
     </div>
     </>
   );
