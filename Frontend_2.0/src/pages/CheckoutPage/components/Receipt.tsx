@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useOrderResponse } from "../../../hooks/useOrderResponse"; // to manage the order response 
 import "./Receipt.css";
+import { useCheckout } from "../../../hooks/useCheckout";
 
 
 const Receipt: React.FC = () => {
+  const{billingInfo, paymentInfo}= useCheckout();
   const { orderResponse , setOrderResponse } = useOrderResponse();
 //to simulate receiving data from the backend,replace this with actual data retrieval logic from your backend API
   useEffect(() => {
@@ -141,7 +143,22 @@ const Receipt: React.FC = () => {
                   {item.product.name} - Quantity: {item.quantity} - Subtotal: {item.sub_total}
                 </li>
               ))}
-            </ul>
+              </ul>
+              <div>
+                <h2>Billing Information</h2>
+                <p>Name: {billingInfo.firstName} {billingInfo.lastName}</p>
+                <p>Email: {billingInfo.email}</p>
+                <p>Address: {billingInfo.address1}</p>
+            </div>
+            <div>
+                <h2>Payment Information</h2>
+                <p>Payment Method: {paymentInfo.paymentMethod}</p>
+            </div>
+            <div>
+                <h2>Order Details</h2>
+                <p>Order Number: {orderResponse?.order_number}</p>
+                <p>Order Total: {orderResponse?.order_total}</p>
+                </div>
           </div>
           <p>We're already hard at work preparing your items for shipment. You can expect your order to arrive at your doorstep within 3 days </p>
        
