@@ -15,42 +15,31 @@ import visaLogo from "../../../resources/360_F_333216210_HjHUw1jjcYdGr3rRtYm3W1D
 import mastercardLogo from "../../../resources/mastercard-logo-png-transparent_600px.png";
 
 interface Errors {
-  giftCardError?: string;
-  giftCardAmountError?: string;
   cardNoError?: string;
   cardExpDateError?: string;
   cvvError?: string;
   mobilePayNumberError?: string;
+  giftCardError?: string;
+  giftCardAmountError?: string;
 }
 const PaymentForm: React.FC = () => {
-  const { paymentInfo, handleSetPaymentInfo } = useCheckout();
-  const { billingInfo } = useCheckout();
+  const { paymentInfo, handleSetPaymentInfo, billingInfo } = useCheckout();
   const navigate = useNavigate();
-
-  /*const [errors, setErrors] = useState({
-        giftCardNumberError: "",
-        giftCardAmountError: "",
-        mobilePhoneNumberError: "",
-    });*/
 
   const [isLoading, setloading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
 
   const [visitedFields, setVisitedFields] = useState({
-    giftCard: false,
-    giftCardAmount: false,
     cardNo: false,
     cardExpDate: false,
     cvv: false,
     mobilePayNumber: false,
+    giftCard: false,
+    giftCardAmount: false,
   });
-  console.log(
-    "Initial visitedFields.giftCardAmount value:",
-    visitedFields.giftCardAmount
-  );
 
   const validateForm = () => {
-    const newErrors: Errors = {};
+    const newErrors: Errors = { ...errors };
 
     if (paymentInfo.paymentMethod === "Creditcard") {
       const cardNumberValidationResult = isValidCardNumber(
@@ -86,11 +75,9 @@ const PaymentForm: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    validateForm();
-  }, [paymentInfo]);
+  useEffect(validateForm, [paymentInfo, visitedFields]);
 
-  const disableContinue = false; /*Object.keys(errors).length > 0*/
+  const disableContinue = false;
 
   const handleContinue = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -99,13 +86,19 @@ const PaymentForm: React.FC = () => {
       navigate("/checkout/confirmation");
     }, 1000);
   };
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+    setVisitedFields((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+  };
 
   const handleChange = (
-    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
     handleSetPaymentInfo({ ...paymentInfo, [name]: value });
-    console.log("handleChange - Name:", name, "Value:", value);
   };
 
   const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -128,56 +121,35 @@ const PaymentForm: React.FC = () => {
     handleSetPaymentInfo({ ...paymentInfo, cardExpDate: value });
   };
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    console.log("handleBlur - Name:", name);
-    setVisitedFields((prevVisitedFields) => ({
-      ...prevVisitedFields,
-      [name]: true,
-    }));
-    console.log("Visited fields after blur event:", visitedFields);
-  };
-
   const handleGiftCardChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log("handleGiftCardChange - Name:", name, "Value:", value);
-    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
+    const sanitizedValue =
+      name === "giftCardNumber" ? value.replace(/\D/g, "") : value;
+    handleSetPaymentInfo({ ...paymentInfo, [name]: sanitizedValue });
+
     if (name === "giftCardNumber") {
-      if (!/^\d+$/.test(value)) {
-        console.log("Gift card number is invalid.");
-        setErrors({
-          ...errors,
-          giftCardError: "Gift card number must be numeric.",
-        });
-      } else {
-        console.log("Gift card number is valid.");
-        setErrors({ ...errors, giftCardError: "" });
-      }
+      const isValid = /^\d+$/.test(sanitizedValue) && sanitizedValue.length > 0;
+      setErrors((prev) => ({
+        ...prev,
+        giftCardError: isValid
+          ? undefined
+          : "Gift card number must be numeric.",
+      }));
+    } else if (name === "giftCardAmount") {
+      const amount = parseFloat(sanitizedValue);
+      const isValid = value === "" || (!isNaN(amount) && amount > 0);
+      setErrors((prev) => ({
+        ...prev,
+        giftCardAmountError: isValid
+          ? undefined
+          : "Gift card amount must be a positive number.",
+      }));
     }
-
-    if (name === "giftCardAmount") {
-      const amount = parseFloat(value);
-      if (isNaN(amount) || amount <= 0) {
-        console.log("Gift card amount is invalid.");
-        setErrors({
-          ...errors,
-          giftCardAmountError: "Gift card amount must be a positive number.",
-        });
-      } else {
-        console.log("Gift card amount is valid.");
-        setErrors({ ...errors, giftCardAmountError: "" });
-      }
-
-      console.log("State after handleGiftCardChange:", errors);
-    }
-
-    // handleSetPaymentInfo({ ...paymentInfo, [name]: value });
   };
 
   console.log(errors);
   console.log(billingInfo.companyName && billingInfo.companyVat);
   console.log("default payment", paymentInfo.paymentMethod);
-  console.log("Visited fields during render:", visitedFields);
 
   return (
     <div className="payment-form">
@@ -200,10 +172,7 @@ const PaymentForm: React.FC = () => {
       {paymentInfo.paymentMethod === "Creditcard" && (
         <>
           <div className="credit-card-section">
-            {/*<CardSelector
-              selectedCardType={paymentInfo.cardType || "Visa/Dankort"}
-              onCardTypeChange={handleChange}
-            />*/}
+            {}
             <div className="card-image-container">
               <div className="credit-image-wrapper">
                 <img className="card-image" src={dkLogo} alt="DK logo" />
@@ -310,6 +279,9 @@ const PaymentForm: React.FC = () => {
           onChange={handleGiftCardChange}
           onBlur={handleBlur}
           placeholder="Gift Card Number"
+          className={
+            visitedFields.giftCard && errors.giftCardError ? "input-error" : ""
+          }
         />
         {visitedFields.giftCard && errors.giftCardError && (
           <p className="error">{errors.giftCardError}</p>
@@ -324,6 +296,9 @@ const PaymentForm: React.FC = () => {
           onChange={handleGiftCardChange}
           placeholder="Insert Amount"
           onBlur={handleBlur}
+          className={
+            visitedFields.giftCard && errors.giftCardError ? "input-error" : ""
+          }
         />
         {visitedFields.giftCardAmount && errors.giftCardAmountError && (
           <p className="error">{errors.giftCardAmountError}</p>
