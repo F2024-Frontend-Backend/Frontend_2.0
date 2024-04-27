@@ -1,10 +1,4 @@
-import { BrowserRouter, Route, useNavigate } from "react-router-dom";
-
-
 const TermsPage: React.FC = () => {
-  const navigate = useNavigate();
-
-
   return (
    <div className="terms-wrapper">
     <div className="terms-and-conditions">
