@@ -1,39 +1,101 @@
   
-  .BI-wrapper-rapper{
-    display:flex    ;
-    flex-direction: column;
-    height:100%;
-    border-radius:1rem;
+  /*large screen*/
+  @media screen and (min-width: 591px) {
+    .BI-wrapper-rapper{
+      display:flex;
+      flex-direction: column;
+      height:100%;
+      border-radius:1rem;
+    }
+    .BI-wrapper{
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .BI-info{
+      justify-self: center;
+      align-self: center;
+    }
+    .BI-extra{
+      justify-self: center;
+      align-self: center;
+    }
+    .info-container{
+      display:grid;
+      grid-template-columns: repeat(2,1fr);
+      grid-auto-flow: column;
+    }
+    .btn {
+      align-self: flex-end; 
+      background-color: #00C78C;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      color: black;
+      transition: 3s;
+      width: 0.5fr; 
+      margin-left: auto;
+      margin-top: auto;
+    }
+    
+    .err{
+      color: red;
+      font-size: 0.875em;
+      margin-top: 5px;
+    }
   }
-  .BI-wrapper{
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    justify-content: center;
-    align-items: center;
-  }
-  .BI-info{
-    justify-self: center;
-    align-self: center;
-  }
-  .BI-extra{
-    justify-self: center;
-    align-self: center;
-  }
-  .btn {
-    align-self: flex-end; 
-    background-color: #00C78C;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    color: black;
-    transition: 3s;
-    width: 0.5fr; 
-    margin-left: auto;
-    margin-top: auto;
+  /*Small phone screen*/
+  @media screen and (max-width: 590px) {
+    .BI-wrapper-rapper{
+      display:flex    ;
+      flex-direction: column;
+      height:100%;
+      border-radius:1rem;
+    }
+    .BI-info{
+      justify-self: center;
+      align-self: center;
+    }
+    .BI-extra{
+      justify-self: center;
+      align-self: center;
+    }
+    .btn {
+      align-self: flex-end; 
+      background-color: #00C78C;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      color: black;
+      transition: 3s;
+      width: 0.5fr; 
+      margin-left: auto;
+      margin-top: auto;
+    }
+    
+    .err{
+      color: red;
+      font-size: 0.875em;
+      margin-top: 5px;
+    }
+    .info-container{
+      display: flex;
+      flex-direction: column;
+      width:auto;
+    }
+    .info-container label{
+      padding-left:5px;
+    }
+    .BI-wrapper{
+      overflow-y:auto;
+      justify-content: center;
+      align-items: center;
+      max-height: 100%;
+    }
   }
   
-  .err{
-    border-color: red;
-    border-width: 1px;
-  }
+  
+  

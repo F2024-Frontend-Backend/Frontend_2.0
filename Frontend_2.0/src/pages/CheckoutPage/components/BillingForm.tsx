@@ -35,6 +35,24 @@ const BillingForm: React.FC = () => {
   const [isTerms,setTerms] = useState(false);
   const [isMarketEmails, setMarketEmails] = useState(false);
 
+  const [visitedFields, setVisitedFields] = useState({
+    firstName: false,
+    lastName: false,
+    address1: false,
+    address2: false,
+    postalCode: false,
+    city: false,
+    phone: false,
+    email: false,
+    country: false,
+    deliveryFirstName: false,
+    deliveryLastName: false,
+    deliveryAddress: false,
+    deliveryPostalCode: false,
+    deliveryCity: false,
+    companyName: false,
+    companyVat: false,
+  });
 
   const validateForm = () => {
     const newErrors: Errors = {};
@@ -154,6 +172,10 @@ const BillingForm: React.FC = () => {
         });
       } catch (error) {
         console.log("Error validating postal code:", error);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          postalCodeError: "Invalid postal code entered",
+        }));
       }
     } else {
       handleSetBillingInfo({
@@ -199,13 +221,22 @@ const BillingForm: React.FC = () => {
     setMarketEmails(e.target.checked);
   };
   console.log("Errors", errors);
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    setVisitedFields({
+      ...visitedFields,
+      [event.target.name]: true,
+    });
+  };
+
+  console.log("Errors", errors);
+
   return (
     <div className="BI-wrapper-rapper">
       
     <h1>Billing Info</h1>
       <div className="BI-wrapper">
         <div className="BI-info">
-          <div>
+          <div className="info-container">
             <label>First Name</label>
             <input
               type="text"
@@ -215,7 +246,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Last Name</label>
             <input
               type="text"
@@ -225,7 +256,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Email</label>
             <input
               type="email"
@@ -235,7 +266,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Address Line1</label>
             <input
               type="text"
@@ -245,7 +276,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Address Line2(Optional)</label>
             <input
               type="text"
@@ -254,7 +285,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Postal Code</label>
             <input
               type="text"
@@ -265,7 +296,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>City</label>
             <input
               type="text"
@@ -274,7 +305,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Phone</label>
             <input
               type="text"
@@ -284,7 +315,7 @@ const BillingForm: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="info-container">
             <label>Country</label>
             <select
               name="country"
@@ -292,7 +323,7 @@ const BillingForm: React.FC = () => {
               value={billingInfo.country}
               onChange={handleChange}
             >
-              <option value="Denmark">Denmark</option>
+           <option value="Denmark">Denmark</option>
             </select>
           </div>
           <div className="checkbox">
@@ -305,6 +336,7 @@ const BillingForm: React.FC = () => {
               Deliver to a different address?
             </label>
           </div>
+          <div className="checkbox-wrapper">
           <div className="checkbox">
             <label>
               <input
@@ -327,12 +359,13 @@ const BillingForm: React.FC = () => {
               I want to recieve marketing emails.
             </label>
           </div>
+          </div>
         </div>
         <div className="BI-extra">
           <></>
          {isDeliveryDifferent && (
             <>
-              <div>
+              <div className="info-container">
                 <label>First Name</label>
                 <input
                   type="text"
@@ -342,7 +375,7 @@ const BillingForm: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="info-container">
                 <label>Last Name</label>
                 <input
                   type="text"
@@ -352,7 +385,7 @@ const BillingForm: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="info-container">
                 <label>Delivery Address</label>
                 <input
                   type="text"
@@ -362,7 +395,7 @@ const BillingForm: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="info-container">
                 <label>Postal Code</label>
                 <input
                   type="text"
@@ -373,7 +406,7 @@ const BillingForm: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="info-container">
                 <label>City</label>
                 <input
                   type="text"
@@ -382,7 +415,7 @@ const BillingForm: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="info-container">
                 <label>Company Name (Optional)</label>
                 <input
                   type="text"
@@ -391,7 +424,7 @@ const BillingForm: React.FC = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="info-container">
                 <label>Company VAT (Optional)</label>
                 <input
                   type="text"
@@ -399,8 +432,6 @@ const BillingForm: React.FC = () => {
                   value={billingInfo.companyVat || ""}
                   onChange={handleChange}
                 />
-                {//validateVAT(billingInfo.companyVat) && <div className="error-message">{vatErrors}</div>
-                }
               </div>
               
             </>
