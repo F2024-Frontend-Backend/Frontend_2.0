@@ -1,35 +1,33 @@
 /* checkout-page.css */
 .checkout-page {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    padding: 2rem;
-    border-radius: 1rem;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin: 0 auto;
 }
 
 .checkout-container {
-    display: flex;
-    border: rgb(215, 211, 211) 1px solid;
-    border-radius: 40px;
-    background-color: rgb(225, 223, 223);
-    padding: 80px;
+  display: flex;
+  border: rgb(215, 211, 211) 1px solid;
+  border-radius: 40px;
+  background-color: rgb(225, 223, 223);
+  padding: 80px;
 }
 
-
-
 .checkout-forms-container {
-    flex: 3;
-    padding: 20px;
-    min-width: 400px;
+  flex: 3;
+  padding: 20px;
+  min-width: 400px;
 }
 
 .checkout-summary {
-    flex: 2;
-    padding: 20px;
-    border-left: 1px solid #ccc;
+  flex: 2;
+  padding: 20px;
+  border-left: 1px solid #ccc;
 }
