@@ -19,6 +19,10 @@ const BasketPage: React.FC = () => {
 
   const handleCheckout = () => {
     setloading(true);
+    if(isEmpty){
+      setloading(false);
+      return;
+    }
     setTimeout(() => {
       navigate("/checkout");
       console.log("Navigating to checkout, should see loader now");
@@ -37,7 +41,7 @@ const BasketPage: React.FC = () => {
       )}
       <h1>Your Shopping Basket</h1>
       {isEmpty ? (
-        <Alert severity="info">Your basket is empty.</Alert>
+        <Alert severity="error">Your basket is empty.</Alert>
       ) : (
         <Basket items={basket} />
       )}

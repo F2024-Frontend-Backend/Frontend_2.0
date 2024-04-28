@@ -7,8 +7,10 @@ import { createContext, useEffect, useState } from 'react'
 import { initSession } from './api/axios'
 import { OrderResponseProvider } from './context/OrderResponseProvider'
 import TermsPage from './pages/TermsPage/TermsPage'
+import Receipt from './pages/ReceiptPage/Receipt'
 
 export const SessionContext = createContext(false)
+
 
 function App() {
   console.log("App component rendered")
@@ -35,10 +37,11 @@ function App() {
           <OrderResponseProvider>
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<BasketPage />} />
-                <Route path="/checkout/*" element={<CheckoutPage />} />
-                <Route path="/receipt" element={<h1>Receipt</h1>} />
-                <Route path="terms-and-conditions" element={<TermsPage></TermsPage>}></Route>
+              <Route path="/" element={<BasketPage />} />
+              <Route path="/checkout/*" element={<CheckoutPage />} />
+              <Route path="/receipt" element={<Receipt />} />
+              <Route path="terms-and-conditions" element={<TermsPage/>}></Route>
+               
               </Routes>
             </BrowserRouter>
           </OrderResponseProvider>
