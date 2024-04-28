@@ -8,14 +8,15 @@ import "./Confirmation.css";
 import { useOrderResponse } from "../../../hooks/useOrderResponse";
 import OrderSummary from "./OrderSummary";
 import PurchaseTotal from "../../TotalPurchase/PurchaseTotal";
+import { Alert, Dialog, Modal } from "@mui/material";
 
 const Confirmation: React.FC = () => {
   const { purchaseTotal, billingInfo, paymentInfo } = useCheckout();
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
-  const [errVisible, setVisible] = useState<boolean>(false);
+  const [isErrVisible, setErrVisible] = useState<boolean>(false);
   const handleVisibility = () => {
-    setVisible(false)
+    setErrVisible(false)
   }
 
   const handleConfirmOrder = async () => {
@@ -26,18 +27,14 @@ const Confirmation: React.FC = () => {
         navigate('/receipt');
       } catch (error) {
         console.log(error)
-        setVisible(true);
+        setErrVisible(true);
         setloading(false);
       }
   };
   return (
+    
     <>
-    <div className="btnWrapper">
     <div className="ConfComp">
-    <dialog className="errocDialog" open={errVisible}>
-          <p>An unexpected error occured!</p>
-          {setTimeout(handleVisibility,5000) && <></>}
-    </dialog>
       {isLoading && (
         <div className="loading spinner">
           <strong>
@@ -79,7 +76,7 @@ const Confirmation: React.FC = () => {
           </div>
           <div className="PaymentDetails">
             <h2>Payment Details</h2>
-            <hr style={{ margin: "10px 0" }} />
+            <hr style={{ margin: "" }} />
             <p>Payment Method: {paymentInfo.paymentMethod}</p>
             {paymentInfo.paymentMethod === "MobilePay" && (
               <div>
@@ -98,6 +95,16 @@ const Confirmation: React.FC = () => {
       </div>
     </div>
     <button className="ConfClick" onClick={handleConfirmOrder}>Confirm Order</button>
+    <div className="err">
+        {isErrVisible && (
+          <Alert
+            severity="error"
+            className="err-alert"
+            onClose={() => setErrVisible(false)}
+          >
+            <p>Something went wrong! {<hr></hr>}Please, try again, or contact customer support.</p>
+          </Alert>
+        )}
     </div>
     </>
   );
