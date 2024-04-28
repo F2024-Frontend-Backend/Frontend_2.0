@@ -8,8 +8,7 @@
     z-index: 99999;
 }
 
-
-.btnWrapper{
+.btn-Wrapper{
   display:flex;
   flex-direction: column;
   height: 100%;

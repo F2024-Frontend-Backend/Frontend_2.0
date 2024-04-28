@@ -40,9 +40,8 @@
         background-color: whitesmoke;
         border-radius: 10px;
         order:1;
-        height: 90%;
+        height:90%;
     }
-      
       .checkout-summary {
         flex: 1;
         flex-grow: 1;

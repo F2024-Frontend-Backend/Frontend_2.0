@@ -4,12 +4,12 @@ import { useCheckout } from "../../../hooks/useCheckout";
 import {
   CardSelector,
   PaymentMethodSelector,
-} from "./payment_components/Card_selector";
+} from "../components/payment_components/Card_selector";
 import {
   isValidCardNumber,
   isValidDate,
   isValidCvv,
-} from "./payment_components/CardUtils";
+} from "../components/payment_components/CardUtils";
 import "./PaymentStyling.css";
 import { SpinningCircles } from "react-loading-icons";
 import "../../BasketPage/BasketPage.css";

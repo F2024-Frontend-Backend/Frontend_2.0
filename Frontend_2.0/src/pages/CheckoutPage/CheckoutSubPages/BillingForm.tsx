@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
-import {validateVAT} from "./BillingFormComponents/vatUtils"
+import {validateVAT} from "../components/BillingFormComponents/vatUtils"
 import "./BillingForm.css"
 
 interface Errors {
@@ -23,6 +23,7 @@ interface Errors {
   deliveryCityError?: string;
   companyNameError?: string;
   companyVatError?: string;
+  termsAcceptedError?: string;
 }
 
 const BillingForm: React.FC = () => {
@@ -103,7 +104,11 @@ const BillingForm: React.FC = () => {
     } else {
       delete newErrors.countryError;
     }
-
+    if(!isTerms){
+      newErrors.termsAcceptedError = "To proceed, you must accept market terms and conditions."
+    }else{
+      delete newErrors.termsAcceptedError;
+    }
     if (isDeliveryDifferent) {
       if (!billingInfo.deliveryFirstName) {
         newErrors.deliveryFirstNameError = "First name is required";
@@ -122,25 +127,26 @@ const BillingForm: React.FC = () => {
       } else {
         delete newErrors.deliveryAddressError;
       }
-
       if (!billingInfo.deliveryPostalCode) {
         newErrors.deliveryPostalCodeError = "Postal code is required";
       } else {
         delete newErrors.deliveryPostalCodeError;
       }
-
       if (!billingInfo.deliveryCity) {
         newErrors.deliveryCityError = "City is required";
       } else {
         delete newErrors.deliveryCityError;
       }
-    }
+    };
     setErrors(newErrors);
-  };
+    console.log(errors)
+  }
+  
 
+  
   useEffect(() => {
     validateForm();
-  }, [billingInfo, isDeliveryDifferent]);
+  }, [billingInfo, isDeliveryDifferent,isTerms]);
 
   const disableContinue = false; /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
@@ -214,13 +220,15 @@ const BillingForm: React.FC = () => {
   const handleToggleTerms = (e: ChangeEvent<HTMLInputElement>) => {
     setTerms(e.target.checked);
     if (!e.target.checked) {
+      handleSetBillingInfo({
+        ...billingInfo
+      })
       e.target.checked
     }
   };
   const handleToggleMarketEmails = (e: ChangeEvent<HTMLInputElement>) => {
     setMarketEmails(e.target.checked);
   };
-  console.log("Errors", errors);
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     setVisitedFields({
       ...visitedFields,
@@ -228,7 +236,22 @@ const BillingForm: React.FC = () => {
     });
   };
 
-  console.log("Errors", errors);
+  const handleVATChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {name,value} = event.target;
+    handleSetBillingInfo({...billingInfo, [name]: value })
+    if(typeof billingInfo.companyVat != null){
+      const valVat = validateVAT(value);
+      if (!valVat.isValid) {
+        setErrors
+        setErrors((prev) => ({
+          ...prev,
+          "VAT-valdiation error": valVat.message
+        }))
+        return valVat.message
+      };
+      }
+      return handleSetBillingInfo({ ...billingInfo, [name]: value})
+    }
 
   return (
     <div className="BI-wrapper-rapper">
@@ -430,8 +453,12 @@ const BillingForm: React.FC = () => {
                   type="text"
                   name="companyVat"
                   value={billingInfo.companyVat || ""}
-                  onChange={handleChange}
+                  onChange={handleVATChange}
+                  className={`${
+                    visitedFields.companyVat && errors.companyVatError ? "" : ""
+                  }`}
                 />
+                {errors.companyVatError && <div className="input-message">{errors.companyVatError}</div>}
               </div>
               
             </>

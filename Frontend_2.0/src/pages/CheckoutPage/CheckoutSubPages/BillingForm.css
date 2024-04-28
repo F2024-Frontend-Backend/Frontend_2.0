@@ -95,7 +95,14 @@
       align-items: center;
       max-height: 100%;
     }
+    .input-error{
+      border:solid;
+      border-color: red;
+      border-width: 1px;
+    }
   }
+ 
+
   
   
   

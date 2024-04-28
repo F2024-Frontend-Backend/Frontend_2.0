@@ -1,10 +1,10 @@
 
 import './CheckoutPage.css';
 import { Routes, Route } from 'react-router-dom';
-import BillingForm from './components/BillingForm';
-import PaymentForm from './components/PaymentForm';
-import Confirmation from './components/Confirmation';
-import OrderSummary from './components/OrderSummary';
+import BillingForm from './BillingForm';
+import PaymentForm from './PaymentForm';
+import Confirmation from './ConfirmationPage';
+import OrderSummary from './OrderSummary';
 
 
 const CheckoutPage = () => {
