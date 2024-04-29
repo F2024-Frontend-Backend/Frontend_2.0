@@ -1,0 +1,78 @@
+.errocDialog{
+    transition: 2s linear;
+    size:1fr;
+    background-color: lightblue;
+    border: rgb(91, 148, 167);
+    border-width: 5px;
+    color:red;
+    z-index: 99999;
+}
+
+.btn-Wrapper{
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+  
+}
+.ConfComp{
+  flex-grow: 2;
+  border-radius: 1rem;
+  padding:10px;
+  background-color: whitesmoke;
+
+}
+
+.Wrapper-rapper{
+  display:flex;
+  flex-direction: column;
+  border-radius:10px;
+}
+
+.allInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+  
+  .BillAddr,
+  .PaymentDetails,
+  .total {
+    align-items: center; 
+    padding: 10px; 
+  }
+  
+  .ConfClick {
+    align-self: flex-end; 
+    background-color: #00C78C;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    color: black;
+    transition: 1s;
+    width: 0.5fr; 
+    margin-left: auto;
+    margin-top: auto;
+  }
+
+  .ConfClick:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .order-comment-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+
+  .order-comment-input {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  
+  .checkboxes-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+  }

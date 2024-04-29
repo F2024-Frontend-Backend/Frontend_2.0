@@ -1,11 +1,11 @@
 
 import './CheckoutPage.css';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import BillingForm from './components/BillingForm';
-import PaymentForm from './components/PaymentForm';
-import Confirmation from './components/Confirmation';
-import OrderSummary from './components/OrderSummary';
-
+import BillingForm from './CheckoutSubPages/BillingForm';
+import PaymentForm from './CheckoutSubPages/PaymentForm';
+import Confirmation from './CheckoutSubPages/ConfirmationPage';
+import OrderSummary from './CheckoutSubPages/OrderSummary';
+import Receipt from '../ReceiptPage/Receipt';
 
 const CheckoutPage = () => {
     const location = useLocation();
