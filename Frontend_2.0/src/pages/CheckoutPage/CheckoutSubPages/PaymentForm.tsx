@@ -15,10 +15,12 @@ import { SpinningCircles } from "react-loading-icons";
 import "../../BasketPage/BasketPage.css";
 
 interface Errors {
-  cardNo?: string;
-  cardExpDate?: string;
-  cvv?: string;
-  mobilePayNumber?: string;
+  cardNoError?: string;
+  cardExpDateError?: string;
+  cvvError?: string;
+  mobilePayNumberError?: string;
+  giftCardError?: string;
+  giftCardAmountError?: string;
 }
 const PaymentForm: React.FC = () => {
   const { paymentInfo, handleSetPaymentInfo } = useCheckout();
@@ -34,13 +36,20 @@ const PaymentForm: React.FC = () => {
   const [isLoading, setloading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
 
-  const [visitedFields, setVisitedFields] = useState<Errors>({});
+  const [visitedFields, setVisitedFields] = useState({
+    cardNo: false,
+    cardExpDate: false,
+    cvv: false,
+    mobilePayNumber: false,
+    giftCard: false,
+    giftCardAmount: false,
+  });
 
   const validateForm = () => {
-    const newErrors: Errors = {};
+    const newErrors: Errors = { ...errors };
 
     if (!paymentInfo.paymentMethod) {
-      newErrors.cardNo = "Please select a payment method";
+      newErrors.cardNoError = "Please select a payment method";
       setErrors(newErrors);
     }
 
@@ -49,38 +58,35 @@ const PaymentForm: React.FC = () => {
         paymentInfo.cardNo || ""
       );
       if (cardNumberValidationResult !== true) {
-        newErrors.cardNo = cardNumberValidationResult.message;
+        newErrors.cardNoError = cardNumberValidationResult.message;
       } else {
-        delete newErrors.cardNo;
+        delete newErrors.cardNoError;
       }
 
       if (!isValidDate(paymentInfo.cardExpDate || "")) {
-        newErrors.cardExpDate = "Invalid expiration date";
+        newErrors.cardExpDateError = "Invalid expiration date";
       } else {
-        delete newErrors.cardExpDate;
+        delete newErrors.cardExpDateError;
       }
 
       if (!isValidCvv(paymentInfo.cvv || "")) {
-        newErrors.cvv = "Invalid CVV";
-      } else {
-        delete newErrors.cvv;
+        newErrors.cvvError;
+        delete newErrors.cvvError;
       }
       setErrors(newErrors);
     }
 
     if (paymentInfo.paymentMethod === "MobilePay") {
       if (!/^\d{8}$/.test(paymentInfo.mobilePayNumber || "")) {
-        newErrors.mobilePayNumber = "Invalid phone number";
+        newErrors.mobilePayNumberError = "Invalid phone number";
       } else {
-        delete newErrors.mobilePayNumber;
+        delete newErrors.mobilePayNumberError;
       }
       setErrors(newErrors);
     }
   };
 
-  useEffect(() => {
-    validateForm();
-  }, [paymentInfo]);
+  useEffect(validateForm, [paymentInfo, visitedFields]);
 
   const disableContinue = false; /*Object.keys(errors).length > 0*/
 
@@ -90,6 +96,14 @@ const PaymentForm: React.FC = () => {
     setTimeout(() => {
       navigate("/checkout/confirmation");
     }, 1000);
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+    setVisitedFields((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
   };
 
   const handleChange = (
@@ -119,39 +133,30 @@ const PaymentForm: React.FC = () => {
     handleSetPaymentInfo({ ...paymentInfo, cardExpDate: value });
   };
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    setVisitedFields({
-      ...visitedFields,
-      [event.target.name]: true,
-    });
-  };
-
   const handleGiftCardChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
-    if (name === "giftCardNumber") {
-      if (!/^\d+$/.test(value)) {
-        setErrors((prev) => ({
-          ...prev,
-          giftCardNumberError: "Gift card number must be numeric.",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, giftCardNumberError: "" }));
-      }
-    }
-    if (name === "giftCardAmount") {
-      const amount = parseFloat(value);
-      if (isNaN(amount) || amount <= 0) {
-        setErrors((prev) => ({
-          ...prev,
-          giftCardAmountError: "Gift card amount must be a positive number.",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, giftCardAmountError: "" }));
-      }
-    }
+    const sanitizedValue =
+      name === "giftCardNumber" ? value.replace(/\D/g, "") : value;
+    handleSetPaymentInfo({ ...paymentInfo, [name]: sanitizedValue });
 
-    handleSetPaymentInfo({ ...paymentInfo, [name]: value });
+    if (name === "giftCardNumber") {
+      const isValid = /^\d+$/.test(sanitizedValue) && sanitizedValue.length > 0;
+      setErrors((prev) => ({
+        ...prev,
+        giftCardError: isValid
+          ? undefined
+          : "Gift card number must be numeric.",
+      }));
+    } else if (name === "giftCardAmount") {
+      const amount = parseFloat(sanitizedValue);
+      const isValid = value === "" || (!isNaN(amount) && amount > 0);
+      setErrors((prev) => ({
+        ...prev,
+        giftCardAmountError: isValid
+          ? undefined
+          : "Gift card amount must be a positive number.",
+      }));
+    }
   };
 
   console.log(errors);
@@ -194,15 +199,15 @@ const PaymentForm: React.FC = () => {
               placeholder="0000 0000 0000 0000"
               maxLength={19}
               className={`${
-                visitedFields.cardNo && errors.cardNo ? "input-error" : ""
+                visitedFields.cardNo && errors.cardNoError ? "input-error" : ""
               }`}
             />
           </div>
           <div className="input-row">
             <div className="input-field">
               <label>Expiration Date (MM/YY)</label>
-              {visitedFields.cardExpDate && errors.cardExpDate && (
-                <span className="error">{errors.cardExpDate}</span>
+              {visitedFields.cardExpDate && errors.cardExpDateError && (
+                <span className="error">{errors.cardExpDateError}</span>
               )}
               <input
                 name="cardExpDate"
@@ -212,7 +217,7 @@ const PaymentForm: React.FC = () => {
                 onChange={handleDateChange}
                 placeholder="MM/YY"
                 className={`${
-                  visitedFields.cardExpDate && errors.cardExpDate
+                  visitedFields.cardExpDate && errors.cardExpDateError
                     ? "input-error"
                     : ""
                 }`}
@@ -220,8 +225,8 @@ const PaymentForm: React.FC = () => {
             </div>
             <div className="input-field">
               <label>CVV</label>
-              {visitedFields.cvv && errors.cvv && (
-                <span className="error">{errors.cvv}</span>
+              {visitedFields.cvv && errors.cvvError && (
+                <span className="error">{errors.cvvError}</span>
               )}
               <input
                 name="cvv"
@@ -232,7 +237,7 @@ const PaymentForm: React.FC = () => {
                 placeholder="CVV"
                 maxLength={3}
                 className={`${
-                  visitedFields.cvv && errors.cvv ? "input-error" : ""
+                  visitedFields.cvv && errors.cvvError ? "input-error" : ""
                 }`}
               />
             </div>
@@ -243,8 +248,8 @@ const PaymentForm: React.FC = () => {
       {paymentInfo.paymentMethod === "MobilePay" && (
         <div className="input-field">
           <label>MobilePay Number</label>
-          {visitedFields.mobilePayNumber && errors.mobilePayNumber && (
-            <span className="error">{errors.mobilePayNumber}</span>
+          {visitedFields.mobilePayNumber && errors.mobilePayNumberError && (
+            <span className="error">{errors.mobilePayNumberError}</span>
           )}
           <input
             name="mobilePayNumber"
@@ -254,7 +259,7 @@ const PaymentForm: React.FC = () => {
             onChange={handleChange}
             placeholder="MobilePay Number"
             className={`${
-              visitedFields.mobilePayNumber && errors.mobilePayNumber
+              visitedFields.mobilePayNumber && errors.mobilePayNumberError
                 ? "input-error"
                 : ""
             }`}
@@ -274,9 +279,35 @@ const PaymentForm: React.FC = () => {
           name="giftCardNumber"
           type="text"
           value={paymentInfo.giftCardNumber || ""}
+          onBlur={handleBlur}
           onChange={handleGiftCardChange}
           placeholder="Gift Card Number"
+          className={
+            visitedFields.giftCard && errors.giftCardError ? "input-error" : ""
+          }
         />
+        {visitedFields.giftCard && errors.giftCardError && (
+          <p className="error">{errors.giftCardError}</p>
+        )}
+        <div className="gift-card">
+          <label>Gift Card Amount</label>
+          <input
+            type="number"
+            name="giftCardAmount"
+            value={paymentInfo.giftCardAmount || ""}
+            onChange={handleGiftCardChange}
+            placeholder="Insert Amount"
+            onBlur={handleBlur}
+            className={
+              visitedFields.giftCard && errors.giftCardError
+                ? "input-error"
+                : ""
+            }
+          />
+          {visitedFields.giftCardAmount && errors.giftCardAmountError && (
+            <p className="error">{errors.giftCardAmountError}</p>
+          )}
+        </div>
       </div>
       <button onClick={handleContinue} disabled={disableContinue}>
         Continue
