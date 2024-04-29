@@ -40,6 +40,7 @@ const PaymentForm: React.FC = () => {
     purchaseTotal.total - (parseFloat(paymentInfo.giftCardAmount || "") || 0);
 
   const disableMobilePayAndInvoice = effectiveTotal <= 0;
+  const disabledPaymentMethods = billingInfo.companyVat ? [] : ["Invoice"];
 
   const [visitedFields, setVisitedFields] = useState({
     cardNo: false,
@@ -180,13 +181,8 @@ const PaymentForm: React.FC = () => {
       <PaymentMethodSelector
         selectedPaymentMethod={paymentInfo.paymentMethod}
         onPaymentMethodChange={handleChange}
-        isCompany={
-          (billingInfo.companyName || "") !== "" &&
-          (billingInfo.companyVat || "") !== ""
-        }
-        disabledMethods={
-          disableMobilePayAndInvoice ? ["MobilePay", "Invoice"] : []
-        }
+        isCompany={billingInfo.companyVat ? true : false}
+        disabledMethods={disabledPaymentMethods}
       />
       {paymentInfo.paymentMethod === "Creditcard" && (
         <>
