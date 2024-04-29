@@ -23,7 +23,7 @@ interface Errors {
   deliveryCityError?: string;
   companyNameError?: string;
   companyVatError?: string;
-  termsAcceptedError?: string;
+  //termsAcceptedError?: string;
 }
 
 const BillingForm: React.FC = () => {
@@ -104,11 +104,11 @@ const BillingForm: React.FC = () => {
     } else {
       delete newErrors.countryError;
     }
-    if(!isTerms){
+    /*if(!isTerms){
       newErrors.termsAcceptedError = "To proceed, you must accept market terms and conditions."
     }else{
       delete newErrors.termsAcceptedError;
-    }
+    }*/
     if (isDeliveryDifferent) {
       if (!billingInfo.deliveryFirstName) {
         newErrors.deliveryFirstNameError = "First name is required";
@@ -150,15 +150,11 @@ const BillingForm: React.FC = () => {
 
   const disableContinue = false; /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
-    if(Object.keys(errors).length > 0){
-   
-    }else{
     event.preventDefault();
     setloading(true);
     setTimeout(() => {
       navigate("/checkout/payment");
     }, 1000);
-  }
 };
 
   const handleChange = async (
@@ -429,16 +425,6 @@ const BillingForm: React.FC = () => {
                 </div>
               </>
             )}
-          <div className="info-container">
-            <label>Order Comment:</label>
-            <input 
-              type="text"
-              name="comment"
-              value={billingInfo.orderComment || ""}
-              onChange={handleChange}
-              maxLength={100}
-            />
-          </div>
         </div>
       </div>
       </div>
@@ -447,32 +433,10 @@ const BillingForm: React.FC = () => {
               <label>
                 <input
                   type="checkbox"
-                  checked={isTerms}
-                  onChange={handleToggleTerms}
-                  required
-                />
-                I agree to the <a href="terms-and-conditions" id="tnc">terms and conditions</a>
-              </label>
-            </div>
-            <div className="checkbox">
-              <label>
-                <input
-                  type="checkbox"
                   checked={isDeliveryDifferent}
                   onChange={handleToggleDelivery}
                 />
                 Deliver to a different address?
-              </label>
-            </div>
-            <div className="checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isMarketEmails}
-                  onChange={handleToggleMarketEmails}
-                  required
-                />
-                I want to recieve marketing emails.
               </label>
             </div>
             </div>

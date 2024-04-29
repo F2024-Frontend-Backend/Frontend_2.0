@@ -46,6 +46,8 @@ export interface BillingInfo {
   deliveryCity?: string | null;
   companyName?: string | null;
   companyVat?: string | null;
+  orderComment?: string | null;
+  acceptMarketing: boolean;
 }
 
 export interface PaymentInfo {

@@ -48,9 +48,31 @@
     border: none;
     cursor: pointer;
     color: black;
-    transition: 3s;
+    transition: 1s;
     width: 0.5fr; 
     margin-left: auto;
     margin-top: auto;
   }
+
+  .ConfClick:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .order-comment-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+
+  .order-comment-input {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+  }
   
+  .checkboxes-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+  }
