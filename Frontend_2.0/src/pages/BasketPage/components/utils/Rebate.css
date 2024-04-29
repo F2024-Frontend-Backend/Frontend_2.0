@@ -1,0 +1,7 @@
+.rebate {
+    border: solid 1px green;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 3px 5px;
+    background-color: lightgreen;
+}

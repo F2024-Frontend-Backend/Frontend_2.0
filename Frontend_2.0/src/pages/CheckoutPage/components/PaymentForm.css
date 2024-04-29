@@ -8,8 +8,33 @@ input {
     padding: 10px;
     border: 1px solid #f9f6f6;
     border-radius: 10px;
-    width: 100%;
     margin-bottom: 10px;
+}
+.card-image-container {
+    display: flex;
+    align-items: center; 
+    height: 25px;
+}
+  
+.credit-image-wrapper {
+    width: 50px;
+    height: 25px;
+    margin-right: 5px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+  
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.mobile-pay-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .input-small {
@@ -28,36 +53,23 @@ input {
     
 }
 
-.form-group label {
-    margin-bottom: 2px;
-    padding-left: 10px;
+.input-field {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 20px;
 }
 
-.form-connected-groups {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.form-container {
-    position: relative;
-    width: 400px;
-    height: 300px;
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: rgb(184, 181, 181);
-    border-radius: 8px;
+.input-field:last-child {
+    margin-right: 0;
 }
 
-.form-group-button {
+.input-row {
     display: flex;
-    border: 20px;
-    font-size: medium;
-    font-style:italic;
-    transform: translateX(1%);
-   
+    justify-content: flex-start;
+    width: 100%;
 }
+
 .form-message {
     color: rgb(201, 22, 22);
     font-size: 14px;
@@ -66,3 +78,24 @@ input {
     
     height: 30px; 
   }
+
+  .gift-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.continue-button {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}

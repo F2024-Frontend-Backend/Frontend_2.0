@@ -1,0 +1,42 @@
+.order-summary {
+    padding: 20px;
+    width: 300px;
+    background-color: white; 
+    border-radius: 5px; 
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    font-family: 'Arial', sans-serif; 
+    margin: 20px 0; 
+}
+
+.order-summary h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.order-summary ul {
+    padding: 0;
+}
+
+.order-summary li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.order-summary img {
+    border-radius: 20%;
+    margin-right: 10px;
+}
+
+.order-summary p {
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.sub-total-summary, .shipping-summary {
+    display: flex;
+    justify-content: space-between;
+}
