@@ -254,228 +254,239 @@ const BillingForm: React.FC = () => {
     }
 
   return (
-    <div className="BI-wrapper-rapper">
-      
-    <h1>Billing Info</h1>
-      <div className="BI-wrapper">
-        <div className="BI-info">
-          <div className="info-container">
-            <label>First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              required
-              value={billingInfo.firstName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              required
-              value={billingInfo.lastName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              required
-              value={billingInfo.email}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Address Line1</label>
-            <input
-              type="text"
-              name="address1"
-              required
-              value={billingInfo.address1}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Address Line2(Optional)</label>
-            <input
-              type="text"
-              name="address2"
-              value={billingInfo.address2 || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Postal Code</label>
-            <input
-              type="text"
-              name="postalCode"
-              required
-              maxLength={4}
-              value={billingInfo.postalCode}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>City</label>
-            <input
-              type="text"
-              name="city"
-              value={billingInfo.city}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Phone</label>
-            <input
-              type="text"
-              name="phone"
-              required
-              value={billingInfo.phone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="info-container">
-            <label>Country</label>
-            <select
-              name="country"
-              required
-              value={billingInfo.country}
-              onChange={handleChange}
-            >
-           <option value="Denmark">Denmark</option>
-            </select>
-          </div>
-          <div className="checkbox-wrapper">
-          <div className="checkbox">
-            <label>
+    <div className="outer-wrapper">
+      <div className="BI-wrapper-rapper">
+      <h1>Billing Info</h1>
+        <div className="BI-wrapper">
+          <div className="BI-info">
+            <div className="info-container">
+              <label>First Name</label>
               <input
-                type="checkbox"
-                checked={isTerms}
-                onChange={handleToggleTerms}
+                type="text"
+                name="firstName"
                 required
+                value={billingInfo.firstName}
+                onChange={handleChange}
               />
-              I agree to the <a href="terms-and-conditions" id="tnc">terms and conditions</a>
-            </label>
-          </div>
-          <div className="checkbox">
-            <label>
+            </div>
+            <div className="info-container">
+              <label>Last Name</label>
               <input
-                type="checkbox"
-                checked={isDeliveryDifferent}
-                onChange={handleToggleDelivery}
-              />
-              Deliver to a different address?
-            </label>
-          </div>
-          <div className="checkbox">
-            <label>
-              <input
-                type="checkbox"
-                checked={isMarketEmails}
-                onChange={handleToggleMarketEmails}
+                type="text"
+                name="lastName"
                 required
+                value={billingInfo.lastName}
+                onChange={handleChange}
               />
-              I want to recieve marketing emails.
-            </label>
+            </div>
+            <div className="info-container">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={billingInfo.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="info-container">
+              <label>Address Line1</label>
+              <input
+                type="text"
+                name="address1"
+                required
+                value={billingInfo.address1}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="info-container">
+              <label>Address Line2(Optional)</label>
+              <input
+                type="text"
+                name="address2"
+                value={billingInfo.address2 || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="info-container">
+              <label>Postal Code</label>
+              <input
+                type="text"
+                name="postalCode"
+                required
+                maxLength={4}
+                value={billingInfo.postalCode}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="info-container">
+              <label>City</label>
+              <input
+                type="text"
+                name="city"
+                value={billingInfo.city}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="info-container">
+              <label>Phone</label>
+              <input
+                type="text"
+                name="phone"
+                required
+                value={billingInfo.phone}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="info-container">
+              <label>Country</label>
+              <select
+                name="country"
+                required
+                value={billingInfo.country}
+                onChange={handleChange}
+              >
+            <option value="Denmark">Denmark</option>
+              </select>
+            </div>
+           
           </div>
+          <div className="BI-extra">
+            <></>
+          {isDeliveryDifferent && (
+              <>
+                <div className="info-container">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    name="deliveryFirstName"
+                    required
+                    value={billingInfo.deliveryFirstName || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="info-container">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    name="deliveryLastName"
+                    required
+                    value={billingInfo.deliveryLastName || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="info-container">
+                  <label>Delivery Address</label>
+                  <input
+                    type="text"
+                    name="deliveryAddress"
+                    required
+                    value={billingInfo.deliveryAddress || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="info-container">
+                  <label>Postal Code</label>
+                  <input
+                    type="text"
+                    name="deliveryPostalCode"
+                    required
+                    maxLength={4}
+                    value={billingInfo.deliveryPostalCode || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="info-container">
+                  <label>City</label>
+                  <input
+                    type="text"
+                    name="deliveryCity"
+                    value={billingInfo.deliveryCity || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="info-container">
+                  <label>Company Name (Optional)</label>
+                  <input
+                    type="text"
+                    name="companyName"
+                    value={billingInfo.companyName || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="info-container">
+                  <label>Company VAT (Optional)</label>
+                  <input
+                    type="text"
+                    name="companyVat"
+                    value={billingInfo.companyVat || ""}
+                    onChange={handleVATChange}
+                    className={`${
+                      visitedFields.companyVat && errors.companyVatError ? "" : ""
+                    }`}
+                  />
+                  {errors.companyVatError && <div className="input-error">{errors.companyVatError}</div>}
+                </div>
+              </>
+            )}
+          <div className="info-container">
+            <label>Order Comment:</label>
+            <input 
+              type="text"
+              name="comment"
+              value={billingInfo.orderComment || ""}
+              onChange={handleChange}
+              maxLength={100}
+            />
           </div>
-        </div>
-        <div className="BI-extra">
-          <></>
-         {isDeliveryDifferent && (
-            <>
-              <div className="info-container">
-                <label>First Name</label>
-                <input
-                  type="text"
-                  name="deliveryFirstName"
-                  required
-                  value={billingInfo.deliveryFirstName || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="info-container">
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  name="deliveryLastName"
-                  required
-                  value={billingInfo.deliveryLastName || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="info-container">
-                <label>Delivery Address</label>
-                <input
-                  type="text"
-                  name="deliveryAddress"
-                  required
-                  value={billingInfo.deliveryAddress || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="info-container">
-                <label>Postal Code</label>
-                <input
-                  type="text"
-                  name="deliveryPostalCode"
-                  required
-                  maxLength={4}
-                  value={billingInfo.deliveryPostalCode || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="info-container">
-                <label>City</label>
-                <input
-                  type="text"
-                  name="deliveryCity"
-                  value={billingInfo.deliveryCity || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="info-container">
-                <label>Company Name (Optional)</label>
-                <input
-                  type="text"
-                  name="companyName"
-                  value={billingInfo.companyName || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="info-container">
-                <label>Company VAT (Optional)</label>
-                <input
-                  type="text"
-                  name="companyVat"
-                  value={billingInfo.companyVat || ""}
-                  onChange={handleVATChange}
-                  className={`${
-                    visitedFields.companyVat && errors.companyVatError ? "" : ""
-                  }`}
-                />
-                {errors.companyVatError && <div className="input-error">{errors.companyVatError}</div>}
-              </div>
-              
-            </>
-          )}
         </div>
       </div>
-      <button className="btn" onClick={handleContinue} disabled={disableContinue}>
-          Continue to Payment
-        </button>
-        {isLoading && (
-          <div className="loading spinner">
-            <strong>
-              Loading...
-              <SpinningCircles />
-            </strong>
-          </div>
-        )}
+      </div>
+       <div className="checkbox-wrapper">
+            <div className="checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isTerms}
+                  onChange={handleToggleTerms}
+                  required
+                />
+                I agree to the <a href="terms-and-conditions" id="tnc">terms and conditions</a>
+              </label>
+            </div>
+            <div className="checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isDeliveryDifferent}
+                  onChange={handleToggleDelivery}
+                />
+                Deliver to a different address?
+              </label>
+            </div>
+            <div className="checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isMarketEmails}
+                  onChange={handleToggleMarketEmails}
+                  required
+                />
+                I want to recieve marketing emails.
+              </label>
+            </div>
+            </div>
+            <button className="btn" onClick={handleContinue} disabled={disableContinue}>
+            Continue to Payment
+          </button>
+          {isLoading && (
+            <div className="loading spinner">
+              <strong>
+                Loading...
+                <SpinningCircles />
+              </strong>
+            </div>
+          )}
     </div>
   );
 };
