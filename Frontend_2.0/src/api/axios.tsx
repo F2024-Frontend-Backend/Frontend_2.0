@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BasketItem, Product, BasketItemAPI, BillingInfo, PaymentInfo, PurchaseTotal} from "../types/types";
-const BASE_URL = `//http://localhost:8000/api/`; //https://dtu62597.eduhost.dk:10212/api/
+const BASE_URL = `https://dtu62597.eduhost.dk:10212/api/`; // http://localhost:8000/api/
 
 const axiosInstance = axios.create({
         baseURL: BASE_URL,
@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.request.use((config) => {
     const sessionCookie = getSessionCookie();
     if (sessionCookie) {
-        config.headers['Cookie'] = `session_cookie=${sessionCookie}`; // Include session cookie in request headers
+        config.headers['Cookie'] = `session_cookie=${sessionCookie}`; 
     }
     return config;
 }, function (error) {

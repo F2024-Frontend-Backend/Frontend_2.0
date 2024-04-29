@@ -10,11 +10,6 @@ const Receipt: React.FC = () => {
   // Using the useOrderResponse hook to access the orderResponse from the context
   const { orderResponse } = useOrderResponse();
 
-  useEffect(() => { 
-    console.log("Fetching order response....");
-    console.log(orderResponse);
-  });
-
   // function to handle printing
   const handlePrint = () => 
     {
@@ -48,7 +43,7 @@ const Receipt: React.FC = () => {
           <p className="order-date">Dato: {orderResponse.order_date}</p>
           <p className="total">Total: {orderResponse.order_total}</p>
           </div>
-          <div className="ordered-items">
+          {/*<div className="ordered-items">
           <h3>Ordered Items:</h3>
           <ul>
             {orderResponse.order_items.map((item, index) => (
@@ -57,7 +52,7 @@ const Receipt: React.FC = () => {
               </li>
             ))}
           </ul>
-          </div>
+          </div>*/}
           <p className="order-response-comment">Comment: {orderResponse.order_comment}</p>
           <p>We're already hard at work preparing your items for shipment. You can expect your order to arrive at your doorstep within 3 days </p>
 

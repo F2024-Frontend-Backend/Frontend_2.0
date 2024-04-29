@@ -6,6 +6,7 @@ import { submitOrder } from "../../../api/axios";
 import "../../BasketPage/BasketPage.css";
 import "./ConfirmationPage.css";
 import { useOrderResponse } from "../../../hooks/useOrderResponse";
+import { OrderResponse } from "../../../types/types";
 import { Alert } from "@mui/material";
 
 const Confirmation: React.FC = () => {
@@ -28,7 +29,14 @@ const Confirmation: React.FC = () => {
       try {
         const response = await submitOrder(billingInfo, paymentInfo, purchaseTotal);
         console.log("Response data on submit:", response);
-        setOrderResponse(response.data);
+        const orderResponse: OrderResponse = {
+          order_number: response.order_number,
+          order_date: response.order_date,
+          order_total: response.order_total,
+          order_items: response.order_items,
+          order_comment: response.order_comment,
+        }
+        setOrderResponse(orderResponse);
         navigate('/receipt');
       } catch (error) {
         console.log(error)
