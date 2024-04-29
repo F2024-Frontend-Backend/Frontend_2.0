@@ -5,7 +5,6 @@ import BillingForm from './CheckoutSubPages/BillingForm';
 import PaymentForm from './CheckoutSubPages/PaymentForm';
 import Confirmation from './CheckoutSubPages/ConfirmationPage';
 import OrderSummary from './CheckoutSubPages/OrderSummary';
-import Receipt from '../ReceiptPage/Receipt';
 
 const CheckoutPage = () => {
     const location = useLocation();
