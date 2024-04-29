@@ -9,7 +9,7 @@ export const fetchProducts = async (): Promise<BasketItem[]> => {
         const basketItems: BasketItem[] = products.map(product => ({
             product: product,
             quantity: 1,
-            subtotal: product.price
+            sub_total: product.price
         }));
 
         return basketItems;
@@ -25,7 +25,7 @@ export const fetchUpsellProducts = async (upsellIds: string[]): Promise<Product[
         const response = await axios.get("https://raw.githubusercontent.com/larsthorup/checkout-data/main/product-v2.json");
         const products: Product[] = response.data;
 
-        const upsellProducts = products.filter(product => upsellIds.includes(product.id));
+        const upsellProducts = products.filter(product => upsellIds.includes(product.string_id));
 
         return upsellProducts;
     } catch (error) {

@@ -45,10 +45,8 @@ const Receipt: React.FC = () => {
           <p>h</p>
           <div className="order-details">
           <h2 className="order-number">Order Number: {orderResponse.order_number}</h2>
+          <p className="order-date">Dato: {orderResponse.order_date}</p>
           <p className="total">Total: {orderResponse.order_total}</p>
-          <p className="shipping-cost">Shipping Cost: {orderResponse.order_shipping}</p>
-          <p className="rebate">Rebate: {orderResponse.order_rebate}</p>
-          <p className="discount">Discount: {orderResponse.order_discount}</p>
           </div>
           <div className="ordered-items">
           <h3>Ordered Items:</h3>
@@ -60,6 +58,7 @@ const Receipt: React.FC = () => {
             ))}
           </ul>
           </div>
+          <p className="order-response-comment">Comment: {orderResponse.order_comment}</p>
           <p>We're already hard at work preparing your items for shipment. You can expect your order to arrive at your doorstep within 3 days </p>
 
         </div>

@@ -14,13 +14,13 @@ const Carousel = () => {
   useEffect(() => {
     const fecthAndSetCarouselProducts = async () => {
       if (basket.length > prevBasketLength.current) {
-        const upsellIds = [
-          ...new Set(
+        const upsellIds = Array.from(
+          new Set(
             basket
               .filter((item) => item.product.upsellProductID)
               .map((item) => item.product.upsellProductID)
-          ),
-        ];
+          )
+        );
         console.log("Upsell IDs:", upsellIds);
         try {
           if (upsellIds.length === 0) {

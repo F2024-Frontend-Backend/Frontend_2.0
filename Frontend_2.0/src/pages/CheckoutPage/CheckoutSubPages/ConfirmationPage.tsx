@@ -10,6 +10,7 @@ import { Alert } from "@mui/material";
 
 const Confirmation: React.FC = () => {
   const { purchaseTotal, billingInfo, handleSetBillingInfo, paymentInfo } = useCheckout();
+  const { setOrderResponse } = useOrderResponse();
   const navigate = useNavigate();
   const [isLoading, setloading] = useState(false);
   const [isErrVisible, setErrVisible] = useState<boolean>(false);
@@ -17,10 +18,6 @@ const Confirmation: React.FC = () => {
 
   const handleToggleTerms = () => {
     setTerms(!isTerms);
-  }
-
-  const handleVisibility = () => {
-    setErrVisible(false)
   }
 
   const handleConfirmOrder = async () => {
@@ -31,6 +28,7 @@ const Confirmation: React.FC = () => {
       try {
         const response = await submitOrder(billingInfo, paymentInfo, purchaseTotal);
         console.log("Response data on submit:", response);
+        setOrderResponse(response.data);
         navigate('/receipt');
       } catch (error) {
         console.log(error)
