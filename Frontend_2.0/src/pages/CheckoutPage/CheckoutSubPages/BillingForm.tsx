@@ -148,42 +148,75 @@ const BillingForm: React.FC = () => {
     }, 1000);
   };
 
+  // const handleChange = async (
+  //   e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   console.log("Input name:", name);
+  //   console.log("Input value before setting billingInfo:", value);
+
+  //   if (name === "postalCode" && value.length === 4) {
+  //     try {
+  //       const city = await validatePostalCode(value);
+  //       handleSetBillingInfo({
+  //         ...billingInfo,
+  //         [name]: value,
+  //         city: city,
+  //       });
+  //     } catch (error) {
+  //       console.log("Error validating postal code:", error);
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         postalCodeError: "Invalid postal code entered",
+  //       }));
+  //     }
+  //   } else {
+  //     handleSetBillingInfo({
+  //       ...billingInfo,
+  //       [name]: value,
+  //     });
+  //   }
+  // };
   const handleChange = async (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    console.log("Input name:", name);
-    console.log("Input value before setting billingInfo:", value);
 
-    if (name === "postalCode" && value.length === 4) {
-      try {
-        const city = await validatePostalCode(value);
-        handleSetBillingInfo({
-          ...billingInfo,
-          [name]: value,
-          city: city,
-        });
-      } catch (error) {
-        console.log("Error validating postal code:", error);
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          postalCodeError: "Invalid postal code entered",
-        }));
-      }
-    } else {
-      try{
-      handleSetBillingInfo({
-        ...billingInfo,
-        [name]: value,
-      });
-    }catch(error){
+    // Update state immediately for any input field
+    handleSetBillingInfo({ ...billingInfo, [name]: value });
+
+    // Handling for postal code and delivery postal code with city updates
+    if (name === "postalCode" || name === "deliveryPostalCode") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [name]: error,
+        [`${name}Error`]: undefined, // Clear any existing error
       }));
-  } 
-    
-  }
+
+      if (value.length === 4) {
+        try {
+          const city = await validatePostalCode(value);
+          // Update state with the city depending on which postal code was entered
+          handleSetBillingInfo({
+            ...billingInfo,
+            [name]: value,
+            ...(name === "postalCode" ? { city } : { deliveryCity: city }),
+          });
+        } catch (error) {
+          console.error(`Error validating ${name}:`, error);
+          // Set error if there is an issue with fetching the city
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [`${name}Error`]: "Invalid postal code entered",
+          }));
+        }
+      } else {
+        // Set error if postal code is not 4 digits
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [`${name}Error`]: "Postal code must be 4 digits",
+        }));
+      }
+    }
   };
 
   const validatePostalCode = async (postalCode: string) => {
