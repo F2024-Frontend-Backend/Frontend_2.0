@@ -1,3 +1,4 @@
+// receipt bage . 
 import React, { useEffect } from "react";
 import { useOrderResponse } from "../../../hooks/useOrderResponse"; // to manage the order response 
 import "./Receipt.css";
