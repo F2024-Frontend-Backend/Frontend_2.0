@@ -78,7 +78,7 @@ const BasketItem: React.FC<BasketItemProps> = ({ item }) => {
             target.src = defaultImage;
         }}
         />
-        <div className="product-details">
+        <div className="basket-item">
           <h3>{item.product.name}</h3>
           <p>
             {item.product.price} {item.product.currency}
