@@ -2,15 +2,20 @@ import { Route, BrowserRouter, Routes } from 'react-router-dom'
 import { CheckoutProvider } from './context/CheckoutProvider'
 import { BasketProvider } from './context/BasketProvider'
 import BasketPage from './pages/BasketPage/BasketPage'
-import CheckoutPage from './pages/CheckoutPage/CheckoutPage'
+import CheckoutPage from './pages/CheckoutPage/CheckoutSubPages/CheckoutPage'
 import { createContext, useEffect, useState } from 'react'
 import { initSession } from './api/axios'
 import { OrderResponseProvider } from './context/OrderResponseProvider'
+<<<<<<< HEAD
 <<<<<<< HEAD
 import './App.css'
 =======
 import Receipt from './pages/CheckoutPage/components/Receipt'
 >>>>>>> receive_data
+=======
+import TermsPage from './pages/TermsPage/TermsPage'
+import Receipt from './pages/ReceiptPage/Receipt'
+>>>>>>> d5cc78eb49aaa3399549ee850ab7909c9c78d407
 
 export const SessionContext = createContext(false)
 
@@ -43,6 +48,7 @@ function App() {
               <Route path="/" element={<BasketPage />} />
               <Route path="/checkout/*" element={<CheckoutPage />} />
               <Route path="/receipt" element={<Receipt />} />
+              <Route path="terms-and-conditions" element={<TermsPage/>}></Route>
                
               </Routes>
             </BrowserRouter>

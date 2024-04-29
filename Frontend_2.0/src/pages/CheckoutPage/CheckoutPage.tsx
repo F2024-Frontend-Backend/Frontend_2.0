@@ -1,11 +1,10 @@
 
 import './CheckoutPage.css';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import BillingForm from './components/BillingForm';
-import PaymentForm from './components/PaymentForm';
-import Confirmation from './components/Confirmation';
-import OrderSummary from './components/OrderSummary';
-import Receipt from './components/Receipt';
+import BillingForm from './CheckoutSubPages/BillingForm';
+import PaymentForm from './CheckoutSubPages/PaymentForm';
+import Confirmation from './CheckoutSubPages/ConfirmationPage';
+import OrderSummary from './CheckoutSubPages/OrderSummary';
 
 const CheckoutPage = () => {
     const location = useLocation();
@@ -25,6 +24,9 @@ const CheckoutPage = () => {
     }
     return (
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5cc78eb49aaa3399549ee850ab7909c9c78d407
         <div className="checkout-page">
             <div className="checkout-header">
                     <h1>{heading}</h1>
@@ -40,6 +42,7 @@ const CheckoutPage = () => {
                 <div className="checkout-summary">
                     <OrderSummary />
                 </div>
+<<<<<<< HEAD
 =======
         <div className="checkout-container">
             <div className="checkout-forms">
@@ -53,6 +56,8 @@ const CheckoutPage = () => {
             <div className="checkout-summary">
                 <OrderSummary />
 >>>>>>> receive_data
+=======
+>>>>>>> d5cc78eb49aaa3399549ee850ab7909c9c78d407
             </div>
         </div>
     );
