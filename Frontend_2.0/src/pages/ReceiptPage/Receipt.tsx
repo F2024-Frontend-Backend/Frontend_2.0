@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useOrderResponse } from "../../hooks/useOrderResponse"; // Corrected import path
 import "./Receipt.css";
 
@@ -9,6 +9,11 @@ const Receipt: React.FC = () => {
 
   // Using the useOrderResponse hook to access the orderResponse from the context
   const { orderResponse } = useOrderResponse();
+
+  useEffect(() => { 
+    console.log("Fetching order response....");
+    console.log(orderResponse);
+  });
 
   // function to handle printing
   const handlePrint = () => 
@@ -35,9 +40,9 @@ const Receipt: React.FC = () => {
            Print
         </button>
       </div>
-
       {orderResponse && (
         <div className="receipt-details">
+          <p>h</p>
           <div className="order-details">
           <h2 className="order-number">Order Number: {orderResponse.order_number}</h2>
           <p className="total">Total: {orderResponse.order_total}</p>

@@ -349,16 +349,6 @@ const BillingForm: React.FC = () => {
            <option value="Denmark">Denmark</option>
             </select>
           </div>
-          <div className="checkbox">
-            <label>
-              <input
-                type="checkbox"
-                checked={isDeliveryDifferent}
-                onChange={handleToggleDelivery}
-              />
-              Deliver to a different address?
-            </label>
-          </div>
           <div className="checkbox-wrapper">
           <div className="checkbox">
             <label>
@@ -369,6 +359,16 @@ const BillingForm: React.FC = () => {
                 required
               />
               I agree to the <a href="terms-and-conditions" id="tnc">terms and conditions</a>
+            </label>
+          </div>
+          <div className="checkbox">
+            <label>
+              <input
+                type="checkbox"
+                checked={isDeliveryDifferent}
+                onChange={handleToggleDelivery}
+              />
+              Deliver to a different address?
             </label>
           </div>
           <div className="checkbox">
@@ -458,7 +458,7 @@ const BillingForm: React.FC = () => {
                     visitedFields.companyVat && errors.companyVatError ? "" : ""
                   }`}
                 />
-                {errors.companyVatError && <div className="input-message">{errors.companyVatError}</div>}
+                {errors.companyVatError && <div className="input-error">{errors.companyVatError}</div>}
               </div>
               
             </>
