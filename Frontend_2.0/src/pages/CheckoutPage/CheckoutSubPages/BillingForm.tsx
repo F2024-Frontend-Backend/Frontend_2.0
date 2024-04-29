@@ -53,7 +53,7 @@ const BillingForm: React.FC = () => {
   });
 
   const validateForm = () => {
-    const newErrors: Errors = {};
+    const newErrors: Errors = { ...errors };
     if (!billingInfo.firstName) {
       newErrors.firstNameError = "First name is required";
     } else {
@@ -140,7 +140,7 @@ const BillingForm: React.FC = () => {
 
   useEffect(() => {
     validateForm();
-  }, [billingInfo, isDeliveryDifferent]);
+  }, [errors, billingInfo, isDeliveryDifferent]);
 
   const disableContinue = false; /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
@@ -218,20 +218,21 @@ const BillingForm: React.FC = () => {
   const handleVATChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     handleSetBillingInfo({ ...billingInfo, [name]: value });
-    if (typeof billingInfo.companyVat != null) {
-      const valVat = validateVAT(value);
-      if (!valVat.isValid) {
-        setErrors;
-        setErrors((prev) => ({
-          ...prev,
-          "VAT-valdiation error": valVat.message,
-        }));
-        return valVat.message;
-      }
+    if (value.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        companyVatError: undefined, // or undefined if empty is allowed
+      }));
+    } else {
+      const vatValidationResult = validateVAT(value);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        companyVatError: vatValidationResult.isValid
+          ? undefined
+          : vatValidationResult.message,
+      }));
     }
-    return handleSetBillingInfo({ ...billingInfo, [name]: value });
   };
-
   return (
     <div className="outer-wrapper">
       <div className="BI-wrapper-rapper">
@@ -431,7 +432,9 @@ const BillingForm: React.FC = () => {
                   <input
                     type="text"
                     name="companyName"
-                    onBlur={handleBlur}
+                    onBlur={() =>
+                      setVisitedFields({ ...visitedFields, companyVat: true })
+                    }
                     value={billingInfo.companyName || ""}
                     onChange={handleChange}
                   />
@@ -441,17 +444,14 @@ const BillingForm: React.FC = () => {
                   <input
                     type="text"
                     name="companyVat"
-                    onBlur={handleBlur}
+                    onBlur={() =>
+                      setVisitedFields({ ...visitedFields, companyVat: true })
+                    }
                     value={billingInfo.companyVat || ""}
                     onChange={handleVATChange}
-                    className={`${
-                      visitedFields.companyVat && errors.companyVatError
-                        ? ""
-                        : ""
-                    }`}
                   />
-                  {errors.companyVatError && (
-                    <div className="input-error">{errors.companyVatError}</div>
+                  {visitedFields.companyVat && (
+                    <div className="error">{errors.companyVatError}</div>
                   )}
                 </div>
               </>
