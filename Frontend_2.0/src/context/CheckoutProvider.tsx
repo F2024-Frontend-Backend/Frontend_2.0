@@ -3,8 +3,9 @@ import { BillingInfo, PaymentInfo, PurchaseTotal } from "../types/types";
 import CheckoutContext from "./CheckoutContext";
 import { useBasket } from "../hooks/useBasket";
 
-export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
+export const CheckoutProvider: React.FC<{ children: ReactNode, initState?: {billingInfo: BillingInfo,paymentInfo: PaymentInfo}}> = ({
   children,
+  initState
 }) => {
   const { basket } = useBasket();
   const [purchaseTotal, setPurchaseTotal] = useState<PurchaseTotal>({
@@ -12,7 +13,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
     shipping: 50,
   });
 
-  const [billingInfo, setBillingInfo] = useState<BillingInfo>({
+  const [billingInfo, setBillingInfo] = useState<BillingInfo>(initState?.billingInfo??{
     firstName: "",
     lastName: "",
     address1: "",
@@ -32,7 +33,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
     orderComment: null,
     acceptMarketing: false,
   });
-  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>(initState?.paymentInfo??{
     paymentMethod: "Creditcard",
     cardType: "",
     cardNo: "",

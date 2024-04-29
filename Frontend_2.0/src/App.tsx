@@ -27,13 +27,16 @@ function App() {
       }
     }
     initializeSession()
-  }
-    , [])
+  }, [])
+
+  
+
+
 
   return (
     <SessionContext.Provider value={session}>
       <BasketProvider>
-        <CheckoutProvider>
+        <CheckoutProvider >
           <OrderResponseProvider>
             <BrowserRouter>
               <Routes>
