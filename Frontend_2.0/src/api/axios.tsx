@@ -1,10 +1,10 @@
 import axios from "axios";
 import { BasketItem, Product, BasketItemAPI, BillingInfo, PaymentInfo, PurchaseTotal} from "../types/types";
-const BASE_URL = `http://localhost:8000/api/`;
+const BASE_URL = `https://dtu62597.eduhost.dk:10212/api/`; // http://localhost:8000/api/
 
 const axiosInstance = axios.create({
-    baseURL: BASE_URL,
-    withCredentials: true,
+        baseURL: BASE_URL,
+        withCredentials: true,
 });
 
 function getCsrfToken() {
@@ -13,10 +13,26 @@ function getCsrfToken() {
         ?.split('=')[1];
 }
 
+function getSessionCookie() {
+    return document.cookie.split('; ')
+        .find(row => row.startsWith('session_cookie='))
+        ?.split('=')[1];
+}
+
 axiosInstance.interceptors.request.use((config) => {
     const csrfToken = getCsrfToken();
     if (csrfToken) {
         config.headers['X-CSRFToken'] = csrfToken;
+    }
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+axiosInstance.interceptors.request.use((config) => {
+    const sessionCookie = getSessionCookie();
+    if (sessionCookie) {
+        config.headers['Cookie'] = `session_cookie=${sessionCookie}`; 
     }
     return config;
 }, function (error) {
@@ -159,8 +175,9 @@ export const submitOrder = async (billingInfo: BillingInfo, paymentInfo: Payment
         paymentInfo: {
             paymentMethod: paymentInfo.paymentMethod
         },
-        totalPrice: purchaseTotal.total,
-        acceptMarketing: true
+        totalPrice: parseFloat(purchaseTotal.total.toFixed(2)),
+        acceptMarketing: billingInfo.acceptMarketing,
+        orderComment: billingInfo.orderComment
         };
     /*DUMMY DATA => 
         const postData = {
@@ -189,6 +206,7 @@ export const submitOrder = async (billingInfo: BillingInfo, paymentInfo: Payment
         "acceptMarketing": true
       };*/
     try {
+        console.log("Posting order data:", postData)
         const response = await axiosInstance.post(`${BASE_URL}order/submit/`, postData);
         console.log("Order submitted:", response.data);
         const order_details = response.data;

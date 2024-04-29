@@ -2,9 +2,9 @@ import { Route, BrowserRouter, Routes } from 'react-router-dom'
 import { CheckoutProvider } from './context/CheckoutProvider'
 import { BasketProvider } from './context/BasketProvider'
 import BasketPage from './pages/BasketPage/BasketPage'
-import CheckoutPage from './pages/CheckoutPage/CheckoutSubPages/CheckoutPage'
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage'
 import { createContext, useEffect, useState } from 'react'
-import { initSession } from './api/axios'
+import { fetchProducts, initSession } from './api/axios'
 import { OrderResponseProvider } from './context/OrderResponseProvider'
 import TermsPage from './pages/TermsPage/TermsPage'
 import Receipt from './pages/ReceiptPage/Receipt'
@@ -27,13 +27,16 @@ function App() {
       }
     }
     initializeSession()
-  }
-    , [])
+  }, [])
+
+  
+
+
 
   return (
     <SessionContext.Provider value={session}>
       <BasketProvider>
-        <CheckoutProvider>
+        <CheckoutProvider >
           <OrderResponseProvider>
             <BrowserRouter>
               <Routes>

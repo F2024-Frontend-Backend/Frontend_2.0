@@ -1,35 +1,89 @@
 /* checkout-page.css */
-.checkout-page {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    padding: 2rem;
-    border-radius: 1rem;
-    margin: 0 auto;
+
+@media screen and (max-width: 590px) {
+    .checkout-container {
+      display:flex;
+      flex-direction: column; 
+      background-color: whitesmoke;
+    }
+    .checkout-wrapper{
+      background-color: whitesmoke;
+    }
+    .checkout-summary{
+        flex: 1;
+        border-bottom: 1px solid whitesmoke;
+        order: 2;
+    }
+    .checkout-forms{
+        flex: 1;
+        margin-bottom: 10px;
+        order: 1;
+    }
 }
-
-.checkout-container {
-    display: flex;
-    border: rgb(215, 211, 211) 1px solid;
-    border-radius: 40px;
-    background-color: rgb(225, 223, 223);
-    padding: 80px;
-}
-
-
-
-.checkout-forms-container {
-    flex: 3;
+@media screen and (min-width: 591px) and (max-width:955px) {
+  .checkout-container {
+    width: 95%;
+    display: grid;
+    grid-auto-flow: auto;
     padding: 20px;
-    min-width: 400px;
+    background-color: gray;
+    border-radius: 10px;
+    gap: 10px;
+  }
+.checkout-wrapper{
+    background-color: whitesmoke;
+    border-radius:10px;
+}      
+  .checkout-forms {
+    padding: 20px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    min-width:10%;
+    order:1;
+    height:90%;
 }
-
-.checkout-summary {
-    flex: 2;
+  .checkout-summary {
     padding: 20px;
     border-left: 1px solid #ccc;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    text-align: left;
+    order:2;
+  }
+}
+
+@media screen and (min-width: 956px) {
+     .checkout-container {
+        width: 95%;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        padding: 20px;
+        background-color: gray;
+        border-radius: 10px;
+        gap: 10px;
+      }
+    .checkout-wrapper{
+        background-color: whitesmoke;
+        border-radius:10px;
+    }      
+      .checkout-forms {
+        padding: 20px;
+        background-color: whitesmoke;
+        border-radius: 10px;
+        order:1;
+        height:90%;
+    }
+      .checkout-summary {
+        flex: 1;
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 0%;
+        padding: 20px;
+        border-left: 1px solid #ccc;
+        background-color: whitesmoke;
+        border-radius: 10px;
+        text-align: left;
+        order:2;
+      }
 }

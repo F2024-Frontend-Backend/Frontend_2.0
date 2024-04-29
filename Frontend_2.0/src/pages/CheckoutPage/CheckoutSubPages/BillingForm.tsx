@@ -4,6 +4,7 @@ import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
 import { validateVAT } from "../components/BillingFormComponents/vatUtils";
+import { validateAddress,validateName } from "../components/BillingFormComponents/billingFormUtils";
 import "./BillingForm.css";
 
 interface Errors {
@@ -101,11 +102,6 @@ const BillingForm: React.FC = () => {
     } else {
       delete newErrors.countryError;
     }
-    /*if(!isTerms){
-      newErrors.termsAcceptedError = "To proceed, you must accept market terms and conditions."
-    }else{
-      delete newErrors.termsAcceptedError;
-    }*/
     if (isDeliveryDifferent) {
       if (!billingInfo.deliveryFirstName) {
         newErrors.deliveryFirstNameError = "First name is required";
@@ -137,11 +133,12 @@ const BillingForm: React.FC = () => {
     }
     setErrors(newErrors);
   };
-
+  /*
   useEffect(() => {
     validateForm();
-  }, [billingInfo, isDeliveryDifferent]);
-
+  }, [errors, billingInfo, isDeliveryDifferent]);
+  */
+ 
   const disableContinue = false; /*{Object.keys(errors).length > 0}*/
   const handleContinue = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -274,6 +271,27 @@ const BillingForm: React.FC = () => {
       }));
     }
   };
+  //Asbjørn: I don't have enough time to implement this. Essentially I would copy the same way we do it in validateVAT.
+  //WE SHOULD NOT BE USING USEEFFECT WHEN ALSO USING USESTATE TO RENDER!!!!!!!!!!
+  // const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   handleSetBillingInfo({ ...billingInfo, [name]: value });
+  //   if(value.trim() === ""){
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       firstNameError: undefined,
+  //       }));
+  //   }else{
+  //     const nameValidationResult = validateName(value);
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       firstNameError: nameValidationResult.isValid
+  //         ? undefined
+  //         : nameValidationResult?.message
+  //     }))
+  //   }
+  // };
+
   return (
     <div className="outer-wrapper">
       <div className="BI-wrapper-rapper">
