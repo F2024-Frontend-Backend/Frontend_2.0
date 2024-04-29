@@ -45,14 +45,14 @@ const Receipt: React.FC = () => {
       };
     } = {
       order_details: {
-        order_number: "",
-        order_date: "",
-        total_price: "",
+        order_number: "123456",
+        order_date: "15-05-2024",
+        total_price: "300",
         customer: {
-          email: "",
-          first_name: "",
-          last_name: "",
-          phone: "",
+          email: "jhone@example.com",
+          first_name: " Jhone",
+          last_name: "Doe",
+          phone: "23456789",
           billing_address: 17,
           shipping_addresses: [17],
           allow_marketing: true,
