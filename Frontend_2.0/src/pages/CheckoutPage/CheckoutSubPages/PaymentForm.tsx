@@ -23,7 +23,7 @@ interface Errors {
   giftCardAmountError?: string;
 }
 const PaymentForm: React.FC = () => {
-  const { paymentInfo, handleSetPaymentInfo } = useCheckout();
+  const { paymentInfo, handleSetPaymentInfo, purchaseTotal } = useCheckout();
   const { billingInfo } = useCheckout();
   const navigate = useNavigate();
 
@@ -35,6 +35,11 @@ const PaymentForm: React.FC = () => {
 
   const [isLoading, setloading] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
+
+  const effectiveTotal =
+    purchaseTotal.total - (parseFloat(paymentInfo.giftCardAmount || "") || 0);
+
+  const disableMobilePayAndInvoice = effectiveTotal <= 0;
 
   const [visitedFields, setVisitedFields] = useState({
     cardNo: false,
@@ -178,6 +183,9 @@ const PaymentForm: React.FC = () => {
         isCompany={
           (billingInfo.companyName || "") !== "" &&
           (billingInfo.companyVat || "") !== ""
+        }
+        disabledMethods={
+          disableMobilePayAndInvoice ? ["MobilePay", "Invoice"] : []
         }
       />
       {paymentInfo.paymentMethod === "Creditcard" && (
