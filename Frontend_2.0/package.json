@@ -15,7 +15,9 @@
     "@testing-library/react": "^15.0.5",
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.6.8",
+    "https": "^1.0.0",
     "jsdom": "^24.0.0",
+    "netlify-cli": "^17.23.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-loading-icons": "^1.1.0",
@@ -27,6 +29,7 @@
   "devDependencies": {
     "@rollup/rollup-win32-x64-msvc": "^4.17.1",
     "@testing-library/jest-dom": "^6.4.2",
+    "@types/node": "^20.12.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-router-dom": "^5.3.3",
