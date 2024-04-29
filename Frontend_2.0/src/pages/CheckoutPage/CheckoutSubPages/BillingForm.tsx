@@ -221,7 +221,7 @@ const BillingForm: React.FC = () => {
     if (value.trim() === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        companyVatError: undefined, // or undefined if empty is allowed
+        companyVatError: undefined,
       }));
     } else {
       const vatValidationResult = validateVAT(value);
