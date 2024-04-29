@@ -185,39 +185,39 @@ const BillingForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    // Update state for every input change
-    handleSetBillingInfo({
-      ...billingInfo,
-      [name]: value,
-    });
+    // Update state immediately for any input field
+    handleSetBillingInfo({ ...billingInfo, [name]: value });
 
-    // Handle postal code validation separately
-    if (name === "postalCode") {
-      if (value.length !== 4) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          postalCodeError: "Postal code must be 4 digits", // Show this error until 4 digits are entered
-        }));
-      } else {
-        // Try to validate when exactly 4 digits are entered
+    // Handling for postal code and delivery postal code with city updates
+    if (name === "postalCode" || name === "deliveryPostalCode") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [`${name}Error`]: undefined, // Clear any existing error
+      }));
+
+      if (value.length === 4) {
         try {
           const city = await validatePostalCode(value);
+          // Update state with the city depending on which postal code was entered
           handleSetBillingInfo({
             ...billingInfo,
             [name]: value,
-            city: city,
+            ...(name === "postalCode" ? { city } : { deliveryCity: city }),
           });
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            postalCodeError: undefined, // Clear error when valid
-          }));
         } catch (error) {
-          console.log("Error validating postal code:", error);
+          console.error(`Error validating ${name}:`, error);
+          // Set error if there is an issue with fetching the city
           setErrors((prevErrors) => ({
             ...prevErrors,
-            postalCodeError: "Invalid postal code entered",
+            [`${name}Error`]: "Invalid postal code entered",
           }));
         }
+      } else {
+        // Set error if postal code is not 4 digits
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [`${name}Error`]: "Postal code must be 4 digits",
+        }));
       }
     }
   };
