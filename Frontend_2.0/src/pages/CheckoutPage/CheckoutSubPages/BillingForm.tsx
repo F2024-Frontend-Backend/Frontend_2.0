@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../../../hooks/useCheckout";
 import "../../BasketPage/BasketPage.css";
 import { SpinningCircles } from "react-loading-icons";
-import {validateVAT} from "../components/BillingFormComponents/vatUtils"
-import "./BillingForm.css"
+import { validateVAT } from "../components/BillingFormComponents/vatUtils";
+import "./BillingForm.css";
 
 interface Errors {
   firstNameError?: string;
@@ -134,13 +134,10 @@ const BillingForm: React.FC = () => {
       } else {
         delete newErrors.deliveryCityError;
       }
-    };
+    }
     setErrors(newErrors);
-    console.log(errors)
-  }
-  
+  };
 
-  
   useEffect(() => {
     validateForm();
   }, [billingInfo, isDeliveryDifferent]);
@@ -152,7 +149,7 @@ const BillingForm: React.FC = () => {
     setTimeout(() => {
       navigate("/checkout/payment");
     }, 1000);
-};
+  };
 
   const handleChange = async (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -219,26 +216,26 @@ const BillingForm: React.FC = () => {
   };
 
   const handleVATChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name,value} = event.target;
-    handleSetBillingInfo({...billingInfo, [name]: value })
-    if(typeof billingInfo.companyVat != null){
+    const { name, value } = event.target;
+    handleSetBillingInfo({ ...billingInfo, [name]: value });
+    if (typeof billingInfo.companyVat != null) {
       const valVat = validateVAT(value);
       if (!valVat.isValid) {
-        setErrors
+        setErrors;
         setErrors((prev) => ({
           ...prev,
-          "VAT-valdiation error": valVat.message
-        }))
-        return valVat.message
-      };
+          "VAT-valdiation error": valVat.message,
+        }));
+        return valVat.message;
       }
-      return handleSetBillingInfo({ ...billingInfo, [name]: value})
     }
+    return handleSetBillingInfo({ ...billingInfo, [name]: value });
+  };
 
   return (
     <div className="outer-wrapper">
       <div className="BI-wrapper-rapper">
-      <h1>Billing Info</h1>
+        <h1>Billing Info</h1>
         <div className="BI-wrapper">
           <div className="BI-info">
             <div className="info-container">
@@ -247,9 +244,13 @@ const BillingForm: React.FC = () => {
                 type="text"
                 name="firstName"
                 required
+                onBlur={handleBlur}
                 value={billingInfo.firstName}
                 onChange={handleChange}
               />
+              {visitedFields.firstName && (
+                <p className="err">{errors.firstNameError}</p>
+              )}
             </div>
             <div className="info-container">
               <label>Last Name</label>
@@ -257,9 +258,13 @@ const BillingForm: React.FC = () => {
                 type="text"
                 name="lastName"
                 required
+                onBlur={handleBlur}
                 value={billingInfo.lastName}
                 onChange={handleChange}
               />
+              {visitedFields.lastName && (
+                <p className="err">{errors.lastNameError}</p>
+              )}
             </div>
             <div className="info-container">
               <label>Email</label>
@@ -267,9 +272,13 @@ const BillingForm: React.FC = () => {
                 type="email"
                 name="email"
                 required
+                onBlur={handleBlur}
                 value={billingInfo.email}
                 onChange={handleChange}
               />
+              {visitedFields.email && (
+                <p className="err">{errors.emailError}</p>
+              )}
             </div>
             <div className="info-container">
               <label>Address Line1</label>
@@ -277,15 +286,20 @@ const BillingForm: React.FC = () => {
                 type="text"
                 name="address1"
                 required
+                onBlur={handleBlur}
                 value={billingInfo.address1}
                 onChange={handleChange}
               />
+              {visitedFields.address1 && (
+                <p className="err">{errors.address1Error}</p>
+              )}
             </div>
             <div className="info-container">
               <label>Address Line2(Optional)</label>
               <input
                 type="text"
                 name="address2"
+                onBlur={handleBlur}
                 value={billingInfo.address2 || ""}
                 onChange={handleChange}
               />
@@ -297,15 +311,20 @@ const BillingForm: React.FC = () => {
                 name="postalCode"
                 required
                 maxLength={4}
+                onBlur={handleBlur}
                 value={billingInfo.postalCode}
                 onChange={handleChange}
               />
+              {visitedFields.postalCode && (
+                <p className="err">{errors.postalCodeError}</p>
+              )}
             </div>
             <div className="info-container">
               <label>City</label>
               <input
                 type="text"
                 name="city"
+                onBlur={handleBlur}
                 value={billingInfo.city}
                 onChange={handleChange}
               />
@@ -316,9 +335,13 @@ const BillingForm: React.FC = () => {
                 type="text"
                 name="phone"
                 required
+                onBlur={handleBlur}
                 value={billingInfo.phone}
                 onChange={handleChange}
               />
+              {visitedFields.phone && (
+                <p className="err">{errors.phoneError}</p>
+              )}
             </div>
             <div className="info-container">
               <label>Country</label>
@@ -328,14 +351,13 @@ const BillingForm: React.FC = () => {
                 value={billingInfo.country}
                 onChange={handleChange}
               >
-            <option value="Denmark">Denmark</option>
+                <option value="Denmark">Denmark</option>
               </select>
             </div>
-           
           </div>
           <div className="BI-extra">
             <></>
-          {isDeliveryDifferent && (
+            {isDeliveryDifferent && (
               <>
                 <div className="info-container">
                   <label>First Name</label>
@@ -343,9 +365,13 @@ const BillingForm: React.FC = () => {
                     type="text"
                     name="deliveryFirstName"
                     required
+                    onBlur={handleBlur}
                     value={billingInfo.deliveryFirstName || ""}
                     onChange={handleChange}
                   />
+                  {visitedFields.deliveryFirstName && (
+                    <p className="err">{errors.deliveryFirstNameError}</p>
+                  )}
                 </div>
                 <div className="info-container">
                   <label>Last Name</label>
@@ -353,9 +379,13 @@ const BillingForm: React.FC = () => {
                     type="text"
                     name="deliveryLastName"
                     required
+                    onBlur={handleBlur}
                     value={billingInfo.deliveryLastName || ""}
                     onChange={handleChange}
                   />
+                  {visitedFields.deliveryLastName && (
+                    <p className="err">{errors.deliveryLastNameError}</p>
+                  )}
                 </div>
                 <div className="info-container">
                   <label>Delivery Address</label>
@@ -363,9 +393,13 @@ const BillingForm: React.FC = () => {
                     type="text"
                     name="deliveryAddress"
                     required
+                    onBlur={handleBlur}
                     value={billingInfo.deliveryAddress || ""}
                     onChange={handleChange}
                   />
+                  {visitedFields.deliveryAddress && (
+                    <p className="err">{errors.deliveryAddressError}</p>
+                  )}
                 </div>
                 <div className="info-container">
                   <label>Postal Code</label>
@@ -374,15 +408,20 @@ const BillingForm: React.FC = () => {
                     name="deliveryPostalCode"
                     required
                     maxLength={4}
+                    onBlur={handleBlur}
                     value={billingInfo.deliveryPostalCode || ""}
                     onChange={handleChange}
                   />
+                  {visitedFields.deliveryPostalCode && (
+                    <p className="err">{errors.deliveryPostalCodeError}</p>
+                  )}
                 </div>
                 <div className="info-container">
                   <label>City</label>
                   <input
                     type="text"
                     name="deliveryCity"
+                    onBlur={handleBlur}
                     value={billingInfo.deliveryCity || ""}
                     onChange={handleChange}
                   />
@@ -392,6 +431,7 @@ const BillingForm: React.FC = () => {
                   <input
                     type="text"
                     name="companyName"
+                    onBlur={handleBlur}
                     value={billingInfo.companyName || ""}
                     onChange={handleChange}
                   />
@@ -401,42 +441,51 @@ const BillingForm: React.FC = () => {
                   <input
                     type="text"
                     name="companyVat"
+                    onBlur={handleBlur}
                     value={billingInfo.companyVat || ""}
                     onChange={handleVATChange}
                     className={`${
-                      visitedFields.companyVat && errors.companyVatError ? "" : ""
+                      visitedFields.companyVat && errors.companyVatError
+                        ? ""
+                        : ""
                     }`}
                   />
-                  {errors.companyVatError && <div className="input-error">{errors.companyVatError}</div>}
+                  {errors.companyVatError && (
+                    <div className="input-error">{errors.companyVatError}</div>
+                  )}
                 </div>
               </>
             )}
+          </div>
         </div>
       </div>
+      <div className="checkbox-wrapper">
+        <div className="checkbox">
+          <label>
+            <input
+              type="checkbox"
+              checked={isDeliveryDifferent}
+              onChange={handleToggleDelivery}
+            />
+            Deliver to a different address?
+          </label>
+        </div>
       </div>
-       <div className="checkbox-wrapper">
-            <div className="checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isDeliveryDifferent}
-                  onChange={handleToggleDelivery}
-                />
-                Deliver to a different address?
-              </label>
-            </div>
-            </div>
-            <button className="btn" onClick={handleContinue} disabled={disableContinue}>
-            Continue to Payment
-          </button>
-          {isLoading && (
-            <div className="loading spinner">
-              <strong>
-                Loading...
-                <SpinningCircles />
-              </strong>
-            </div>
-          )}
+      <button
+        className="btn"
+        onClick={handleContinue}
+        disabled={disableContinue}
+      >
+        Continue to Payment
+      </button>
+      {isLoading && (
+        <div className="loading spinner">
+          <strong>
+            Loading...
+            <SpinningCircles />
+          </strong>
+        </div>
+      )}
     </div>
   );
 };
