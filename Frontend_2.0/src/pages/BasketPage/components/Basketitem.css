@@ -11,14 +11,12 @@ span {
     justify-content: space-between;
     flex-direction: row; 
     gap: 1rem;
-    border: 1px solid lightgrey;
+   
     padding: 0.5rem 1rem ;
     padding-bottom: 9px;
     height: auto;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
-    border-radius: 15px;
-    
     height: 120px;
    
 }
@@ -26,17 +24,12 @@ span {
 
 .basket-item {
   display: grid;
-  grid-gap: 10px;
-  padding: 5px;
-  border-radius: 2rem;
   justify-content: space-between;
-  border: 3px solid #dedbdb;
-  background-color: #e8e5e5; /* Adjust the background color as needed */
-  grid-template-columns: repeat(2, minmax(150px, 1fr)); /* Adjust the number of columns and width as needed */
-  border-bottom: 2px solid black;
-  width: 90%;
+  grid-template-columns: repeat(2, minmax(135px, 1fr)); /* number of columns and width  */
+  width: 35%;
   height: auto;
-  background-color: yellow;
+  font-size:small;
+ 
 }
 
 .product-image-item {
@@ -51,30 +44,6 @@ span {
 
 }
 
-.product-image {
-  padding: 1px;
-  margin-top: 10px;
-  border: 2px solid black;
-  border-radius: 14px;
-  width: 18%; 
-  height:40%;
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-}
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.product-info {
-  display: flex; 
-  flex-wrap: wrap;
-  align-items: center; 
-  justify-content: space-between; 
-  background-color: yellow;
-}
 .controls-container {
   display: flex;
   flex-direction: column;
@@ -86,39 +55,11 @@ span {
   justify-content: space-between;
   padding: 5px;
 }
-
-
-.product-details {
-  grid-column: span 0.5;
-  padding: 5px;
-  height: 120px;
-}
-
-.product-details h3 {
-  font-size: 1em;
-  line-height: 50px;
-  padding: 0 3px;
-  font-weight: bold;
-  transition: font-size 0.35s;
-  color: black;
-  flex-grow: 1;
-  flex-basis: calc(50% - 8px);
-  
-}
-
-.product-details p,
 .quantity-controls,
 .remove-button {
   flex-grow: 0.1;
 }
-.product-details p {
-  font-size: large;
-  font-weight: 600;
-  font-style: italic;
-  text-align: center;
-  transition: font-size 0.35s;
-  color: black;
-}
+
 
 .quantity-controls {
   grid-column: span 1;
@@ -174,17 +115,16 @@ span {
   background-color: #e3f2fd; 
   color: #0d47a1; 
   padding: 10px; 
-  border: 1px solid #0d47a1; 
   border-radius: 15px; 
   transition: all 0.3s ease;
-  font-size: larger;
-
+  font-size:x-large;
 }
 
 .bottom-section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  
 }
 
 .left-container {
@@ -195,5 +135,5 @@ span {
   width: 60%;
   display: flex;
   justify-content: space-between;
-  padding: 0 3rem;
+  padding: 0 3rem;
 }
