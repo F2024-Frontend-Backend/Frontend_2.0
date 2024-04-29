@@ -1,0 +1,83 @@
+/* Receipt.css */
+
+.receipt-container {
+   width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #f9f3f3;
+    border-radius: 5px;
+    background-color: hsl(0, 24%, 96%);
+  }
+  
+  .receipt-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .receipt-details {
+    margin-bottom: 30px;
+  }
+  
+  .order-details {
+    margin-bottom: 20px;
+  }
+  
+  .ordered-items {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ordered-item {
+    margin-bottom: 10px;
+  }
+  
+  .order-number {
+    font-weight: bold;
+  }
+  
+  .total {
+    font-weight: bold;
+  }
+  
+  .shipping-cost {
+    font-weight: bold;
+  }
+  
+  .rebate {
+    font-weight: bold;
+  }
+  
+  .discount {
+    font-weight: bold;
+  }
+  
+  /* Styles for ordered item details */
+  .ordered-item-name {
+    font-weight: bold;
+  }
+  
+  .ordered-item-details {
+    margin-left: 20px;
+  }
+
+  /* Style for the print button */
+.print-button {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  background-color: #007bff; /* Change the background color as needed */
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+  .print-icon {
+    width: 20px; /* Adjust the width and height as needed */
+    height: 20px;
+    margin-right: 5px;
+  }
+  .print-button:hover {
+    background-color: #464748; 
+  }

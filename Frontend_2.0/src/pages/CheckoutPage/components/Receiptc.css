@@ -1,0 +1,32 @@
+.receiptc {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .receiptc h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .receiptc h2 {
+    font-size: 18px;
+    margin-top: 30px;
+  }
+  
+  .receiptc p {
+    margin: 5px 0;
+  }
+  
+  .receiptc ul {
+    margin-top: 10px;
+  }
+  
+  .receiptc li {
+    margin-bottom: 10px;
+  }
+  
