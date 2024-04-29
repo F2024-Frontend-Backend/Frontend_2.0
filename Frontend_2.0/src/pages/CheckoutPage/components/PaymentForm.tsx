@@ -16,6 +16,7 @@ import dkLogo from "../../../resources/Dankort_logo.png";
 import visaLogo from "../../../resources/360_F_333216210_HjHUw1jjcYdGr3rRtYm3W1DIXAElEFJL.jpg";
 import mastercardLogo from "../../../resources/mastercard-logo-png-transparent_600px.png";
 
+
 interface Errors {
   cardNo?: string;
   cardExpDate?: string;
@@ -37,9 +38,17 @@ const PaymentForm: React.FC = () => {
   const [errors, setErrors] = useState<Errors>({});
 
   const [visitedFields, setVisitedFields] = useState<Errors>({});
+  const[totalAmount ] = useState<number>(0);
+  const THRESHOLD_AMOUNT = 100;
+  
+
+
+
 
   const validateForm = () => {
     const newErrors: Errors = {};
+
+    
 
 
     if (paymentInfo.paymentMethod === "Creditcard") {
@@ -80,7 +89,7 @@ const PaymentForm: React.FC = () => {
     validateForm();
   }, [paymentInfo]);
 
-  const disableContinue = false; /*Object.keys(errors).length > 0*/
+  const disableContinue = totalAmount > THRESHOLD_AMOUNT || Object.keys(errors).length > 0; /*Object.keys(errors).length > 0*/
 
   const handleContinue = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -173,6 +182,8 @@ const PaymentForm: React.FC = () => {
           (billingInfo.companyName || "") !== "" &&
           (billingInfo.companyVat || "") !== ""
         }
+       // totalAmount ={totalAmount}
+
       />
       {paymentInfo.paymentMethod === "Creditcard" && (
         <>

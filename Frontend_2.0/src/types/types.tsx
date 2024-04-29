@@ -27,6 +27,7 @@ export interface PurchaseTotal {
   shipping: number;
   rebate?: number;
   discount?: number;
+ 
 }
 
 export interface BillingInfo {
@@ -85,3 +86,10 @@ export interface OrderResponse {
   order_total: number;
   order_items: BasketItem[];
 }
+export interface PaymentMethodSelectorProps {
+  selectedPaymentMethod: string;
+  onPaymentMethodChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isCompany: boolean;
+  totalAmount: number; 
+}
+
